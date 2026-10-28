@@ -1,18 +1,17 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
-            fonts: [
-                bunny('Instrument Sans', {
-                    weights: [400, 500, 600],
-                }),
+            input: [
+                'resources/css/themes/minimal.css',
+                'resources/css/themes/business.css',
+                'resources/css/themes/docs.css',
+                'resources/js/site.js',
             ],
+            refresh: true,
         }),
         tailwindcss(),
     ],

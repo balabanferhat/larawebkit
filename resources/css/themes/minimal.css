@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "./base.css";
+
+@source "../../views/themes/minimal";
+@source "../../views/components/lwk";
