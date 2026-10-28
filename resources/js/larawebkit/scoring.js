@@ -4,7 +4,7 @@
  * This is a line-by-line mirror of App\Modules\Editor\Scoring\{TextAnalyzer,
  * SeoScorer, HumanScorer, GeoChecker}. The server score is authoritative; the
  * shared fixtures in tests/fixtures/scoring are run against both versions
- * (Pest + `node --test tests/js`) so they never drift apart.
+ * (Pest + `node --test tests/js/*.test.mjs`) so they never drift apart.
  *
  * Plain script, no build step: it exposes globalThis.LarawebkitScoring.
  */

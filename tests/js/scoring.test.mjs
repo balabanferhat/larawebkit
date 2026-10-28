@@ -1,4 +1,4 @@
-// Runs the browser scorer against the same fixtures as the PHP scorer: node --test tests/js
+// Runs the browser scorer against the same fixtures as the PHP scorer: npm test
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

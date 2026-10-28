@@ -3,7 +3,7 @@
 /*
  * Regenerates tests/fixtures/scoring/expected.json from the PHP scorers.
  * Run after an intentional scoring change: php tests/fixtures/scoring/generate.php
- * Both the Pest suite and `node --test tests/js` then check against it.
+ * Both the Pest suite and `node --test tests/js/*.test.mjs` then check against it.
  */
 
 use App\Modules\Editor\Scoring\ContentInput;
