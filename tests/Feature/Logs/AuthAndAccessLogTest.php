@@ -7,7 +7,6 @@ use App\Modules\Logs\Support\AgentClassifier;
 use App\Modules\Security\Filament\Auth\Login;
 use App\Modules\Settings\SettingsRepository;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
 it('logs successful and failed admin logins', function () {
@@ -45,13 +44,11 @@ it('classifies human, bot and AI bot user agents', function () {
 });
 
 it('logs front-end requests without storing the ip', function () {
-    Route::middleware('web')->get('/_test/page', fn () => 'ok');
-
     $this->withHeaders(['User-Agent' => 'Mozilla/5.0 Chrome/120', 'Referer' => 'https://chatgpt.com/c/abc?x=1'])
-        ->get('/_test/page')->assertOk();
+        ->get('/blog')->assertOk();
 
     $log = AccessLog::sole();
-    expect($log->path)->toBe('/_test/page')
+    expect($log->path)->toBe('/blog')
         ->and($log->status)->toBe(200)
         ->and($log->agent_class)->toBe('human')
         ->and($log->referrer_host)->toBe('chatgpt.com')
@@ -65,8 +62,7 @@ it('does not log admin requests or when disabled', function () {
     expect(AccessLog::count())->toBe(0);
 
     app(SettingsRepository::class)->set('features.access_log', false);
-    Route::middleware('web')->get('/_test/page', fn () => 'ok');
-    $this->get('/_test/page');
+    $this->get('/blog');
     expect(AccessLog::count())->toBe(0);
 });
 

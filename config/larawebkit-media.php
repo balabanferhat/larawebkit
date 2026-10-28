@@ -45,6 +45,10 @@ return [
     // Variants generated for stock photos (Pexels).
     'stock_widths' => [800, 1600],
 
+    // Open Graph image (1200×630). WebP by default (all images WebP); set to "jpeg"
+    // if you need previews in apps that still do not render WebP.
+    'og_format' => env('MEDIA_OG_FORMAT', 'webp'),
+
     // Default `sizes` attribute for responsive images.
     'default_sizes_attribute' => '(min-width: 1024px) 768px, 100vw',
 
