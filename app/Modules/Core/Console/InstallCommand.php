@@ -55,14 +55,13 @@ class InstallCommand extends Command
         }
 
         app(RolesAndPermissions::class)->sync();
-        app()->setLocale($locale);
-        $this->callSilently('db:seed', ['--class' => LarawebkitSeeder::class, '--force' => true]);
-
         $settings->setMany([
             'general.site_name' => $siteName,
             'general.default_locale' => $locale,
             'general.active_locales' => [$locale],
         ]);
+        app()->setLocale($locale);
+        $this->callSilently('db:seed', ['--class' => LarawebkitSeeder::class, '--force' => true]);
 
         $user = User::where('email', $email)->first();
         if ($user) {
