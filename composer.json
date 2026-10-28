@@ -1,9 +1,17 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "larawebkit/larawebkit",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "AI-ready Laravel starter kit: admin, content editor with SEO/human/GEO scores, logs, SEO and GEO.",
+    "keywords": [
+        "laravel",
+        "filament",
+        "starter-kit",
+        "cms",
+        "seo",
+        "geo",
+        "ai"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
@@ -30,7 +38,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Modules/Settings/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -41,8 +52,12 @@
         "setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
+            "@php artisan db:seed --force",
+            "@php artisan storage:link --force",
+            "@php artisan filament:assets",
             "npm install --ignore-scripts",
             "npm run build"
         ],
@@ -72,6 +87,9 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "lint": [
+            "vendor/bin/pint --test"
         ]
     },
     "extra": {

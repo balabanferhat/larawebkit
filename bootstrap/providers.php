@@ -1,6 +1,11 @@
 <?php
 
+use App\Modules\Core\LarawebkitServiceProvider;
+use App\Providers\AppServiceProvider;
+use App\Providers\Filament\AdminPanelProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\Filament\AdminPanelProvider::class,
+    AppServiceProvider::class,
+    LarawebkitServiceProvider::class,
+    AdminPanelProvider::class,
 ];

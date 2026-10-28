@@ -2,16 +2,17 @@
 
 namespace App\Providers\Filament;
 
+use App\Modules\Core\ModuleRegistry;
+use App\Modules\Security\Filament\Auth\Login;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
+use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -26,21 +27,26 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
-            ->login()
-            ->colors([
-                'primary' => Color::Amber,
+            ->path(config('larawebkit.admin_path', 'admin'))
+            ->login(Login::class)
+            ->passwordReset()
+            ->profile(isSimple: false)
+            ->multiFactorAuthentication(
+                [AppAuthentication::make()->recoverable()],
+                isRequired: (bool) config('larawebkit-security.require_two_factor'),
+            )
+            ->brandName(fn () => setting('general.site_name', config('app.name')))
+            ->colors(['primary' => Color::Indigo])
+            ->navigationGroups([
+                NavigationGroup::make(fn () => __('larawebkit.nav.content')),
+                NavigationGroup::make(fn () => __('larawebkit.nav.marketing')),
+                NavigationGroup::make(fn () => __('larawebkit.nav.logs'))->collapsed(),
+                NavigationGroup::make(fn () => __('larawebkit.nav.system'))->collapsed(),
+                NavigationGroup::make(fn () => __('larawebkit.nav.account'))->collapsed(),
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
+            ->unsavedChangesAlerts()
+            ->databaseNotifications(false)
+            ->plugins(ModuleRegistry::adminPlugins())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
