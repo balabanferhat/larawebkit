@@ -1,0 +1,216 @@
+{
+    "seo": {
+        "checks": {
+            "word_count": {
+                "enabled": true,
+                "tiers": {
+                    "800": 20,
+                    "500": 12
+                },
+                "fallback": 5,
+                "max": 20
+            },
+            "keyword_in_title": {
+                "enabled": true,
+                "points": 15
+            },
+            "meta_description": {
+                "enabled": true,
+                "min": 120,
+                "max": 160,
+                "points": 15,
+                "partial": 8
+            },
+            "h2_count": {
+                "enabled": true,
+                "tiers": {
+                    "4": 15,
+                    "2": 10
+                },
+                "fallback": 0,
+                "max": 15
+            },
+            "keyword_density": {
+                "enabled": true,
+                "min": 1,
+                "max": 3,
+                "points": 15,
+                "partial": 8
+            },
+            "has_list": {
+                "enabled": true,
+                "points": 5
+            },
+            "has_bold": {
+                "enabled": true,
+                "points": 5
+            },
+            "image_alt": {
+                "enabled": true,
+                "points": 5
+            },
+            "internal_link": {
+                "enabled": true,
+                "points": 5
+            }
+        }
+    },
+    "human": {
+        "start": 100,
+        "min_sentences_for_variation": 3,
+        "variation": [
+            {
+                "below": 0.35,
+                "penalty": 25
+            },
+            {
+                "below": 0.5,
+                "penalty": 10
+            }
+        ],
+        "long_sentences": {
+            "average_above": 32,
+            "penalty": 10
+        },
+        "cliches": {
+            "penalty": 5,
+            "max_penalty": 35
+        },
+        "repeated_starts": {
+            "min_run": 3,
+            "penalty": 5,
+            "max_penalty": 15
+        },
+        "question_bonus": 3,
+        "reader_bonus": 4,
+        "reader_words": {
+            "en": [
+                "you",
+                "your",
+                "yours",
+                "yourself",
+                "you're",
+                "you'll",
+                "you've"
+            ],
+            "tr": [
+                "siz",
+                "sizin",
+                "size",
+                "sizi",
+                "sizde",
+                "sizce",
+                "sen",
+                "senin",
+                "sana",
+                "seni"
+            ]
+        }
+    },
+    "geo": {
+        "checks": {
+            "has_summary": {
+                "enabled": true,
+                "points": 20
+            },
+            "question_h2": {
+                "enabled": true,
+                "points": 15
+            },
+            "faq_or_lists": {
+                "enabled": true,
+                "points": 20
+            },
+            "has_sources": {
+                "enabled": true,
+                "points": 15
+            },
+            "has_author": {
+                "enabled": true,
+                "points": 15
+            },
+            "answer_first": {
+                "enabled": true,
+                "points": 15,
+                "min_words": 20,
+                "max_words": 80
+            }
+        }
+    },
+    "cliches": {
+        "en": [
+            "in today's fast-paced world",
+            "in today's digital age",
+            "in the ever-evolving",
+            "ever-changing landscape",
+            "it is important to note",
+            "it's important to note",
+            "it is worth noting",
+            "it's worth noting",
+            "delve into",
+            "dive deep into",
+            "deep dive",
+            "unlock the power",
+            "unleash the power",
+            "harness the power",
+            "game changer",
+            "game-changer",
+            "revolutionize",
+            "cutting-edge",
+            "state-of-the-art",
+            "seamlessly integrate",
+            "take it to the next level",
+            "a testament to",
+            "navigate the complexities",
+            "the world of",
+            "tapestry",
+            "look no further",
+            "when it comes to",
+            "at the end of the day",
+            "in conclusion",
+            "in summary",
+            "last but not least",
+            "needless to say",
+            "without further ado",
+            "elevate your",
+            "embark on a journey",
+            "plays a crucial role",
+            "plays a vital role",
+            "a myriad of",
+            "robust solution",
+            "boost your"
+        ],
+        "tr": [
+            "günümüzün hızla değişen dünyasında",
+            "günümüz dijital çağında",
+            "hızla gelişen",
+            "önemle belirtmek gerekir ki",
+            "şunu belirtmek gerekir ki",
+            "belirtmekte fayda var",
+            "unutulmamalıdır ki",
+            "derinlemesine inceleyelim",
+            "derinlemesine bir bakış",
+            "gücünü keşfedin",
+            "oyunun kurallarını değiştiren",
+            "çığır açan",
+            "son teknoloji",
+            "bir sonraki seviyeye taşıyın",
+            "sorunsuz bir şekilde",
+            "söz konusu olduğunda",
+            "günün sonunda",
+            "sonuç olarak",
+            "özetle",
+            "son olarak ama önemli",
+            "söylemeye gerek yok",
+            "lafı fazla uzatmadan",
+            "bir yolculuğa çıkın",
+            "kritik bir rol oynar",
+            "hayati bir rol oynar",
+            "sayısız",
+            "vazgeçilmez bir parçası",
+            "göz ardı edilmemelidir",
+            "hiç şüphesiz",
+            "kapsamlı bir rehber"
+        ]
+    }
+}

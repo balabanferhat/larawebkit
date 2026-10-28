@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    // Optional: stock photos in the editor. Without a key the Pexels tab is hidden.
+    'pexels' => [
+        'key' => env('PEXELS_API_KEY'),
+    ],
+
+    // Optional: ping search engines on publish (https://www.indexnow.org).
+    'indexnow' => [
+        'key' => env('INDEXNOW_KEY'),
+        'endpoint' => env('INDEXNOW_ENDPOINT', 'https://api.indexnow.org/indexnow'),
+    ],
+
 ];

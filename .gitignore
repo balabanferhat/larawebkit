@@ -29,9 +29,11 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /.tmp/
-/storage/larawebkit-heartbeat
+/storage/framework/larawebkit-heartbeat
 /public/css/filament
 /public/js/filament
 /public/fonts/filament
 /public/js/app
 /public/css/app
+/public/js/larawebkit
+/public/css/larawebkit
