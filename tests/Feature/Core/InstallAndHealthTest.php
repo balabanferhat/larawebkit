@@ -29,6 +29,25 @@ it('runs the deploy check', function () {
     $this->artisan('larawebkit:deploy-check')->expectsOutputToContain('PHP')->assertSuccessful();
 });
 
+it('fails the deploy check in production without the storage link', function () {
+    app()->detectEnvironment(fn () => 'production');
+    config(['app.debug' => false, 'app.url' => 'https://example.com', 'larawebkit-media.disk' => 'public']);
+    file_put_contents(config('larawebkit.heartbeat_file'), (string) time());
+    $link = public_path('storage');
+    $moved = file_exists($link) ? $link.'.bak-test' : null;
+    if ($moved) {
+        rename($link, $moved);
+    }
+
+    try {
+        $this->artisan('larawebkit:deploy-check')->assertFailed();
+    } finally {
+        if ($moved) {
+            rename($moved, $link);
+        }
+    }
+});
+
 it('writes a scheduler heartbeat and drains the queue from the scheduler', function () {
     $events = collect(app(Schedule::class)->events())->map(fn ($e) => $e->description ?: $e->command);
 

@@ -47,7 +47,10 @@ class DeployCheckCommand extends Command
         $this->check(! ($production && config('app.debug')), __('larawebkit.deploy_check.debug'));
         $url = (string) config('app.url');
         $this->check(filled($url) && (! $production || str_starts_with($url, 'https://')), __('larawebkit.deploy_check.app_url'), ! $production);
-        $this->check(is_link(public_path('storage')) || is_dir(public_path('storage')), __('larawebkit.deploy_check.storage_link'));
+        // Only needed when media lives on the "public" disk (MEDIA_DISK=public_uploads writes into public/ directly).
+        if (config('larawebkit-media.disk') === 'public') {
+            $this->check(is_link(public_path('storage')) || is_dir(public_path('storage')), __('larawebkit.deploy_check.storage_link'), ! $production);
+        }
 
         $dbOk = false;
         try {
