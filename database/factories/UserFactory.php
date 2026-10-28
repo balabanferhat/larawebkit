@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Modules\Security\RolesAndPermissions;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -36,6 +37,29 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      */
+    public function role(string $role): static
+    {
+        return $this->afterCreating(function (User $user) use ($role) {
+            app(RolesAndPermissions::class)->sync();
+            $user->assignRole($role);
+        });
+    }
+
+    public function superAdmin(): static
+    {
+        return $this->role('super-admin');
+    }
+
+    public function editor(): static
+    {
+        return $this->role('editor');
+    }
+
+    public function author(): static
+    {
+        return $this->role('author');
+    }
+
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
