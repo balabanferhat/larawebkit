@@ -35,7 +35,7 @@
             <div class="lwk-modal-main">
                 {{-- Library --}}
                 <div x-show="tab === 'library'">
-                    <input type="search" class="lwk-input" placeholder="{{ __('larawebkit-media.modal.search') }}" x-model.debounce.400ms="search" @input.debounce.400ms="load(true)">
+                    <input type="search" class="lwk-input" placeholder="{{ __('larawebkit-media.modal.search') }}" x-model.debounce.400ms="search" @input.debounce.400ms="load(true)" @keydown.enter.prevent="load(true)">
                     <p class="lwk-muted" x-show="! loading && items.length === 0">{{ __('larawebkit-media.modal.empty') }}</p>
                     <ul class="lwk-grid">
                         <template x-for="item in items" :key="item.id">
@@ -70,16 +70,17 @@
 
                 {{-- Pexels --}}
                 <div x-show="tab === 'pexels'">
-                    <form class="lwk-row" @submit.prevent="pexelsSearch(true)">
-                        <input type="search" class="lwk-input" x-model="pexels.q" placeholder="{{ __('larawebkit-editor.pexels.query') }}">
+                    {{-- Not a <form>: this markup lives inside Filament's form and nested forms break it. --}}
+                    <div class="lwk-row" role="search">
+                        <input type="search" class="lwk-input" x-model="pexels.q" @keydown.enter.prevent="pexelsSearch(true)" placeholder="{{ __('larawebkit-editor.pexels.query') }}">
                         <select class="lwk-input lwk-input-auto" x-model="pexels.orientation">
                             <option value="">{{ __('larawebkit-editor.pexels.any') }}</option>
                             <option value="landscape">{{ __('larawebkit-editor.pexels.landscape') }}</option>
                             <option value="portrait">{{ __('larawebkit-editor.pexels.portrait') }}</option>
                         </select>
-                        <button type="submit" class="lwk-btn">{{ __('larawebkit.actions.search') }}</button>
+                        <button type="button" class="lwk-btn" @click="pexelsSearch(true)">{{ __('larawebkit.actions.search') }}</button>
                         <button type="button" class="lwk-btn" @click="pexelsSuggest()">{{ __('larawebkit-editor.pexels.suggest') }}</button>
-                    </form>
+                    </div>
                     <p class="lwk-error" x-show="pexels.error" x-text="pexels.error"></p>
                     <ul class="lwk-grid">
                         <template x-for="photo in pexels.photos" :key="photo.id">

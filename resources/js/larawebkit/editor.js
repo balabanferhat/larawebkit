@@ -44,7 +44,8 @@
         if (!el || !window.Alpine) return null;
         try {
             const data = window.Alpine.$data(el);
-            return data && typeof data.getEditor === 'function' ? data.getEditor() : null;
+            const editor = data && typeof data.getEditor === 'function' ? data.getEditor() : null;
+            return editor && window.Alpine.raw ? window.Alpine.raw(editor) : editor;
         } catch (e) {
             return null;
         }
@@ -310,11 +311,13 @@
     };
 
     window.lwkMediaModal = function (config) {
+        // Kept outside Alpine's reactive state: proxying a TipTap editor breaks its commands.
+        let currentEditor = null;
+
         return {
             config,
             open: false,
             mode: 'insert',
-            editor: null,
             tab: 'library',
             items: [],
             page: 1,
@@ -333,7 +336,7 @@
 
             show(detail) {
                 this.mode = (detail && detail.mode) || 'insert';
-                this.editor = (detail && detail.editor) || findEditor();
+                currentEditor = (detail && detail.editor) || null;
                 this.open = true;
                 this.selected = null;
                 this.pexels.selected = null;
@@ -458,7 +461,7 @@
 
             insert() {
                 if (!this.selected || !this.selected.alt) return;
-                const editor = this.editor || findEditor();
+                const editor = (currentEditor && window.Alpine ? window.Alpine.raw(currentEditor) : currentEditor) || findEditor();
                 if (!editor) return;
                 const size = (this.selected.sizes || []).find((s) => s.name === this.insertSize) || { url: this.selected.url, width: this.selected.width, height: this.selected.height };
                 editor
@@ -467,7 +470,7 @@
                     .insertContent({
                         type: 'paragraph',
                         attrs: { textAlign: this.insertAlign },
-                        content: [{ type: 'image', attrs: { src: size.url, alt: this.selected.alt, id: String(this.selected.id), width: size.width, height: size.height } }],
+                        content: [{ type: 'image', attrs: { src: size.url, alt: this.selected.alt, id: String(this.selected.id), width: size.width } }],
                     })
                     .run();
                 this.close();

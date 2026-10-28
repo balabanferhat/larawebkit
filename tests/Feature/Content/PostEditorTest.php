@@ -46,6 +46,12 @@ it('renders the editor with the scoring panel and media modal', function () {
         ->assertSee('lwkSnippet', false);
 });
 
+it('never nests a <form> inside the Filament form (it would break saving)', function () {
+    foreach (glob(resource_path('views/editor/*.blade.php')) as $view) {
+        expect(preg_replace('/\{\{--.*?--\}\}/s', '', file_get_contents($view)))->not->toContain('<form', basename($view));
+    }
+});
+
 it('creates a post, stores server-side scores and sanitizes the html', function () {
     $this->actingAs($user = editor());
 

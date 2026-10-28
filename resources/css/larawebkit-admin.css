@@ -119,3 +119,6 @@
 .lwk-diff-body { white-space: pre-wrap; font-size: 0.875rem; line-height: 1.6; background: var(--lwk-bg-soft); padding: 0.75rem; border-radius: 0.5rem; }
 .lwk-diff-add { background: color-mix(in srgb, var(--lwk-good) 25%, transparent); text-decoration: none; }
 .lwk-diff-del { background: color-mix(in srgb, var(--lwk-bad) 25%, transparent); }
+
+/* Inserted images keep their aspect ratio inside the editor. */
+.fi-fo-rich-editor .ProseMirror img { height: auto !important; max-width: 100%; }
