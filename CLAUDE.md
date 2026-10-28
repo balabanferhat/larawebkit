@@ -20,6 +20,11 @@ extend the kit consistently. Plan and first-release scope: [docs/plan.md](docs/p
 - Code, comments, commits and docs in English; Turkish lives in `lang/tr`.
 
 ## Extending (for AI agents)
-Before adding a feature, read `docs/recipes/` (created as part of the first release) and follow the matching recipe
-(new content type, new admin resource, new setting, new AI action, new front-end template). If no recipe fits,
-write one alongside the feature.
+Before adding a feature, read `docs/architecture.md` (module map) and `docs/recipes/`, and follow the matching recipe
+(new content type, new admin resource, new setting, new AI action, new theme/template, new locale, new audit-logged model,
+new module). If no recipe fits, write one alongside the feature.
+
+Useful commands: `php artisan test` (Pest), `npm test` (JS scorer parity), `vendor/bin/pint` (style),
+`php artisan larawebkit:deploy-check`. If you change scoring rules, update both
+`app/Modules/Editor/Scoring` and `resources/js/larawebkit/scoring.js`, then regenerate
+`tests/fixtures/scoring/expected.json` with `php tests/fixtures/scoring/generate.php`.

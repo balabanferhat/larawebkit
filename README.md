@@ -1,13 +1,108 @@
 # larawebkit
 
-An open-source, AI-ready Laravel starter kit for websites and web apps.
+An open-source (MIT), AI-ready Laravel starter kit for websites and web apps.
 
-Start every project with the boring parts already done (admins and roles, pages and posts, a content editor
-with live SEO and human-ness scores, stock photos, access and audit logs, templates, SEO and consent) and a
-codebase your AI coding agent can extend safely, guided by `CLAUDE.md` and step-by-step recipes.
+Start every project with the boring parts already done — admins and roles with 2FA, pages and posts,
+a content editor with live SEO / human-ness / GEO scores, a WordPress-style media library with an
+all-WebP image pipeline, stock photos, an AI writing assistant, audit/access/auth logs, three themes,
+complete SEO and AI-search (GEO) support and cookie consent — plus a codebase your AI coding agent can
+extend safely, guided by [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) and step-by-step [recipes](docs/recipes).
 
-> Status: under construction. See [docs/plan.md](docs/plan.md) for the v0.1 scope.
+> **Status: v0.1.** See [docs/plan.md](docs/plan.md) for the scope and [CHANGELOG.md](CHANGELOG.md).
 
-Stack: PHP 8.3+, Laravel 13, Filament 5, Pest, Tailwind. Runs on plain shared hosting.
+![The post editor with the media library, featured image and the live SEO / human / GEO panel](docs/screenshots/editor.png)
 
-License: [MIT](LICENSE).
+**Stack:** PHP 8.3+, Laravel 13, Filament 5 (admin), Livewire 4, Pest 4, Blade + Tailwind 4 (Vite).
+SQLite locally, MySQL/MariaDB in production. Runs on plain shared hosting (cPanel): no Redis, no Node in production.
+
+## Quick start
+
+```bash
+git clone https://github.com/<you>/larawebkit.git my-site && cd my-site
+composer setup            # install, .env, key, migrate, seed, storage link, build assets
+php artisan larawebkit:install   # site name, language, first admin (super-admin)
+php artisan serve
+```
+
+Open http://localhost:8000 for the site and http://localhost:8000/admin for the admin.
+Everything works without any third-party key; optional features appear when you add one to `.env`:
+
+| Key | Enables |
+|---|---|
+| `ANTHROPIC_API_KEY` (or `OPENAI_API_KEY`, `DEEPSEEK_API_KEY`, `OLLAMA_BASE_URL`) | AI writing assistant, image keyword suggestions |
+| `PEXELS_API_KEY` | Pexels tab in the media modal (with attribution) |
+| `INDEXNOW_KEY` | IndexNow pings on publish |
+
+## Features
+
+**Admin & security** — Filament 5 panel; admin users separate from (future) members; roles super-admin /
+editor / author with granular permissions; TOTP 2FA with recovery codes (optionally required);
+password reset; login throttling; active sessions with "log out other devices"; security headers,
+CSRF, honeypot + rate limit on public forms.
+
+**Logs** — audit log (who changed what, old/new values, user, IP, agent) with a per-record History tab;
+cookieless access log (IP only as a daily-rotating hash) with retention + prune; auth log (logins,
+failures, lockouts, 2FA, password resets); 404 log with "create redirect"; AI bot report.
+
+**Content** — hierarchical pages with templates, posts with categories/tags/authors/excerpt/members-only flag,
+scheduled publishing, revisions with word diff and restore, autosave, redirects (301/302/410, automatic on
+slug change, chains collapsed), header/footer menus, translations linked across locales.
+
+**Media** — uploads (drag & drop, multiple), alt text required, usage tracking ("used in N posts"),
+every image converted to **WebP** in 320–1920 px variants (never upscaled), EXIF/GPS stripped,
+originals kept privately, GD or Imagick, JPEG/PNG fallback only without WebP support,
+`larawebkit:media:regenerate`. Front end always renders `srcset`/`sizes`/`width`/`height`, lazy loading,
+and `fetchpriority="high"` + preload for the hero image.
+
+**Editor** — TipTap (Filament RichEditor) with H2/H3, bold/italic/underline, lists, quote, link, image, clean;
+server-side HTML sanitizing; WordPress-style media modal (library grid, search, load more, upload with
+progress, details sidebar with alt/title/caption, copy URL, delete with in-use warning, insert with size
+and alignment, set featured image, Pexels tab); keyword chips; meta description counter; Google-style
+snippet preview; live **SEO score**, **human score** and **GEO check** computed identically in the browser and
+on the server (weights in `config/larawebkit-editor.php`, cliché lists per locale); **publish gate** with
+logged override.
+
+**AI layer** — `AiManager` with Anthropic (default, official SDK), OpenAI, DeepSeek and OpenAI-compatible local
+servers (Ollama), fallback order, cheap vs strong model per action, versioned locale-aware prompt files,
+queued long jobs with polling, usage log with estimated cost and a monthly budget.
+
+**Front end** — three themes (minimal blog, business/landing, documentation), dark mode, accessible markup
+(skip link, landmarks, one H1, breadcrumbs, TOC, focus styles), branded Markdown e-mails, contact form,
+optional double opt-in newsletter, ~4 kB CSS per theme.
+
+**SEO** — titles/descriptions/canonical/OG/Twitter with fallbacks, auto 1200×630 OG image, hreflang,
+JSON-LD (Organization or Person, WebSite + SearchAction, BlogPosting/Article, BreadcrumbList, FAQPage,
+ProfilePage), sitemap index with lastmod and image entries, editable robots.txt, RSS, canonical host /
+https / trailing-slash redirects, noindex for tag/search/pagination pages, full-page cache with bust on
+publish, IndexNow, Search Console / Bing verification.
+
+**GEO (AI search)** — `llms.txt` and `llms-full.txt`, a Markdown twin of every page (`.md` or
+`Accept: text/markdown`), per-bot AI crawler policy with "allow AI search, block training" presets,
+TL;DR / FAQ / sources blocks, author pages with Person schema, AI referral tracking.
+
+**Privacy** — consent banner (necessary / analytics / marketing) and no analytics before consent,
+built-in cookieless page counter, privacy and cookie policy templates.
+
+## Documentation
+
+- [Architecture and module map](docs/architecture.md)
+- [Deploying to shared hosting](docs/deploy-shared-hosting.md)
+- [Recipes for extending the kit](docs/recipes/README.md)
+- [v0.1 plan](docs/plan.md)
+
+## Development
+
+```bash
+php artisan test       # Pest
+npm test               # browser scorer = server scorer (shared fixtures)
+vendor/bin/pint        # code style
+```
+
+## Roadmap
+
+v0.2+: front-end members and members-only content, paid plans (Stripe, iyzico, PayTR), events/booking,
+multi-site, WordPress import, page-builder blocks. See [docs/plan.md](docs/plan.md).
+
+## License
+
+[MIT](LICENSE). Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
