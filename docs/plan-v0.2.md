@@ -21,6 +21,13 @@ services degrade gracefully, docs + recipe where relevant, CHANGELOG entry, Ligh
    Each block: a few layout variants, background options (plain/muted/brand/image), anchor id, hide on mobile.
    Blocks are reusable across themes and listed in a recipe ("add a block").
    Page templates become presets of blocks (e.g. "Landing page", "About", "Services").
+2b. **Self-contained theme folders (WordPress-like).** Each theme lives in one folder `themes/{name}/`:
+   `theme.json` (name, description, version, author, `parent`, supported blocks), `screenshot.webp`, `views/`,
+   prebuilt `assets/` (compiled CSS/JS committed, so shared hosting needs no Node), `lang/`. Themes are discovered
+   automatically (no hard-coded list in `ThemeManager`); child themes fall back through the `parent` chain to the
+   base theme. Admin "Appearance → Themes": cards with screenshot, description, version and "Activate". Uploading a
+   theme as a zip is off by default (Blade templates are PHP code); when enabled, super-admin only. Existing
+   `minimal`, `business`, `docs` and the new themes below use this structure; `docs/recipes/new-theme.md` updated.
 3. **Three distinct modern themes**, each with its own layout, typography and components (not just colour swaps),
    sharing the block library:
    - **Business** — services/agency/company site: strong hero, services, case studies, team, contact.
