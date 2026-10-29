@@ -49,6 +49,8 @@ return [
         'database' => 'Database connection works',
         'migrations' => 'All migrations have run',
         'heartbeat' => 'Scheduler heartbeat (cron runs every minute)',
+        'backup' => 'Recent backup',
+        'backup_never' => 'no backup yet: run php artisan larawebkit:backup or wait for the schedule',
         'heartbeat_missing' => 'never seen: add the cron entry from docs/deploy-shared-hosting.md',
         'heartbeat_stale' => 'last seen :ago',
         'queue' => 'Queue driver is database or sync (no Redis on shared hosting)',

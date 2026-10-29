@@ -3,7 +3,19 @@
 return [
     'title' => 'Settings',
     'saved' => 'Settings saved.',
+    'mail_test' => [
+        'action' => 'Send test e-mail',
+        'description' => 'Sends one e-mail now with the settings from .env (mailer: :mailer, host: :host, from: :from). Errors are shown here.',
+        'to' => 'Send to',
+        'subject' => 'Test e-mail from :site',
+        'body' => 'If you can read this, e-mail from your site works: verification links, form notifications, newsletters and event confirmations will arrive.',
+        'details' => 'Mailer: :mailer · sent :date',
+        'sent' => 'Test e-mail sent to :email. Check the inbox (and the spam folder).',
+        'failed' => 'The e-mail could not be sent',
+        'not_sent' => 'MAIL_MAILER is ":mailer": e-mails are written to the log, not delivered. Set the SMTP values in .env.',
+    ],
     'groups' => [
+        'backup' => 'Backups',
         'newsletter' => 'Newsletter',
         'members' => 'Members',
         'theme' => 'Theme',
@@ -22,6 +34,11 @@ return [
         'ai' => 'AI',
     ],
     'keys' => [
+        'backup' => [
+            'frequency' => 'Automatic backup',
+            'time' => 'At (HH:MM, server time)',
+            'keep' => 'Backups to keep',
+        ],
         'newsletter' => [
             'download' => 'Download after confirming (lead magnet)',
             'download_name' => 'File name shown to the subscriber',
@@ -115,6 +132,10 @@ return [
         ],
     ],
     'help' => [
+        'backup' => [
+            'frequency' => 'Database and uploaded files in one zip, through the cron job. System → Backups lists and downloads them.',
+            'keep' => 'Older archives are deleted (also on the remote disk, if one is set in .env).',
+        ],
         'newsletter' => [
             'download' => 'Optional. After confirming their subscription, people get a signed link to this file (on the page and by e-mail). The file stays private.',
         ],
@@ -160,6 +181,9 @@ return [
         ],
     ],
     'options' => [
+        'off' => 'Off',
+        'daily' => 'Daily',
+        'weekly' => 'Weekly (Sunday)',
         'system' => 'Follow the device',
         'light' => 'Light',
         'dark' => 'Dark',

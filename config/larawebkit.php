@@ -32,6 +32,7 @@ return [
         'forms' => ['provider' => Modules\Forms\FormsServiceProvider::class, 'plugin' => Modules\Forms\FormsPlugin::class],
         'newsletter' => ['provider' => Modules\Newsletter\NewsletterServiceProvider::class, 'plugin' => Modules\Newsletter\NewsletterPlugin::class],
         'events' => ['provider' => Modules\Events\EventsServiceProvider::class, 'plugin' => Modules\Events\EventsPlugin::class],
+        'backup' => ['provider' => Modules\Backup\BackupServiceProvider::class, 'plugin' => Modules\Backup\BackupPlugin::class],
         'import' => ['provider' => Modules\Import\ImportServiceProvider::class, 'plugin' => null],
         'dashboard' => ['provider' => null, 'plugin' => Modules\Dashboard\DashboardPlugin::class],
     ],
@@ -47,6 +48,9 @@ return [
     // Signed download links (lead magnets, event files): private disk and how long a link works.
     'download_disk' => 'local',
     'download_link_hours' => (int) env('DOWNLOAD_LINK_HOURS', 72),
+
+    // "Share preview link" for drafts: how long the signed link works.
+    'preview_link_hours' => (int) env('PREVIEW_LINK_HOURS', 72),
 
     // Written by the scheduler every minute; read by larawebkit:deploy-check.
     'heartbeat_file' => storage_path('framework/larawebkit-heartbeat'),

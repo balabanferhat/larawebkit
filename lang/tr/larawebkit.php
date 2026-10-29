@@ -49,6 +49,8 @@ return [
         'database' => 'Veritabanı bağlantısı çalışıyor',
         'migrations' => 'Tüm migration\'lar çalıştırılmış',
         'heartbeat' => 'Zamanlayıcı sinyali (cron her dakika çalışıyor)',
+        'backup' => 'Güncel yedek',
+        'backup_never' => 'henüz yedek yok: php artisan larawebkit:backup çalıştırın ya da zamanlamayı bekleyin',
         'heartbeat_missing' => 'hiç görülmedi: docs/deploy-shared-hosting.md içindeki cron satırını ekleyin',
         'heartbeat_stale' => 'son görülme :ago',
         'queue' => 'Kuyruk sürücüsü database veya sync (paylaşımlı hostingde Redis yok)',

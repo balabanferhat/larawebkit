@@ -106,4 +106,9 @@ return [
     // AI
     'ai.monthly_budget_usd' => ['type' => 'int', 'default' => 20, 'group' => 'ai', 'rules' => ['integer', 'min:0']],
 
+    // Backups (larawebkit:backup through the scheduler; time in server time, UTC by default)
+    'backup.frequency' => ['type' => 'select', 'default' => 'daily', 'group' => 'backup', 'options' => ['off' => 'off', 'daily' => 'daily', 'weekly' => 'weekly']],
+    'backup.time' => ['type' => 'string', 'default' => '03:00', 'group' => 'backup', 'rules' => ['required', 'regex:/^([01]\d|2[0-3]):[0-5]\d$/']],
+    'backup.keep' => ['type' => 'int', 'default' => 7, 'group' => 'backup', 'rules' => ['integer', 'min:1', 'max:365']],
+
 ];

@@ -101,6 +101,7 @@ class PostResource extends Resource
         return ContentTable::configure($table,
             [TextColumn::make('categories.name')->label(__('larawebkit-content.categories.plural'))->badge()->toggleable()],
             [SelectFilter::make('categories')->label(__('larawebkit-content.categories.plural'))->relationship('categories', 'name')],
+            static::class,
         );
     }
 

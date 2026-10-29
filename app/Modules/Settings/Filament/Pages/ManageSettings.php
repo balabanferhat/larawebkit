@@ -4,6 +4,7 @@ namespace App\Modules\Settings\Filament\Pages;
 
 use App\Modules\Geo\AiCrawlerPolicy;
 use App\Modules\Media\Filament\MediaPicker;
+use App\Modules\Settings\Mail\TestMail;
 use App\Modules\Settings\SettingsRepository;
 use App\Modules\Themes\Design\DesignTokens;
 use App\Modules\Themes\Design\Fonts;
@@ -27,7 +28,9 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Throwable;
 use UnitEnum;
 
 /**
@@ -143,6 +146,32 @@ class ManageSettings extends Page
 
     /** Hook for subclasses (e.g. regenerate derived files). */
     protected function saved(): void {}
+
+    protected function getHeaderActions(): array
+    {
+        if (static::$settingsPage !== null) {
+            return [];
+        }
+
+        return [
+            Action::make('testMail')->label(__('larawebkit-settings.mail_test.action'))->icon('heroicon-o-envelope')->color('gray')
+                ->modalDescription(fn () => __('larawebkit-settings.mail_test.description', ['mailer' => config('mail.default'), 'host' => config('mail.mailers.'.config('mail.default').'.host') ?: '—', 'from' => config('mail.from.address')]))
+                ->schema([TextInput::make('email')->label(__('larawebkit-settings.mail_test.to'))->email()->required()->default(fn () => auth()->user()?->email)])
+                ->action(function (array $data) {
+                    if (in_array(config('mail.default'), ['log', 'array'], true)) {
+                        Notification::make()->warning()->title(__('larawebkit-settings.mail_test.not_sent', ['mailer' => config('mail.default')]))->persistent()->send();
+                    }
+                    try {
+                        Mail::to($data['email'])->send(new TestMail);
+                    } catch (Throwable $e) {
+                        Notification::make()->danger()->title(__('larawebkit-settings.mail_test.failed'))->body(Str::limit($e->getMessage(), 500))->persistent()->send();
+
+                        return;
+                    }
+                    Notification::make()->success()->title(__('larawebkit-settings.mail_test.sent', ['email' => $data['email']]))->send();
+                }),
+        ];
+    }
 
     /** @param  array<string, mixed>  $definition */
     protected function component(string $key, array $definition): mixed

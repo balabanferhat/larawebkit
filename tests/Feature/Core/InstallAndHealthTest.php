@@ -46,9 +46,9 @@ it('runs the deploy check', function () {
 });
 
 it('warns when memory_limit is below 256M', function () {
-    $previous = ini_set('memory_limit', '128M');
+    $previous = ini_set('memory_limit', '200M');
     try {
-        $this->artisan('larawebkit:deploy-check')->expectsOutputToContain('PHP memory_limit is 128M (256M recommended');
+        $this->artisan('larawebkit:deploy-check')->expectsOutputToContain('PHP memory_limit is 200M (256M recommended');
     } finally {
         ini_set('memory_limit', $previous);
     }

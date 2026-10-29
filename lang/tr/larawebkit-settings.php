@@ -2,8 +2,20 @@
 
 return [
     'title' => 'Ayarlar',
+    'mail_test' => [
+        'action' => 'Deneme e-postası gönder',
+        'description' => '.env içindeki ayarlarla hemen bir e-posta gönderir (gönderici: :mailer, sunucu: :host, kimden: :from). Hatalar burada gösterilir.',
+        'to' => 'Alıcı',
+        'subject' => ':site deneme e-postası',
+        'body' => 'Bunu okuyabiliyorsanız sitenizin e-postaları çalışıyor: doğrulama bağlantıları, form bildirimleri, bültenler ve etkinlik onayları ulaşacak.',
+        'details' => 'Gönderici: :mailer · gönderim :date',
+        'sent' => 'Deneme e-postası :email adresine gönderildi. Gelen kutusuna (ve istenmeyen klasörüne) bakın.',
+        'failed' => 'E-posta gönderilemedi',
+        'not_sent' => 'MAIL_MAILER ":mailer" olarak ayarlı: e-postalar teslim edilmez, günlüğe yazılır. .env içinde SMTP değerlerini girin.',
+    ],
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
+        'backup' => 'Yedekler',
         'newsletter' => 'Bülten',
         'members' => 'Üyeler',
         'theme' => 'Tema',
@@ -22,6 +34,11 @@ return [
         'ai' => 'Yapay zekâ',
     ],
     'keys' => [
+        'backup' => [
+            'frequency' => 'Otomatik yedek',
+            'time' => 'Saat (SS:DD, sunucu saati)',
+            'keep' => 'Saklanacak yedek sayısı',
+        ],
         'newsletter' => [
             'download' => 'Onaydan sonra indirilecek dosya (ücretsiz içerik)',
             'download_name' => 'Aboneye gösterilecek dosya adı',
@@ -115,6 +132,10 @@ return [
         ],
     ],
     'help' => [
+        'backup' => [
+            'frequency' => 'Veritabanı ve yüklenen dosyalar tek zip içinde, cron ile. Sistem → Yedekler listeler ve indirir.',
+            'keep' => 'Daha eski arşivler silinir (.env içinde uzak disk tanımlıysa orada da).',
+        ],
         'newsletter' => [
             'download' => 'İsteğe bağlı. Aboneliğini onaylayan kişi bu dosya için imzalı bir bağlantı alır (sayfada ve e-postayla). Dosya gizli kalır.',
         ],
@@ -160,6 +181,9 @@ return [
         ],
     ],
     'options' => [
+        'off' => 'Kapalı',
+        'daily' => 'Günlük',
+        'weekly' => 'Haftalık (pazar)',
         'system' => 'Cihazı izle',
         'light' => 'Açık',
         'dark' => 'Koyu',

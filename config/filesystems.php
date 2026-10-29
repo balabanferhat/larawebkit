@@ -70,6 +70,45 @@ return [
             'report' => false,
         ],
 
+        // Optional remote copies of backups (BACKUP_REMOTE_DISK=backup-ftp|backup-sftp|backup-s3).
+        // FTP needs `composer require league/flysystem-ftp`, SFTP league/flysystem-sftp-v3,
+        // S3-compatible storage league/flysystem-aws-s3-v3. See docs/backups.md.
+        'backup-ftp' => [
+            'driver' => 'ftp',
+            'host' => env('BACKUP_FTP_HOST'),
+            'username' => env('BACKUP_FTP_USERNAME'),
+            'password' => env('BACKUP_FTP_PASSWORD'),
+            'port' => (int) env('BACKUP_FTP_PORT', 21),
+            'root' => env('BACKUP_FTP_ROOT', ''),
+            'ssl' => (bool) env('BACKUP_FTP_SSL', true),
+            'passive' => true,
+            'timeout' => 60,
+            'throw' => true,
+        ],
+
+        'backup-sftp' => [
+            'driver' => 'sftp',
+            'host' => env('BACKUP_SFTP_HOST'),
+            'username' => env('BACKUP_SFTP_USERNAME'),
+            'password' => env('BACKUP_SFTP_PASSWORD'),
+            'privateKey' => env('BACKUP_SFTP_PRIVATE_KEY'),
+            'port' => (int) env('BACKUP_SFTP_PORT', 22),
+            'root' => env('BACKUP_SFTP_ROOT', ''),
+            'timeout' => 60,
+            'throw' => true,
+        ],
+
+        'backup-s3' => [
+            'driver' => 's3',
+            'key' => env('BACKUP_S3_KEY'),
+            'secret' => env('BACKUP_S3_SECRET'),
+            'region' => env('BACKUP_S3_REGION', 'auto'),
+            'bucket' => env('BACKUP_S3_BUCKET'),
+            'endpoint' => env('BACKUP_S3_ENDPOINT'),
+            'use_path_style_endpoint' => (bool) env('BACKUP_S3_PATH_STYLE', false),
+            'throw' => true,
+        ],
+
     ],
 
     /*

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Content\Filament\Resources\Pages\Pages;
 
+use App\Modules\Content\Filament\ContentActions;
 use App\Modules\Content\Filament\Resources\Pages\PageResource;
 use App\Modules\Editor\Concerns\InteractsWithContentEditor;
 use Filament\Actions\Action;
@@ -23,6 +24,8 @@ class EditPage extends EditRecord
                 ->icon('heroicon-o-arrow-top-right-on-square')
                 ->url(fn () => $this->getRecord()->isPublished() ? $this->getRecord()->url() : route('larawebkit.preview', ['type' => 'page', 'id' => $this->getRecord()->getKey()]))
                 ->openUrlInNewTab(),
+            ContentActions::sharePreview('page')->visible(fn () => ! $this->getRecord()->isPublished()),
+            ContentActions::duplicate(PageResource::class),
             DeleteAction::make(),
         ];
     }

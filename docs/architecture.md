@@ -32,6 +32,7 @@ config/larawebkit.php ─► App\Modules\Core\LarawebkitServiceProvider
 | Members | front-end accounts on their own `member` guard (register, verify, reset, profile, delete account), members-only posts that never leak into meta, feeds, `.md` twins or `llms-full.txt` | `Member`, `Members`, `MemberAuthController`, `MemberDeleting` |
 | Newsletter | double opt-in subscribers, campaigns sent in queued batches by the scheduler, RFC 8058 one-click unsubscribe, send log and stats, lead magnet after confirmation | `CampaignSender`, `SendNewsletterBatch`, `CampaignMail` |
 | Events | events with free registration (members or guests), capacity, `.ics` file, encrypted online link shown only on the registrant's signed page, "send link to registrants", CSV, Event schema | `Event`, `Registration`, `Ics`, `EventController` |
+| Backup | `larawebkit:backup`: database (SQLite copy or PHP SQL dump) + uploads in one zip, optional AES password, retention, scheduled, optional FTP / SFTP / S3 copy, System → Backups page | `BackupManager`, `DatabaseDumper`, `ManageBackups` |
 | Import | `larawebkit:import:wordpress` (REST API or export file): users, terms, pages, posts, images through the WebP pipeline, clean markup, 301s, idempotent via `import_map` | `WordPressImporter`, `MarkupCleaner`, `RestSource`, `FileSource` |
 | Dashboard | admin widgets: views, top pages, referrers (AI highlighted), content needing attention, recent changes, AI budget | `Analytics`, `Widgets\*` |
 
