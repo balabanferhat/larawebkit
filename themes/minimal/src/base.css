@@ -437,3 +437,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .lwk-event-register h2 { margin-top: 0; font-size: 1.4rem; }
 .lwk-events-past { margin-top: var(--t-section); }
 .lwk-event-registration .lwk-event-facts { margin-top: 1rem; }
+
+/* Article extras: share links, previous / next */
+.lwk-share { margin-top: 2.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
+.lwk-share-title { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 700; margin: 0; color: var(--muted); }
+.lwk-share-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.lwk-share-list a, .lwk-share-list button { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.5rem; padding: 0.35rem 0.8rem; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); font: 600 0.85rem/1 var(--font-ui); text-decoration: none; cursor: pointer; }
+.lwk-share-list a:hover, .lwk-share-list button:hover { border-color: var(--brand); color: var(--brand-strong); }
+.lwk-share-list .lwk-icon { width: 1rem; height: 1rem; }
+.lwk-adjacent { display: grid; gap: 1rem; margin-top: 3rem; }
+@media (min-width: 40em) { .lwk-adjacent { grid-template-columns: 1fr 1fr; } .lwk-adjacent-next { grid-column: 2; text-align: right; } }
+.lwk-adjacent a { display: grid; gap: 0.35rem; padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); text-decoration: none; }
+.lwk-adjacent a:hover { border-color: var(--brand); }
+.lwk-adjacent a:hover strong { color: var(--link); }

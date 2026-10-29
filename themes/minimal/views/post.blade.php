@@ -39,7 +39,20 @@
                 </p>
             @endif
 
+            @if (setting('general.share_buttons', true) && ! ($preview ?? false))<x-lwk.share :url="$seo->canonical" :title="$post->title" />@endif
+
             <x-lwk.author-box :author="$post->author" />
+
+            @if (($adjacent['previous'] ?? null) || ($adjacent['next'] ?? null))
+                <nav class="lwk-adjacent" aria-label="{{ __('larawebkit-front.adjacent') }}">
+                    @if ($adjacent['previous'])
+                        <a href="{{ $adjacent['previous']->publicPath() }}" rel="prev" class="lwk-adjacent-prev"><span class="lwk-meta">← {{ __('larawebkit-front.previous_post') }}</span><strong>{{ $adjacent['previous']->title }}</strong></a>
+                    @endif
+                    @if ($adjacent['next'])
+                        <a href="{{ $adjacent['next']->publicPath() }}" rel="next" class="lwk-adjacent-next"><span class="lwk-meta">{{ __('larawebkit-front.next_post') }} →</span><strong>{{ $adjacent['next']->title }}</strong></a>
+                    @endif
+                </nav>
+            @endif
         </div>
 
         @if ($related->isNotEmpty())

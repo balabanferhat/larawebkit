@@ -24,6 +24,7 @@ return [
     'general.default_locale' => ['type' => 'select', 'default' => 'en', 'group' => 'general', 'options' => 'locales'],
     'general.active_locales' => ['type' => 'multiselect', 'default' => ['en'], 'group' => 'general', 'options' => 'locales'],
     'general.posts_per_page' => ['type' => 'int', 'default' => 10, 'group' => 'general', 'rules' => ['integer', 'min:1', 'max:100']],
+    'general.share_buttons' => ['type' => 'bool', 'default' => true, 'group' => 'general'],
 
     // Appearance: design tokens read by every theme (empty / "theme" = the theme's default)
     'general.theme' => ['type' => 'select', 'default' => 'minimal', 'group' => 'theme', 'page' => 'themes', 'options' => 'themes'],

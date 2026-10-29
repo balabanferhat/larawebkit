@@ -61,6 +61,7 @@ return [
             'default_locale' => 'Varsayılan dil',
             'active_locales' => 'Etkin diller',
             'posts_per_page' => 'Sayfa başına yazı',
+            'share_buttons' => 'Yazıların altında paylaşım bağlantıları (düz bağlantı, üçüncü taraf betiği yok)',
             'theme' => 'Tema',
         ],
         'social' => [

@@ -2,7 +2,7 @@
  * larawebkit theme script, shared by every theme through the parent chain. Small on purpose
  * (no framework): everything works without it, this only adds toggles and keyboard support.
  * Mobile menu, dropdowns (disclosure pattern), dark-mode switch, announcement dismissal,
- * gallery lightbox and click-to-load video embeds.
+ * gallery lightbox, click-to-load video embeds and the share "copy link" button.
  */
 (function () {
     'use strict';
@@ -140,5 +140,21 @@
         }
         show(index);
         dialog.showModal();
+    }
+
+    // Share: "Copy link" only exists with JavaScript and the Clipboard API.
+    if (navigator.clipboard) {
+        d.querySelectorAll('[data-lwk-share-copy]').forEach(function (li) {
+            li.hidden = false;
+            var button = li.querySelector('button');
+            var label = button.querySelector('span');
+            var text = label.textContent;
+            button.addEventListener('click', function () {
+                navigator.clipboard.writeText(button.dataset.url).then(function () {
+                    label.textContent = button.dataset.copied;
+                    setTimeout(function () { label.textContent = text; }, 2500);
+                });
+            });
+        });
     }
 })();

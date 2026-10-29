@@ -61,6 +61,7 @@ return [
             'default_locale' => 'Default language',
             'active_locales' => 'Active languages',
             'posts_per_page' => 'Posts per page',
+            'share_buttons' => 'Share links under posts (plain links, no third-party scripts)',
             'theme' => 'Theme',
         ],
         'social' => [

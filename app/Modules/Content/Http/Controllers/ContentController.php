@@ -137,10 +137,11 @@ class ContentController extends Controller
     {
         $seo = SeoData::forContent($post);
         $related = $post->related();
+        $adjacent = $post->adjacent();
         // Members-only: logged-in verified members (Members module) and admins see the full text.
         $locked = $post->members_only && ! (ModuleRegistry::enabled('members') ? Members::canSeeMembersOnly() : auth()->check());
 
-        return response()->view($this->theme->view('post'), compact('post', 'seo', 'related', 'locked', 'preview'));
+        return response()->view($this->theme->view('post'), compact('post', 'seo', 'related', 'adjacent', 'locked', 'preview'));
     }
 
     private function renderPage(Request $request, Page $page, ?string $canonicalPath = null, bool $preview = false): Response
