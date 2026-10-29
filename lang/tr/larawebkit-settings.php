@@ -2,6 +2,17 @@
 
 return [
     'title' => 'Ayarlar',
+    'mail_test' => [
+        'action' => 'Deneme e-postası gönder',
+        'description' => '.env içindeki ayarlarla hemen bir e-posta gönderir (gönderici: :mailer, sunucu: :host, kimden: :from). Hatalar burada gösterilir.',
+        'to' => 'Alıcı',
+        'subject' => ':site deneme e-postası',
+        'body' => 'Bunu okuyabiliyorsanız sitenizin e-postaları çalışıyor: doğrulama bağlantıları, form bildirimleri, bültenler ve etkinlik onayları ulaşacak.',
+        'details' => 'Gönderici: :mailer · gönderim :date',
+        'sent' => 'Deneme e-postası :email adresine gönderildi. Gelen kutusuna (ve istenmeyen klasörüne) bakın.',
+        'failed' => 'E-posta gönderilemedi',
+        'not_sent' => 'MAIL_MAILER ":mailer" olarak ayarlı: e-postalar teslim edilmez, günlüğe yazılır. .env içinde SMTP değerlerini girin.',
+    ],
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
         'backup' => 'Yedekler',

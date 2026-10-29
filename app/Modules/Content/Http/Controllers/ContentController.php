@@ -119,6 +119,21 @@ class ContentController extends Controller
     public function preview(Request $request, string $type, int $id): Response
     {
         abort_unless($request->user()?->canAccessPanel(Filament::getPanel('admin')), 403);
+
+        return $this->renderPreview($request, $type, $id);
+    }
+
+    /** Signed, expiring link from "Share preview link": the current version without logging in. */
+    public function sharedPreview(Request $request, string $type, int $id): Response
+    {
+        $response = $this->renderPreview($request, $type, $id);
+        $response->headers->set('Referrer-Policy', 'no-referrer');
+
+        return $response;
+    }
+
+    private function renderPreview(Request $request, string $type, int $id): Response
+    {
         $model = match ($type) {
             'post' => Post::with('featuredMedia', 'author', 'categories', 'tags')->findOrFail($id),
             'page' => Page::with('featuredMedia', 'author')->findOrFail($id),

@@ -49,6 +49,9 @@ return [
     'download_disk' => 'local',
     'download_link_hours' => (int) env('DOWNLOAD_LINK_HOURS', 72),
 
+    // "Share preview link" for drafts: how long the signed link works.
+    'preview_link_hours' => (int) env('PREVIEW_LINK_HOURS', 72),
+
     // Written by the scheduler every minute; read by larawebkit:deploy-check.
     'heartbeat_file' => storage_path('framework/larawebkit-heartbeat'),
 

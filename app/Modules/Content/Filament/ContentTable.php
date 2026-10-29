@@ -3,6 +3,8 @@
 namespace App\Modules\Content\Filament;
 
 use App\Models\User;
+use App\Modules\Content\Filament\Resources\Posts\PostResource;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -26,7 +28,7 @@ class ContentTable
     }
 
     /** @param  array<int, mixed>  $extraColumns */
-    public static function configure(Table $table, array $extraColumns = [], array $extraFilters = []): Table
+    public static function configure(Table $table, array $extraColumns = [], array $extraFilters = [], ?string $resource = null): Table
     {
         return $table
             ->defaultSort('updated_at', 'desc')
@@ -65,7 +67,13 @@ class ContentTable
                 ...$extraFilters,
                 TrashedFilter::make(),
             ])
-            ->recordActions([EditAction::make(), DeleteAction::make(), RestoreAction::make(), ForceDeleteAction::make()])
-            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
+            ->recordActions([
+                EditAction::make(),
+                ActionGroup::make([
+                    ...($resource ? [ContentActions::duplicate($resource)] : []),
+                    DeleteAction::make(), RestoreAction::make(), ForceDeleteAction::make(),
+                ]),
+            ])
+            ->toolbarActions([BulkActionGroup::make([...ContentActions::bulk($resource === PostResource::class), DeleteBulkAction::make()])]);
     }
 }

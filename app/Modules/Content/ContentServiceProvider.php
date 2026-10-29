@@ -56,6 +56,9 @@ class ContentServiceProvider extends ServiceProvider
 
         Route::middleware(['web', 'front-locale'])->group(function () use ($reserved, $locales) {
             Route::middleware('auth')->get('/_preview/{type}/{id}', [ContentController::class, 'preview'])->name('larawebkit.preview');
+            // Shareable draft preview (Share preview link): signed and expiring, no login.
+            Route::middleware(['signed', 'throttle:60,1'])->get('/_preview/shared/{type}/{id}', [ContentController::class, 'sharedPreview'])
+                ->whereIn('type', ['post', 'page'])->whereNumber('id')->name('larawebkit.preview.shared');
 
             Route::name('front.')->group(fn () => self::frontRoutes());
             Route::prefix('{locale}')->where(['locale' => $locales])->name('front.localized.')->group(function () use ($reserved) {

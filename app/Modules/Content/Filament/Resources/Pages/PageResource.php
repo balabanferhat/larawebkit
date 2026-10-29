@@ -98,6 +98,7 @@ class PageResource extends Resource
         return ContentTable::configure($table,
             [TextColumn::make('template')->label(__('larawebkit-editor.fields.template'))->formatStateUsing(fn (string $state) => __("larawebkit-content.templates.$state"))->toggleable()],
             [SelectFilter::make('template')->label(__('larawebkit-editor.fields.template'))->options(collect(Page::TEMPLATES)->mapWithKeys(fn ($t) => [$t => __("larawebkit-content.templates.$t")])->all())],
+            static::class,
         )->reorderable('sort_order');
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Content\Filament\Resources\Posts\Pages;
 
+use App\Modules\Content\Filament\ContentActions;
 use App\Modules\Content\Filament\Resources\Posts\PostResource;
 use App\Modules\Editor\Concerns\InteractsWithContentEditor;
 use Filament\Actions\Action;
@@ -23,6 +24,8 @@ class EditPost extends EditRecord
                 ->icon('heroicon-o-arrow-top-right-on-square')
                 ->url(fn () => $this->getRecord()->isPublished() ? $this->getRecord()->url() : route('larawebkit.preview', ['type' => 'post', 'id' => $this->getRecord()->getKey()]))
                 ->openUrlInNewTab(),
+            ContentActions::sharePreview('post')->visible(fn () => ! $this->getRecord()->isPublished()),
+            ContentActions::duplicate(PostResource::class),
             DeleteAction::make(),
         ];
     }
