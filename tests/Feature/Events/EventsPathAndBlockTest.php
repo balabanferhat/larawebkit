@@ -4,6 +4,7 @@ use App\Modules\Blocks\BlockRegistry;
 use App\Modules\Content\Models\Page;
 use App\Modules\Events\Models\Event;
 use App\Modules\Settings\SettingsRepository;
+use Illuminate\Support\Env;
 
 afterEach(function () {
     putenv('EVENTS_PATHS');
@@ -16,6 +17,7 @@ function upcoming(array $attributes = []): Event
 }
 
 it('serves the events pages at a path per language', function () {
+    Env::getRepository()->clear('EVENTS_PATHS'); // see PostPrefixTest
     putenv('EVENTS_PATHS=tr:etkinlikler');
     $_ENV['EVENTS_PATHS'] = $_SERVER['EVENTS_PATHS'] = 'tr:etkinlikler';
     $this->refreshApplication();

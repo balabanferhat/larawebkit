@@ -4,11 +4,15 @@ use App\Modules\Content\Models\Category;
 use App\Modules\Content\Models\Page;
 use App\Modules\Content\Models\Post;
 use App\Modules\Settings\SettingsRepository;
+use Illuminate\Support\Env;
 
 /** Routes are registered at boot: rebuild the app with the given prefix and a fresh database. */
 function bootWithPostPrefix(string $prefix, string $blog = 'blog'): void
 {
     foreach (['POST_PREFIX' => $prefix, 'BLOG_PATH' => $blog] as $key => $value) {
+        // The env repository is static and reloads what it read from .env: forget it first, so the
+        // value set here counts as external and survives the refresh.
+        Env::getRepository()->clear($key);
         putenv("$key=$value");
         $_ENV[$key] = $_SERVER[$key] = $value;
     }
