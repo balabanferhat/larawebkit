@@ -54,6 +54,7 @@ return [
         'grotesk' => 'Space Grotesk + Inter',
         'fraunces' => 'Fraunces + Inter',
         'editorial' => 'Newsreader + Source Serif 4',
+        'classic' => 'Classic: system serif headings + system sans (no download)',
     ],
     'radius' => [
         'none' => 'Square',

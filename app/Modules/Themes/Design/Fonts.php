@@ -21,8 +21,12 @@ final class Fonts
 
     public const SERIF = 'ui-serif, Georgia, Cambria, "Times New Roman", serif';
 
-    /** @var array<string, array{name: string, file: string, weight: string, fallback: string}> */
+    /** Book-like serifs every system already has (macOS, iOS, Windows, Android): a classic look with no download. */
+    public const CLASSIC_SERIF = '"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif';
+
+    /** @var array<string, array{name: ?string, file: ?string, weight: string, fallback: string}> Families without a file are system fonts. */
     public const FAMILIES = [
+        'system-serif' => ['name' => null, 'file' => null, 'weight' => '400 700', 'fallback' => self::CLASSIC_SERIF],
         'inter' => ['name' => 'Inter Variable', 'file' => 'inter', 'weight' => '100 900', 'fallback' => self::SANS],
         'jakarta' => ['name' => 'Plus Jakarta Sans Variable', 'file' => 'plus-jakarta-sans', 'weight' => '200 800', 'fallback' => self::SANS],
         'grotesk' => ['name' => 'Space Grotesk Variable', 'file' => 'space-grotesk', 'weight' => '300 700', 'fallback' => self::SANS],
@@ -39,6 +43,7 @@ final class Fonts
         'grotesk' => ['grotesk', 'inter'],
         'fraunces' => ['fraunces', 'inter'],
         'editorial' => ['newsreader', 'source-serif'],
+        'classic' => ['system-serif', null],
     ];
 
     /** @return array<string, string> */
@@ -61,14 +66,22 @@ final class Fonts
             return $fallback;
         }
 
-        return '"'.self::FAMILIES[$family]['name'].'", '.self::FAMILIES[$family]['fallback'];
+        $f = self::FAMILIES[$family];
+
+        return $f['name'] === null ? $f['fallback'] : '"'.$f['name'].'", '.$f['fallback'];
+    }
+
+    /** @return list<string> the families of a pair that are font files (not system fonts) */
+    private static function downloaded(string $pairKey): array
+    {
+        return array_values(array_filter(array_unique(array_filter(self::pair($pairKey))), fn ($f) => (self::FAMILIES[$f]['file'] ?? null) !== null));
     }
 
     /** @font-face rules for the families of a pair. */
     public static function faceCss(string $pairKey): string
     {
         $css = '';
-        foreach (array_unique(array_filter(self::pair($pairKey))) as $family) {
+        foreach (self::downloaded($pairKey) as $family) {
             $f = self::FAMILIES[$family];
             foreach (['latin-ext' => self::LATIN_EXT, 'latin' => self::LATIN] as $subset => $range) {
                 $url = asset("fonts/lwk/{$f['file']}-$subset.woff2");
@@ -83,7 +96,7 @@ final class Fonts
     public static function preloads(string $pairKey): HtmlString
     {
         $tags = '';
-        foreach (array_unique(array_filter(self::pair($pairKey))) as $family) {
+        foreach (self::downloaded($pairKey) as $family) {
             $url = asset('fonts/lwk/'.self::FAMILIES[$family]['file'].'-latin.woff2');
             $tags .= '<link rel="preload" href="'.e($url).'" as="font" type="font/woff2" crossorigin>';
         }
