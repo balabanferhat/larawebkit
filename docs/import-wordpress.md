@@ -20,8 +20,8 @@ them) become drafts. Imported posts are not sent to IndexNow: search engines alr
 
 ## Excerpts and alt text
 
-Hand-written excerpts are kept. WordPress's automatic ones (the first words of the body with the paragraphs
-glued together) are rebuilt from the cleaned body. Featured images without alt text get the post title, or the
+Hand-written excerpts are kept. Empty ones and WordPress's automatic ones (the first words of the body with
+the paragraphs glued together) are built from the paragraphs of the cleaned body. Featured images without alt text get the post title, or the
 media title when it describes the picture; the report lists every image without alt text so you can describe
 them in the media library.
 
@@ -39,7 +39,10 @@ Redirect targets use the language of the import (`--locale`). To keep WordPress 
 (`/hello/`) set `POST_PREFIX=` (empty) in `.env` before importing: posts then live at `/{slug}` and need no
 redirect (a page with the same path wins). Otherwise:
 
-Pages keep their paths. Posts, categories and tags move to `/blog/...`; for every old URL that changes (e.g.
+Pages keep their paths. An empty page is skipped and its old address sent home, unless that address is a route
+here (an empty WordPress "Blog" page at `/blog/`, the events path): then it is only skipped, so the post listing
+stays reachable. Changing `POST_PREFIX` or `BLOG_PATH` later? Run the import again: the importer's own redirects
+are updated to the new addresses (redirects you made or edited in the admin are left alone). Posts, categories and tags move to `/blog/...`; for every old URL that changes (e.g.
 `/2024/05/hello/` → `/blog/hello`, `/category/news/` → `/blog/category/news`) a 301 redirect is added
 (Content → Redirects, marked automatic). Point the domain at the new site after the import and old links keep
 working.

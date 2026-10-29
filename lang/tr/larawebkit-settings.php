@@ -42,6 +42,7 @@ return [
         'newsletter' => [
             'require_consent' => 'Açık rıza iste (işaretlenmemiş onay kutusu)',
             'consent_text' => 'Onay metni',
+            'consent_page' => 'Onay metninin bağlantısı',
             'consent_version' => 'Onay metni sürümü',
             'band_title' => 'Kayıt kutusu başlığı',
             'band_text' => 'Kayıt kutusu metni',
@@ -144,6 +145,7 @@ return [
         'newsletter' => [
             'require_consent' => 'Çift onay adresi doğrular; KVKK / GDPR kapsamında ayrıca bir onay kutusu gerekebilir. Kabul edilen metin ve sürümü her aboneyle birlikte saklanır.',
             'consent_text' => 'Onay kutusunun yanında, ardından gizlilik politikası bağlantısıyla gösterilir. Boş: tarafsız bir varsayılan.',
+            'consent_page' => 'Örneğin ayrı bir KVKK aydınlatma metni sayfası. Boş: gizlilik politikası.',
             'consent_version' => 'Metni her değiştirdiğinizde artırın: her abone kabul ettiği sürümü saklar.',
             'band_text' => 'Temaların kayıt kutularında kullanılır. Boş: tarafsız bir metin. Yalnız tutabileceğiniz bir sıklık vaadi yazın.',
             'download' => 'İsteğe bağlı. Aboneliğini onaylayan kişi bu dosya için imzalı bir bağlantı alır (sayfada ve e-postayla). Dosya gizli kalır.',

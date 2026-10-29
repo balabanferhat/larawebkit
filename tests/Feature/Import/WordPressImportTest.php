@@ -316,3 +316,16 @@ it('treats a redirect edited in the admin as hand-made', function () {
 
     expect($redirect->fresh())->to_url->toBe('/blog/y')->is_automatic->toBeFalse();
 });
+
+it('builds a missing excerpt from the body paragraphs', function () {
+    $posts = wpFixture('posts-1');
+    $posts[1]['excerpt']['rendered'] = '';
+    $posts[1]['content']['rendered'] = '<h2>Giriş</h2><p>İlk paragraf.</p><figure><img src="https://cdn.othersite.net/a.jpg" alt=""><figcaption>Bir resim</figcaption></figure><p>İkinci paragraf.</p>';
+    unset($posts[0]['excerpt']); // no excerpt field at all
+    fakeWordPress(['posts-1' => $posts]);
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--no-images' => true])->assertSuccessful();
+
+    expect(Post::where('slug', 'my-diary')->sole()->excerpt)->toBe('İlk paragraf. İkinci paragraf.')
+        ->and(Post::where('slug', 'hello-tomatoes')->sole()->excerpt)->toStartWith('Tomatoes love the sun. See about us.');
+});

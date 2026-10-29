@@ -317,14 +317,15 @@ final class WordPressImporter
 
     /**
      * WordPress builds automatic excerpts by stripping the tags of the body, which glues paragraphs together
-     * ("Nerede?Dışarıda…"). A hand-written excerpt is kept; an automatic one is rebuilt from the cleaned body.
+     * ("Nerede?Dışarıda…"). A hand-written excerpt is kept; an automatic or empty one is built from the body.
      */
     private function excerpt(string $excerpt, string $content): ?string
     {
         $text = MarkupCleaner::text($excerpt);
         $body = MarkupCleaner::text($content);
         $squash = fn (string $s) => preg_replace('/[\s\x{00A0}]+/u', '', rtrim($s, '.…'));
-        if ($text !== '' && $body !== '' && str_starts_with($squash($body), $squash($text))) {
+        // Empty, or WordPress's automatic one: built from the body.
+        if ($body !== '' && ($text === '' || str_starts_with($squash($body), $squash($text)))) {
             // Paragraph text only: captions, headings and embed links make a poor summary.
             preg_match_all('#<p>(.*?)</p>#s', $content, $m);
             $paragraphs = array_filter(array_map(fn ($p) => MarkupCleaner::text($p), $m[1]), fn ($p) => $p !== '' && ! preg_match('#^https?://\S+$#', $p));

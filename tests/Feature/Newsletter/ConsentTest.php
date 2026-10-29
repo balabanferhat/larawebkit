@@ -1,8 +1,10 @@
 <?php
 
+use App\Modules\Content\Models\Page;
 use App\Modules\Newsletter\Filament\Resources\Subscribers\Pages\ListSubscribers;
 use App\Modules\Newsletter\Models\Subscriber;
 use App\Modules\Newsletter\SubscriberExport;
+use App\Modules\Settings\Filament\Pages\ManageSettings;
 use App\Modules\Settings\SettingsRepository;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Crypt;
@@ -54,4 +56,25 @@ it('uses the sign-up box text from the settings, and the personal theme promises
 
     app(SettingsRepository::class)->setMany(['newsletter.band_title' => 'Birtane mektupları', 'newsletter.band_text' => 'Ayda bir mektup.']);
     $this->get('/blog')->assertSee('Birtane mektupları')->assertSee('Ayda bir mektup.');
+});
+
+it('links the consent text to the page chosen in the settings, in the visitor language', function () {
+    app(SettingsRepository::class)->set('newsletter.require_consent', true);
+    $this->get('/')->assertSee('href="/privacy-policy"', false); // default unchanged
+
+    $notice = Page::factory()->published()->create(['title' => 'Data protection notice', 'slug' => 'data-notice', 'locale' => 'en']);
+    app(SettingsRepository::class)->set('newsletter.consent_page', (string) $notice->id);
+
+    $this->get('/')->assertSee('href="/data-notice"', false)->assertDontSee('href="/privacy-policy">'.__('larawebkit-front.newsletter.privacy'), false);
+    expect(Subscriber::consentUrl())->toBe('/data-notice');
+
+    // A translation of the chosen page is used in its language; a deleted page falls back to the privacy policy.
+    app(SettingsRepository::class)->set('general.active_locales', ['en', 'tr']);
+    Page::factory()->published()->create(['title' => 'Aydınlatma metni', 'slug' => 'aydinlatma-metni', 'locale' => 'tr', 'translation_group' => $notice->translation_group]);
+    expect(Subscriber::consentUrl('tr'))->toBe('/tr/aydinlatma-metni');
+    $notice->delete();
+    expect(Subscriber::consentUrl('en'))->toBe('/privacy-policy');
+
+    $this->actingAs(superAdmin());
+    Livewire::test(ManageSettings::class)->assertSee('Aydınlatma metni (tr)');
 });

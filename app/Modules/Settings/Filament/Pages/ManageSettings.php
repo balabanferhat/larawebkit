@@ -2,6 +2,7 @@
 
 namespace App\Modules\Settings\Filament\Pages;
 
+use App\Modules\Content\Models\Page as ContentPage;
 use App\Modules\Geo\AiCrawlerPolicy;
 use App\Modules\Media\Filament\MediaPicker;
 use App\Modules\Settings\Mail\TestMail;
@@ -227,6 +228,9 @@ class ManageSettings extends Page
         return match ($source) {
             'locales' => (array) config('larawebkit.locales'),
             'themes' => app(ThemeManager::class)->options(),
+            // Published pages, for settings that link to one (e.g. the newsletter consent text).
+            'pages' => class_exists(ContentPage::class) ? ContentPage::published()->orderBy('title')->get(['id', 'title', 'locale'])
+                ->mapWithKeys(fn (ContentPage $p) => [(string) $p->id => $p->title.' ('.$p->locale.')'])->all() : [],
             'font_pairs' => ['theme' => __('larawebkit-themes.theme_default')] + Fonts::options(),
             'radii' => ['theme' => __('larawebkit-themes.theme_default')] + collect(array_keys(DesignTokens::RADII))->mapWithKeys(fn ($r) => [$r => __("larawebkit-themes.radius.$r")])->all(),
             default => [],
