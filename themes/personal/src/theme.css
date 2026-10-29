@@ -33,7 +33,7 @@ h1, h2, .lwk-hero-title, .lwk-section-heading { font-variation-settings: "SOFT" 
 .lwk-prose > p:first-child::first-letter { float: left; font-family: var(--font-heading); font-size: 3.6em; line-height: 0.85; padding: 0.08em 0.1em 0 0; color: var(--brand-strong); }
 
 /* Footer */
-.lwk-newsletter-band { padding-block: clamp(3rem, 7vw, 5rem); background: var(--brand); color: var(--on-brand); --text: var(--on-brand); --muted: color-mix(in srgb, var(--on-brand) 80%, transparent); }
+.lwk-newsletter-band { padding-block: clamp(3rem, 7vw, 5rem); background: var(--brand); color: var(--on-brand); --text: var(--on-brand); --muted: var(--on-brand); }
 .lwk-newsletter-band .lwk-newsletter { max-width: 40rem; margin-inline: auto; text-align: center; justify-items: center; }
 .lwk-newsletter-band .lwk-newsletter-title { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); }
 .lwk-newsletter-band .lwk-inline-form { width: 100%; max-width: 30rem; }

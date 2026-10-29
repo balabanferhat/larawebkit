@@ -2,8 +2,11 @@
 
 namespace App\Modules\Core\Console;
 
+use App\Modules\Core\ModuleRegistry;
 use App\Modules\Media\ImagePipeline;
 use App\Modules\Media\MemoryBudget;
+use App\Modules\Themes\ThemeAssets;
+use App\Modules\Themes\ThemeManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -67,6 +70,17 @@ class DeployCheckCommand extends Command
         // Only needed when media lives on the "public" disk (MEDIA_DISK=public_uploads writes into public/ directly).
         if (config('larawebkit-media.disk') === 'public') {
             $this->check(is_link(public_path('storage')) || is_dir(public_path('storage')), __('larawebkit.deploy_check.storage_link'), ! $production);
+        }
+
+        // Theme assets should be served by the web server (public/themes); the PHP fallback route is slower.
+        if (ModuleRegistry::enabled('themes')) {
+            $published = rescue(function () {
+                $themes = app(ThemeManager::class);
+                $url = app(ThemeAssets::class)->url('theme.css');
+
+                return $url !== null && str_contains($url, '/'.trim((string) config('larawebkit-themes.public_path', 'themes'), '/').'/') && $themes->exists($themes->active());
+            }, false, report: false);
+            $this->check($published, __('larawebkit.deploy_check.themes'), true);
         }
 
         $dbOk = false;

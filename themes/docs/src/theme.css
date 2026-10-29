@@ -42,7 +42,7 @@
 .lwk-docs-hero h1 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.4rem); }
 .lwk-docs-hero .lwk-lead { margin: 1rem auto 0; }
 .lwk-docs-search { display: flex; align-items: center; gap: 0.5rem; max-width: 38rem; margin: 2rem auto 0; padding: 0.4rem 0.4rem 0.4rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--t-shadow-lg); }
-.lwk-docs-search input { flex: 1; border: 0; background: none; min-height: 2.5rem; font-size: 1.05rem; }
+.lwk-docs-search input { flex: 1; min-width: 0; border: 0; background: none; min-height: 2.5rem; font-size: 1.05rem; }
 .lwk-docs-search input:focus { outline: none; }
 .lwk-docs-search:focus-within { border-color: var(--link); }
 .lwk-docs-search .lwk-icon { color: var(--muted); }

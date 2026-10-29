@@ -7,6 +7,26 @@
 
 return [
     'post_excerpt' => 'Yer tutucu metinli demo yazısı. Kendi hikâyenizle değiştirin ya da siteniz hazır olduğunda silin.',
+    'blog' => [
+        'name' => 'Saha Notları',
+        'tagline' => 'Yazı, araçlar ve dikkat üzerine kısa notlar. Bir demo blog.',
+        'footer' => 'Saha Notları, larawebkit Sade temasının demo blogudur.',
+        'role' => 'Yazar',
+        'bio' => 'Sam, larawebkit demosu için hayalî bir yazardır.',
+        'category' => 'Notlar',
+        'blog' => 'Blog',
+        'about' => 'Hakkımda',
+        'about_text' => 'Bu blog larawebkit demosunun parçasıdır. Kendinizden ve okurların burada ne bulacağından birkaç cümleyle bahsedin.',
+        'privacy' => 'Gizlilik',
+        'cookies' => 'Çerezler',
+        'posts' => [
+            ['title' => 'Bir ay boyunca her sabah yazmak', 'excerpt' => 'Neler değişti, neler değişmedi ve sürdürdüğüm tek alışkanlık.'],
+            ['title' => 'Gerçekten kullandığım araçlar', 'excerpt' => 'Kısa bir liste ve neden giderek kısaldığı.'],
+            ['title' => 'Dikkat üzerine notlar', 'excerpt' => 'Daha az bildirimle küçük deneyler.'],
+            ['title' => 'Neden kâğıt defter tutuyorum', 'excerpt' => 'Yavaş girdi, daha iyi düşünme.'],
+            ['title' => 'Bitirmek üzerine', 'excerpt' => 'Bitmiş olmak bir özelliktir.'],
+        ],
+    ],
     'article' => [
         'paragraphs' => [
             'Bu, larawebkit demosundaki yer tutucu metindir. Gerçek bir yazının bu temada nasıl okunduğunu gösterir: satır uzunluğu, paragraflar arası boşluk, başlıkların, listelerin ve alıntıların görünümü. Hazır olduğunuzda kendi cümlelerinizle değiştirin.',

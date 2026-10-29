@@ -10,18 +10,24 @@ permissions:
 
 jobs:
   tests:
-    name: Tests (PHP ${{ matrix.php }}, ${{ matrix.os }})
+    name: Tests (PHP ${{ matrix.php }}, ${{ matrix.os }}, ${{ matrix.memory }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
         php: ['8.3', '8.4']
+        memory: ['256M']
         include:
+          # The smallest shared-hosting budget.
+          - os: ubuntu-latest
+            php: '8.3'
+            memory: '128M'
           # Windows PHP bundles GD, so image bitmaps count towards memory_limit there
           # (Linux distributions link the system libgd, whose memory PHP does not see).
           - os: windows-latest
             php: '8.3'
+            memory: '256M'
     steps:
       - uses: actions/checkout@v4
 
@@ -29,8 +35,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: gd, intl, pdo_sqlite, zip, fileinfo, exif, mbstring
-          # Shared-hosting budget: the suite must pass at 256M (phpunit.xml sets it as well).
-          ini-values: memory_limit=256M
+          # Shared-hosting budget: the suite must pass at 256M and at 128M.
+          ini-values: memory_limit=${{ matrix.memory }}
           coverage: none
 
       - uses: actions/setup-node@v4
@@ -49,7 +55,24 @@ jobs:
           php -r "echo 'memory_limit=' . ini_get('memory_limit') . PHP_EOL;"
 
       - name: PHP tests (Pest)
+        if: matrix.memory != '128M'
         run: php artisan test
+
+      # One process per test file: a single process running the whole suite keeps every loaded
+      # class (Filament, Livewire, ...) and needs ~110 MB before the first image is decoded, which
+      # says nothing about a real request. Per file, each feature must fit the 128M budget.
+      - name: PHP tests (Pest) at 128M, one process per file
+        if: matrix.memory == '128M'
+        shell: bash
+        run: |
+          status=0
+          for file in $(find tests/Feature tests/Unit -name '*Test.php' | sort); do
+            php -d memory_limit=128M vendor/bin/pest "$file" || status=1
+          done
+          exit $status
+
+      - name: Prebuilt theme CSS matches the sources
+        run: php artisan larawebkit:themes:build --check
 
       - name: JS scorer parity tests
         if: runner.os == 'Linux'

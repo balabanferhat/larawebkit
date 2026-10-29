@@ -18,8 +18,7 @@
         </include>
     </source>
     <php>
-        <!-- Shared hosting runs PHP with 128-256M: the suite must pass at 256M (CI enforces it too). -->
-        <ini name="memory_limit" value="256M"/>
+        <!-- Shared hosting runs PHP with 128-256M: CI runs the suite at 256M and at 128M (memory_limit comes from php.ini). -->
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>

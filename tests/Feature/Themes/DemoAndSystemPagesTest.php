@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
+    config(['larawebkit-themes.demo_manifest' => storage_path('framework/testing/larawebkit-demo.json')]);
     Storage::fake('public');
     Storage::fake('local');
     app(SettingsRepository::class)->set('features.page_cache', false);

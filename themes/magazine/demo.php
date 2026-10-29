@@ -47,7 +47,7 @@ return function (DemoBuilder $demo) {
             'tags' => [$t("sections.$section.name")],
             'author' => ['ada', 'kerem', 'nora'][$i % 3],
             'image' => "story-$i",
-            'image_kind' => $kinds[($i - 1) % 4],
+            'image_kind' => $kinds[$i % 3],
             'palette' => $palettes[$section],
             'days_ago' => (int) round($i * 1.7),
         ]);

@@ -108,7 +108,7 @@ code, kbd, pre { font-family: var(--font-mono); font-size: 0.9em; }
 .lwk-form button { justify-self: start; }
 .lwk-error { color: var(--t-error); font-size: 0.875rem; }
 .lwk-inline-form { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.lwk-inline-form input { flex: 1 1 14rem; width: auto; }
+.lwk-inline-form input { flex: 1 1 12rem; width: auto; min-width: 0; }
 .lwk-notice, .lwk-tldr { background: var(--bg-soft); border: 1px solid var(--border); border-left: 4px solid var(--brand); border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin: 1.5rem 0; }
 
 /* Announcement */

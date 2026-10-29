@@ -16,6 +16,9 @@ return [
     */
     'allow_upload' => (bool) env('THEMES_ALLOW_UPLOAD', false),
 
+    // What `larawebkit:demo` created, so the next run (or --remove) can delete it.
+    'demo_manifest' => storage_path('app/larawebkit-demo.json'),
+
     'max_upload_mb' => (int) env('THEMES_MAX_UPLOAD_MB', 20),
 
     // File types accepted inside an uploaded theme archive.

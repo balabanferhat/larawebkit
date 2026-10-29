@@ -7,6 +7,26 @@
 
 return [
     'post_excerpt' => 'Demo article with placeholder text. Replace it with your own story, or delete it once your site is ready.',
+    'blog' => [
+        'name' => 'Field Notes',
+        'tagline' => 'Short notes on writing, tools and paying attention. A demo blog.',
+        'footer' => 'Field Notes is a demo blog for the larawebkit Minimal theme.',
+        'role' => 'Writer',
+        'bio' => 'Sam is a fictional writer used for the larawebkit demo.',
+        'category' => 'Notes',
+        'blog' => 'Blog',
+        'about' => 'About',
+        'about_text' => 'This blog is part of the larawebkit demo. Write a few sentences about yourself and what readers can expect here.',
+        'privacy' => 'Privacy',
+        'cookies' => 'Cookies',
+        'posts' => [
+            ['title' => 'Writing every morning for a month', 'excerpt' => 'What changed, what did not, and the one habit I kept.'],
+            ['title' => 'The tools I actually use', 'excerpt' => 'A short list, and why it keeps getting shorter.'],
+            ['title' => 'Notes on paying attention', 'excerpt' => 'Small experiments with fewer notifications.'],
+            ['title' => 'Why I keep a paper notebook', 'excerpt' => 'Slow input, better thinking.'],
+            ['title' => 'On finishing things', 'excerpt' => 'Done is a feature.'],
+        ],
+    ],
     'article' => [
         'paragraphs' => [
             'This is placeholder text from the larawebkit demo. It shows how a real article reads in this theme: the line length, the spacing between paragraphs, how headings, lists and quotes look. Replace it with your own words when you are ready.',

@@ -3,6 +3,7 @@
 namespace App\Modules\Core\Console;
 
 use App\Models\User;
+use App\Modules\Core\ModuleRegistry;
 use App\Modules\Security\RolesAndPermissions;
 use App\Modules\Settings\SettingsRepository;
 use Database\Seeders\LarawebkitSeeder;
@@ -62,6 +63,9 @@ class InstallCommand extends Command
         ]);
         app()->setLocale($locale);
         $this->callSilently('db:seed', ['--class' => LarawebkitSeeder::class, '--force' => true]);
+        if (ModuleRegistry::enabled('themes')) {
+            $this->callSilently('larawebkit:themes:publish');
+        }
 
         $user = User::where('email', $email)->first();
         if ($user) {

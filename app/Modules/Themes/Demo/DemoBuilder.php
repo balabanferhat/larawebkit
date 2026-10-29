@@ -50,7 +50,7 @@ class DemoBuilder
 
     public static function manifestPath(): string
     {
-        return storage_path('app/larawebkit-demo.json');
+        return (string) config('larawebkit-themes.demo_manifest', storage_path('app/larawebkit-demo.json'));
     }
 
     /** Remove everything a previous demo run created. */
