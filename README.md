@@ -85,7 +85,18 @@ announcement bar, footer columns with contact details and social icons. Designed
 500, maintenance and empty states.
 
 **Front end** — dark mode, accessible markup (skip link, landmarks, one H1, breadcrumbs, TOC, focus styles),
-branded Markdown e-mails, contact form, optional double opt-in newsletter.
+branded Markdown e-mails, share links without third-party scripts, previous / next and related posts.
+
+**Forms, members, newsletter, events** — a **form builder** (10 field types, consent with version, file
+uploads, notification and confirmation e-mails, CSV export, lead-magnet downloads behind signed, expiring
+links); optional **front-end members** (register, verify, reset, profile, delete account, members-only posts
+that never leak into meta, feeds or AI files); **newsletter campaigns** with preview and test send, sent in
+small queued batches (shared-hosting friendly) with one-click unsubscribe and stats; optional **events** with
+free registration, capacity, calendar file, a private online link only registrants see, and Event schema.
+
+**Moving from WordPress** — `php artisan larawebkit:import:wordpress https://old-site.com --dry-run` imports
+posts, pages, categories, tags, authors and images (as WebP), cleans the block markup, keeps page URLs and adds
+301s for the rest; re-runs only update what changed ([guide](docs/import-wordpress.md)).
 
 **SEO** — titles/descriptions/canonical/OG/Twitter with fallbacks, auto 1200×630 OG image, hreflang,
 JSON-LD (Organization or Person, WebSite + SearchAction, BlogPosting/Article, BreadcrumbList, FAQPage,
@@ -104,6 +115,7 @@ built-in cookieless page counter, privacy and cookie policy templates.
 
 - [Architecture and module map](docs/architecture.md)
 - [Deploying to shared hosting](docs/deploy-shared-hosting.md)
+- [Importing from WordPress](docs/import-wordpress.md)
 - [Recipes for extending the kit](docs/recipes/README.md)
 - [Theme screenshots](docs/screenshots/themes) and [Lighthouse reports](docs/lighthouse/README.md)
 - [v0.1 plan](docs/plan.md), [v0.2 plan](docs/plan-v0.2.md)

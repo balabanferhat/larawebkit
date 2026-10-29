@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 function honeypot(): array
 {
@@ -184,4 +187,19 @@ it('moves v0.1 contact messages into the contact form', function () {
     $submission = FormSubmission::sole();
     expect($submission->form->slug)->toBe('contact')->and($submission->data['message'])->toBe('From v0.1')
         ->and(Schema::hasTable('contact_messages'))->toBeFalse();
+});
+
+it('renames the v0.1 contact permission and adds the v0.2 ones on upgrade', function () {
+    superAdmin();
+    $forms = Permission::findByName('manage forms', 'web');
+    $forms->update(['name' => 'manage contact messages']);
+    $custom = Role::create(['name' => 'support', 'guard_name' => 'web']);
+    $custom->givePermissionTo('manage contact messages');
+    Permission::where('name', 'manage events')->delete();
+    app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+    (require database_path('migrations/2026_10_29_000600_sync_v02_permissions.php'))->up();
+
+    expect($custom->fresh()->hasPermissionTo('manage forms'))->toBeTrue()
+        ->and(Role::findByName('editor', 'web')->hasPermissionTo('manage events'))->toBeTrue();
 });

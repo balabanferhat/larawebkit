@@ -25,10 +25,14 @@ config/larawebkit.php ─► App\Modules\Core\LarawebkitServiceProvider
 | Ai | `AiManager` with Anthropic / OpenAI / DeepSeek / Ollama drivers, fallback order, per-action model tier, prompt files, usage log, monthly budget, queued tasks | `AiManager`, `PromptRepository`, `RunAiTask` |
 | Themes | WordPress-style themes in `themes/{name}` (theme.json, parent chain, prebuilt assets), Appearance (design tokens, fonts, favicons, manifest), Themes page and zip installer, demo content, admin branding, content renderer | `ThemeManager`, `ThemeAssets`, `DesignTokens`, `Favicons`, `DemoBuilder`, `ContentRenderer` |
 | Blocks | section blocks for pages (Filament Builder → Blade components), presets, FAQ/text/media extraction for SEO, GEO and scores | `BlockRegistry`, `Block`, `BlockFields`, `BlockPresets` |
-| Seo | `SeoData` (meta, OG/Twitter, hreflang, JSON-LD), sitemaps, robots.txt, RSS, IndexNow, canonical host, full-page cache, 404 log | `SeoData`, `CanonicalUrl`, `PageCache`, `OgImage` |
+| Seo | `SeoData` (meta, OG/Twitter, hreflang, JSON-LD), sitemaps (modules add their own with `SitemapController::extend()`), robots.txt, RSS, IndexNow, canonical host, full-page cache, 404 log | `SeoData`, `CanonicalUrl`, `PageCache`, `OgImage` |
 | Geo | `llms.txt`, `llms-full.txt`, Markdown twins, AI crawler policy | `LlmsTxt`, `MarkdownTwin`, `AiCrawlerPolicy` |
 | Privacy | cookie consent banner (no analytics before consent), policy page stubs | `components/lwk/consent.blade.php` |
-| Contact / Newsletter | contact form (stored + e-mailed), double opt-in newsletter (optional) | `ContactController`, `NewsletterController` |
+| Forms | admin-defined forms (10 field types, conditional e-mails, consent with version, file uploads on the private disk, CSV export, lead-magnet downloads); the contact form is one of them; the `form` block embeds any form | `Form`, `FormSubmitter`, `FieldTypes`, `SubmissionExport` |
+| Members | front-end accounts on their own `member` guard (register, verify, reset, profile, delete account), members-only posts that never leak into meta, feeds, `.md` twins or `llms-full.txt` | `Member`, `Members`, `MemberAuthController`, `MemberDeleting` |
+| Newsletter | double opt-in subscribers, campaigns sent in queued batches by the scheduler, RFC 8058 one-click unsubscribe, send log and stats, lead magnet after confirmation | `CampaignSender`, `SendNewsletterBatch`, `CampaignMail` |
+| Events | events with free registration (members or guests), capacity, `.ics` file, encrypted online link shown only on the registrant's signed page, "send link to registrants", CSV, Event schema | `Event`, `Registration`, `Ics`, `EventController` |
+| Import | `larawebkit:import:wordpress` (REST API or export file): users, terms, pages, posts, images through the WebP pipeline, clean markup, 301s, idempotent via `import_map` | `WordPressImporter`, `MarkupCleaner`, `RestSource`, `FileSource` |
 | Dashboard | admin widgets: views, top pages, referrers (AI highlighted), content needing attention, recent changes, AI budget | `Analytics`, `Widgets\*` |
 
 ## Themes
