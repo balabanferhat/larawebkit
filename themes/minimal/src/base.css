@@ -394,3 +394,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .lwk-author-posts { font-size: 1.5rem; margin-bottom: 1.5rem; }
 .lwk-brand-name { display: inline-block; }
 .lwk-system-actions { justify-content: center; }
+
+/* Admin-defined forms */
+.lwk-form-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 40em) { .lwk-form-grid { grid-template-columns: 1fr 1fr; } .lwk-form-grid > .lwk-field { grid-column: 1 / -1; } .lwk-form-grid > .lwk-field.is-half { grid-column: auto; } }
+.lwk-form select { width: 100%; padding: 0.7rem 0.9rem; min-height: 2.75rem; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.lwk-form fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 0.35rem; }
+.lwk-form legend { font-family: var(--font-ui); font-weight: 600; font-size: 0.925rem; margin-bottom: 0.35rem; }
+.lwk-choice { display: flex !important; align-items: flex-start; gap: 0.6rem; font-weight: 400 !important; cursor: pointer; }
+.lwk-choice input { width: 1.15rem; height: 1.15rem; min-height: 0; margin-top: 0.2rem; accent-color: var(--brand); flex: none; }
+.lwk-form input[type="file"] { padding: 0.55rem; background: var(--bg-soft); }
+.lwk-help { font-size: 0.85rem; color: var(--muted); }
+.lwk-notice-success { border-left-color: var(--t-success); }
+.lwk-form-anchor { scroll-margin-top: calc(var(--t-header-h) + 2rem); }

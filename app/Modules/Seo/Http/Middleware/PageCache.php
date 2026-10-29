@@ -68,7 +68,7 @@ class PageCache
         }
         $admin = trim((string) config('larawebkit.admin_path', 'admin'), '/');
 
-        return ! $request->is($admin, $admin.'/*', 'livewire*', '_preview/*', 'search', '*/search', 'newsletter/*', 'contact');
+        return ! $request->is($admin, $admin.'/*', 'livewire*', '_preview/*', 'search', '*/search', 'newsletter/*', 'forms/*', 'download', 'account', 'account/*');
     }
 
     private function storable(Response $response): bool

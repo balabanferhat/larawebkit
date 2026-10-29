@@ -1,15 +1,6 @@
 <?php
 
 return [
-    'contact' => [
-        'singular' => 'Contact message',
-        'plural' => 'Contact messages',
-        'subject' => '[:site] New message: :subject',
-        'heading' => 'New contact form message',
-        'open_admin' => 'Open in admin',
-        'read' => 'Read',
-        'reply' => 'Reply',
-    ],
     'newsletter' => [
         'singular' => 'Subscriber',
         'plural' => 'Newsletter subscribers',

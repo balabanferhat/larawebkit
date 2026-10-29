@@ -1,15 +1,6 @@
 <?php
 
 return [
-    'contact' => [
-        'singular' => 'İletişim mesajı',
-        'plural' => 'İletişim mesajları',
-        'subject' => '[:site] Yeni mesaj: :subject',
-        'heading' => 'Yeni iletişim formu mesajı',
-        'open_admin' => 'Panelde aç',
-        'read' => 'Okundu',
-        'reply' => 'Yanıtla',
-    ],
     'newsletter' => [
         'singular' => 'Abone',
         'plural' => 'Bülten aboneleri',

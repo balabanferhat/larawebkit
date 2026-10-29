@@ -92,7 +92,6 @@ return [
         'features' => [
             'access_log' => 'Access log and built-in page counter',
             'page_cache' => 'Full-page cache for visitors',
-            'contact_form' => 'Contact form',
             'newsletter' => 'Newsletter sign-up (double opt-in)',
             'ai_assistant' => 'AI writing assistant (needs a provider key in .env)',
             'pexels' => 'Pexels stock photos (needs PEXELS_API_KEY in .env)',

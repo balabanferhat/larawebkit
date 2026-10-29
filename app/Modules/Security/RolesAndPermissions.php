@@ -30,7 +30,7 @@ class RolesAndPermissions
         'manage menus',
         'manage redirects',
         'use ai',
-        'manage contact messages',
+        'manage forms',
         'manage newsletter',
     ];
 
@@ -39,7 +39,7 @@ class RolesAndPermissions
         'editor' => [
             'view dashboard', 'manage pages', 'manage posts', 'manage own posts', 'publish content', 'override publish gate',
             'manage taxonomies', 'manage media', 'delete media', 'manage menus', 'manage redirects', 'use ai',
-            'manage contact messages', 'manage newsletter', 'view logs',
+            'manage forms', 'manage newsletter', 'view logs',
         ],
         'author' => ['view dashboard', 'manage own posts', 'manage media', 'use ai'],
     ];

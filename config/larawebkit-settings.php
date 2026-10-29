@@ -89,7 +89,6 @@ return [
     // Feature toggles
     'features.access_log' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.page_cache' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
-    'features.contact_form' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.newsletter' => ['type' => 'bool', 'default' => false, 'group' => 'features'],
     'features.ai_assistant' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.pexels' => ['type' => 'bool', 'default' => true, 'group' => 'features'],

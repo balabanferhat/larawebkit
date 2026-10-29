@@ -92,7 +92,6 @@ return [
         'features' => [
             'access_log' => 'Erişim kaydı ve dahili sayfa sayacı',
             'page_cache' => 'Ziyaretçiler için tam sayfa önbellek',
-            'contact_form' => 'İletişim formu',
             'newsletter' => 'Bülten kaydı (çift onaylı)',
             'ai_assistant' => 'Yapay zekâ yazım asistanı (.env içinde sağlayıcı anahtarı gerekir)',
             'pexels' => 'Pexels stok fotoğrafları (.env içinde PEXELS_API_KEY gerekir)',

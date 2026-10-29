@@ -11,9 +11,11 @@ use App\Modules\Content\Models\Redirect;
 use App\Modules\Content\Models\Tag;
 use App\Modules\Core\Console\DeployCheckCommand;
 use App\Modules\Core\Console\InstallCommand;
+use App\Modules\Core\Downloads\DownloadController;
 use App\Modules\Media\Models\Media;
 use App\Modules\Settings\Models\Setting;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\ServiceProvider;
 
@@ -48,6 +50,9 @@ class LarawebkitServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([InstallCommand::class, DeployCheckCommand::class]);
         }
+
+        // Signed, expiring links to private files (SignedDownload::url()).
+        Route::middleware(['web', 'signed', 'throttle:30,1'])->get('/download', DownloadController::class)->name('larawebkit.download');
 
         $this->app->booted(function () {
             Schedule::call(fn () => @file_put_contents((string) config('larawebkit.heartbeat_file'), (string) time()))
