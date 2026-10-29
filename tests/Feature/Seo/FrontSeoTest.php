@@ -6,8 +6,10 @@ use App\Modules\Content\Models\Post;
 use App\Modules\Content\Models\Redirect;
 use App\Modules\Content\Models\Tag;
 use App\Modules\Media\ImagePipeline;
+use App\Modules\Seo\Http\Middleware\CanonicalHost;
 use App\Modules\Seo\Models\NotFoundLog;
 use App\Modules\Settings\SettingsRepository;
+use Illuminate\Http\Request;
 
 function publishedPost(array $attributes = []): Post
 {
@@ -193,15 +195,15 @@ it('applies canonical host, https and trailing slash redirects', function () {
 
 it('answers an old URL with a trailing slash in one hop when a redirect exists', function () {
     config(['larawebkit-seo.enforce_in_tests' => true]);
-    App\Modules\Content\Models\Redirect::create(['from_path' => '/hello/', 'to_url' => '/blog/hello', 'status_code' => 301]);
-    App\Modules\Content\Models\Redirect::create(['from_path' => '/gone/', 'to_url' => null, 'status_code' => 410]);
+    Redirect::create(['from_path' => '/hello/', 'to_url' => '/blog/hello', 'status_code' => 301]);
+    Redirect::create(['from_path' => '/gone/', 'to_url' => null, 'status_code' => 410]);
 
     // The test client trims trailing slashes, so the middleware sees the real request here.
     $next = fn () => response('handled by HandleRedirects');
-    $middleware = app(App\Modules\Seo\Http\Middleware\CanonicalHost::class);
-    expect($middleware->handle(Illuminate\Http\Request::create('http://localhost/hello/'), $next)->getContent())->toBe('handled by HandleRedirects')
-        ->and($middleware->handle(Illuminate\Http\Request::create('http://localhost/gone/'), $next)->getContent())->toBe('handled by HandleRedirects')
-        ->and($middleware->handle(Illuminate\Http\Request::create('http://localhost/about/'), $next)->headers->get('Location'))->toBe('http://localhost/about');
+    $middleware = app(CanonicalHost::class);
+    expect($middleware->handle(Request::create('http://localhost/hello/'), $next)->getContent())->toBe('handled by HandleRedirects')
+        ->and($middleware->handle(Request::create('http://localhost/gone/'), $next)->getContent())->toBe('handled by HandleRedirects')
+        ->and($middleware->handle(Request::create('http://localhost/about/'), $next)->headers->get('Location'))->toBe('http://localhost/about');
     $this->get('http://localhost/hello/')->assertRedirect('/blog/hello')->assertStatus(301);
 
     // Canonical host and the admin redirect together: still one hop, straight to the final URL.
