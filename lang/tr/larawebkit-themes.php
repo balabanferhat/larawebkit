@@ -39,6 +39,13 @@ return [
     'errors' => [
         'not_found' => '":theme" teması themes/ klasöründe bulunamadı.',
     ],
+    'demo' => [
+        'creating' => ':theme demosu oluşturuluyor',
+        'done' => 'Demo hazır: :url',
+        'removed' => ':count demo öğesi kaldırıldı.',
+        'missing' => ':theme teması (ve ebeveynleri) demo.php içermiyor.',
+        'has_content' => 'Bu sitede zaten kendi yazılarınız veya sayfalarınız var. Demoyu yine de eklemek için --force ile çalıştırın (içeriğiniz değiştirilmez; çakışan demo sayfaları "-demo" adresi alır).',
+    ],
     'theme_default' => 'Tema varsayılanı',
     'fonts' => [
         'system' => 'Sistem yazı tipleri (en hızlı)',

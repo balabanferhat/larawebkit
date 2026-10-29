@@ -39,6 +39,13 @@ return [
     'errors' => [
         'not_found' => 'Theme ":theme" not found in themes/.',
     ],
+    'demo' => [
+        'creating' => 'Creating the :theme demo',
+        'done' => 'Demo ready: :url',
+        'removed' => 'Removed :count demo items.',
+        'missing' => 'The :theme theme (and its parents) has no demo.php.',
+        'has_content' => 'This site already has its own posts or pages. Run with --force to add the demo anyway (your content is never changed; clashing demo pages get a "-demo" slug).',
+    ],
     'theme_default' => 'Theme default',
     'fonts' => [
         'system' => 'System fonts (fastest)',

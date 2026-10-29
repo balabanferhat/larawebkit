@@ -3,6 +3,7 @@
 namespace App\Modules\Themes;
 
 use App\Modules\Themes\Console\BuildThemesCommand;
+use App\Modules\Themes\Console\DemoCommand;
 use App\Modules\Themes\Console\PublishThemesCommand;
 use App\Modules\Themes\Design\DesignTokens;
 use App\Modules\Themes\Design\Favicons;
@@ -32,7 +33,7 @@ class ThemesServiceProvider extends ServiceProvider
         Blade::directive('themeStyles', fn () => '<?php echo app(\App\Modules\Themes\ThemeAssets::class)->styles(); ?>');
 
         if ($this->app->runningInConsole()) {
-            $this->commands([BuildThemesCommand::class, PublishThemesCommand::class]);
+            $this->commands([BuildThemesCommand::class, PublishThemesCommand::class, DemoCommand::class]);
         }
 
         Route::get('/site.webmanifest', WebManifestController::class)->name('larawebkit.manifest');
