@@ -25,7 +25,7 @@ class Tag extends Model
 
     public function publicPath(): string
     {
-        return localized_path('/blog/tag/'.$this->slug);
+        return blog_path('tag/'.$this->slug);
     }
 
     public function auditLabel(): string

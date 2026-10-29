@@ -24,7 +24,7 @@ class DefaultContent
 
         $header = Menu::firstOrCreate(['location' => 'header'], ['name' => 'Header']);
         if (! $header->items()->exists()) {
-            $header->items()->create(['label' => __('larawebkit-front.blog', [], $locale), 'url' => '/blog', 'sort_order' => 1]);
+            $header->items()->create(['label' => __('larawebkit-front.blog', [], $locale), 'url' => blog_path('', $locale), 'sort_order' => 1]);
         }
 
         $footer = Menu::firstOrCreate(['location' => 'footer'], ['name' => 'Footer']);

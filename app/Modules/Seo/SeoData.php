@@ -118,7 +118,7 @@ class SeoData
                 $seo->breadcrumbs[] = ['name' => $ancestor->title, 'url' => CanonicalUrl::for($ancestor->publicPath())];
             }
         } else {
-            $seo->breadcrumbs[] = ['name' => __('larawebkit-front.blog'), 'url' => CanonicalUrl::for(localized_path('/blog'))];
+            $seo->breadcrumbs[] = ['name' => __('larawebkit-front.blog'), 'url' => CanonicalUrl::for(blog_path())];
         }
         $seo->breadcrumbs[] = ['name' => $content->title, 'url' => $seo->canonical];
 

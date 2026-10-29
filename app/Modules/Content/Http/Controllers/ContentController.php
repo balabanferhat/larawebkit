@@ -43,7 +43,7 @@ class ContentController extends Controller
     {
         $posts = Post::published()->where('locale', app()->getLocale())->with('featuredMedia', 'author', 'categories')
             ->latest('published_at')->paginate((int) setting('general.posts_per_page', 10));
-        $seo = SeoData::forListing(__('larawebkit-front.blog'), localized_path('/blog'), $posts);
+        $seo = SeoData::forListing(__('larawebkit-front.blog'), blog_path(), $posts);
 
         return response()->view($this->theme->view('blog'), ['posts' => $posts, 'seo' => $seo, 'heading' => __('larawebkit-front.blog')]);
     }
@@ -106,7 +106,12 @@ class ContentController extends Controller
     public function page(Request $request, string $path): Response
     {
         [$path, $markdown] = $this->markdownSuffix(trim($path, '/'));
-        $page = Page::published()->where('locale', app()->getLocale())->where('path', $path)->with('featuredMedia', 'author')->firstOrFail();
+        $page = Page::published()->where('locale', app()->getLocale())->where('path', $path)->with('featuredMedia', 'author')->first();
+        if (! $page && config('larawebkit-content.post_prefix', 'blog') === '' && ! str_contains($path, '/')) {
+            // Posts at /{slug} (empty post_prefix): a page with the same path wins.
+            return $markdown ? $this->post($request, $path.'.md') : $this->post($request, $path);
+        }
+        abort_unless($page, 404);
 
         if ($markdown || $this->wantsMarkdown($request)) {
             return $this->markdown($page);

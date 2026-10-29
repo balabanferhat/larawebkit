@@ -25,7 +25,7 @@ class Category extends Model
 
     public function publicPath(): string
     {
-        return localized_path('/blog/category/'.$this->slug);
+        return blog_path('category/'.$this->slug);
     }
 
     public function auditLabel(): string

@@ -10,7 +10,7 @@
     <section class="lwk-container lwk-listing" aria-labelledby="latest">
         <div class="lwk-section-head is-split">
             <h2 id="latest" class="lwk-section-heading">{{ __('larawebkit-front.latest') }}</h2>
-            @if ($posts->isNotEmpty())<a href="{{ localized_path('/blog') }}" class="lwk-more">{{ __('larawebkit-front.all_posts') }} <span aria-hidden="true">→</span></a>@endif
+            @if ($posts->isNotEmpty())<a href="{{ blog_path() }}" class="lwk-more">{{ __('larawebkit-front.all_posts') }} <span aria-hidden="true">→</span></a>@endif
         </div>
         @if ($posts->isEmpty())
             <div class="lwk-empty"><p>{{ __('larawebkit-front.no_posts') }}</p></div>

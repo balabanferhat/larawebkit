@@ -4,7 +4,7 @@
             @if (filled($data['eyebrow'] ?? null))<p class="lwk-eyebrow">{{ $data['eyebrow'] }}</p>@endif
             @if (filled($data['heading'] ?? null))<h2 class="lwk-section-heading">{{ $data['heading'] }}</h2>@endif
         </div>
-        <a href="{{ $category?->publicPath() ?? localized_path('/blog') }}" class="lwk-more">{{ ($data['link_label'] ?? null) ?: __('larawebkit-front.blog') }} <span aria-hidden="true">→</span></a>
+        <a href="{{ $category?->publicPath() ?? blog_path() }}" class="lwk-more">{{ ($data['link_label'] ?? null) ?: __('larawebkit-front.blog') }} <span aria-hidden="true">→</span></a>
     </div>
     @if ($posts->isEmpty())
         <p class="lwk-empty">{{ __('larawebkit-front.no_posts') }}</p>

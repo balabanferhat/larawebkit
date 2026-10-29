@@ -43,7 +43,7 @@ class Post extends Model
 
     public function publicPath(): string
     {
-        return localized_path('/blog/'.$this->slug, $this->locale);
+        return post_path($this->slug, $this->locale);
     }
 
     protected function previousPublicPath(): ?string
@@ -52,7 +52,7 @@ class Post extends Model
             return null;
         }
 
-        return localized_path('/blog/'.$this->getOriginal('slug'), $this->getOriginal('locale'));
+        return post_path($this->getOriginal('slug'), $this->getOriginal('locale'));
     }
 
     /** Published posts sharing a category or tag, newest first. */

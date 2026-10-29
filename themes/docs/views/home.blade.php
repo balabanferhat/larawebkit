@@ -39,7 +39,7 @@
         @if ($posts->isNotEmpty())
             <div class="lwk-section-head is-split lwk-docs-news">
                 <h2 class="lwk-section-heading">{{ __('theme-docs::theme.news') }}</h2>
-                <a href="{{ localized_path('/blog') }}" class="lwk-more">{{ __('larawebkit-front.all_posts') }} <span aria-hidden="true">→</span></a>
+                <a href="{{ blog_path() }}" class="lwk-more">{{ __('larawebkit-front.all_posts') }} <span aria-hidden="true">→</span></a>
             </div>
             <ul class="lwk-post-list" role="list">
                 @foreach ($posts->take(4) as $post)
