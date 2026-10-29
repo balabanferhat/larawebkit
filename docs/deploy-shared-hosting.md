@@ -51,6 +51,8 @@ PHP's limit, so set `MEDIA_MAX_MEGAPIXELS` to protect the server in that case.
    whole project inside `public_html`.
 3. In cPanel → **Select PHP Version** (or MultiPHP Manager) choose PHP 8.3 or 8.4 and enable the
    extensions `gd` (or `imagick`), `intl`, `fileinfo`, `mbstring`, `pdo_mysql`, `zip`, `bcmath`, `exif`.
+   Enable `exif` even though it is optional: it is how larawebkit reads the EXIF orientation of phone photos.
+   Without it, photos taken in portrait (or upside down) may be stored rotated; `larawebkit:deploy-check` warns about it.
 
 ## 3. Configure `.env`
 

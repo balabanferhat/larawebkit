@@ -132,7 +132,7 @@ it('turns EXIF-rotated photos upright and sizes variants by their upright width'
 
     $info = getimagesizefromstring(Storage::disk('public')->get($media->variants['600']['path']));
     expect([$info[0], $info[1]])->toBe([600, 800]);
-});
+})->skip(! extension_loaded('exif'), 'ext-exif is not loaded: EXIF orientation cannot be read');
 
 it('refuses images above the megapixel cap before decoding them', function () {
     config(['larawebkit-media.max_input_megapixels' => 24]);

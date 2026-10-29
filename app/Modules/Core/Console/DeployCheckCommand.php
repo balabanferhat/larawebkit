@@ -39,6 +39,9 @@ class DeployCheckCommand extends Command
             $this->check(extension_loaded($ext), __('larawebkit.deploy_check.extension', ['name' => $ext]), in_array($ext, self::OPTIONAL_EXTENSIONS, true));
         }
 
+        // Without exif the EXIF orientation cannot be read, so rotated phone photos are stored sideways.
+        $this->check(extension_loaded('exif'), __('larawebkit.deploy_check.exif'), true);
+
         // Image processing needs ~4.6 bytes per pixel: 256M handles 24 MP phone photos.
         $limit = MemoryBudget::memoryLimitBytes();
         $this->check($limit === null || $limit >= self::RECOMMENDED_MEMORY, __('larawebkit.deploy_check.memory', [

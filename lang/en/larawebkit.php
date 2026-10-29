@@ -37,6 +37,7 @@ return [
         'php' => 'PHP version :version (needs :required+)',
         'extension' => 'PHP extension: :name',
         'image' => 'Image driver (GD or Imagick) with WebP support',
+        'exif' => 'PHP extension: exif (without it, rotated phone photos may be stored sideways)',
         'memory' => 'PHP memory_limit is :limit (256M recommended; images up to about :mp MP can be processed)',
         'writable' => 'Writable: :path',
         'app_key' => 'APP_KEY is set',
