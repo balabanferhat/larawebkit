@@ -3,7 +3,9 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [0.1.0] - unreleased
+## [Unreleased]
+
+## [0.1.0] - 2026-10-29
 
 ### Added
 - Laravel 13 + Filament 5 + Pest 4 foundation, module system (`config/larawebkit.php`), `composer setup`,
@@ -28,3 +30,6 @@ All notable changes to this project are documented here. The format follows
   fatal error), a single full-size bitmap per upload, EXIF rotation after the first downscale, OG image from the
   largest variant. Test suite passes at `memory_limit=256M` (enforced in `phpunit.xml` and CI, including Windows).
 - `larawebkit:deploy-check` warns when `memory_limit` is below 256M; its test no longer depends on `public/storage`.
+
+[Unreleased]: https://github.com/balabanferhat/larawebkit/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/balabanferhat/larawebkit/releases/tag/v0.1.0
