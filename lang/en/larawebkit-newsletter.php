@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'campaign' => 'Newsletter',
+    'campaigns' => 'Newsletters',
+    'all_languages' => 'All subscribers',
+    'preview' => 'Preview',
+    'test_send' => 'Send a test',
+    'test_sent' => 'Test e-mail sent to :email.',
+    'schedule' => 'Schedule',
+    'scheduled' => 'Scheduled for :date.',
+    'send_now' => 'Send now',
+    'confirm_send' => 'Send this newsletter to :count confirmed subscribers? It goes out in batches of :rate e-mails per minute and cannot be undone.',
+    'sending' => 'Sending started for :count recipients.',
+    'cancel' => 'Cancel sending',
+    'send_log' => 'Send log',
+    'fields' => [
+        'subject' => 'Subject',
+        'preheader' => 'Preview text',
+        'audience' => 'Send to',
+        'body' => 'Content',
+        'status' => 'Status',
+        'scheduled_at' => 'Send at',
+        'finished_at' => 'Finished',
+        'sent_at' => 'Sent',
+        'error' => 'Error',
+        'test_email' => 'Send the test to',
+    ],
+    'help' => [
+        'preheader' => 'Shown next to the subject in most inboxes.',
+        'audience' => 'Only subscribers who signed up in this language, or everyone.',
+    ],
+    'status' => ['draft' => 'Draft', 'scheduled' => 'Scheduled', 'sending' => 'Sending', 'sent' => 'Sent', 'cancelled' => 'Cancelled'],
+    'send_status' => ['pending' => 'Waiting', 'sent' => 'Sent', 'failed' => 'Failed', 'skipped' => 'Skipped (unsubscribed)'],
+    'stats' => ['sent' => 'Sent', 'failed' => 'Failed', 'unsubscribed' => 'Unsubscribed'],
+    'mail' => [
+        'footer' => 'You receive this e-mail because you subscribed to the :site newsletter.',
+        'unsubscribe' => 'Unsubscribe with one click',
+        'welcome_subject' => 'Welcome to :site – your download',
+        'welcome_heading' => 'Thanks for subscribing',
+        'welcome_body' => 'Your subscription to :site is confirmed. Here is the file we promised:',
+    ],
+];

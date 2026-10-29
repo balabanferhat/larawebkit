@@ -1,0 +1,5 @@
+[
+  {"id": 1, "count": 1, "description": "", "link": "https://example.com/category/uncategorized/", "name": "Uncategorized", "slug": "uncategorized", "taxonomy": "category", "parent": 0},
+  {"id": 5, "count": 2, "description": "Garden &amp; balcony tips", "link": "https://example.com/category/gardening/", "name": "Gardening &amp; Plants", "slug": "gardening", "taxonomy": "category", "parent": 0},
+  {"id": 9, "count": 1, "description": "", "link": "https://example.com/category/private-notes/", "name": "Private notes", "slug": "private-notes", "taxonomy": "category", "parent": 0}
+]

@@ -1,8 +1,5 @@
 <?php
 
-use App\Modules\Contact\Mail\ContactMessageReceived;
-use App\Modules\Contact\Models\ContactMessage;
-use App\Modules\Content\Models\Page;
 use App\Modules\Newsletter\Mail\ConfirmSubscription;
 use App\Modules\Newsletter\Models\Subscriber;
 use App\Modules\Settings\SettingsRepository;
@@ -14,26 +11,6 @@ function formFields(): array
 {
     return ['_lwk_ts' => Crypt::encryptString((string) (time() - 10))];
 }
-
-it('stores and e-mails contact messages', function () {
-    Mail::fake();
-    app(SettingsRepository::class)->set('general.contact_email', 'owner@example.com');
-    Page::factory()->published()->create(['slug' => 'contact', 'template' => 'contact']);
-
-    $this->get('/contact')->assertOk()->assertSee('name="message"', false)->assertSee('name="website_url"', false);
-
-    $this->withoutMiddleware(PreventRequestForgery::class)->from('/contact')
-        ->post('/contact', formFields() + ['name' => 'Ann', 'email' => 'ann@example.com', 'message' => 'Hello there!'])
-        ->assertRedirect('/contact')->assertSessionHas('status');
-
-    expect(ContactMessage::sole()->email)->toBe('ann@example.com');
-    Mail::assertQueued(ContactMessageReceived::class, fn ($m) => $m->hasTo('owner@example.com'));
-});
-
-it('validates the contact form', function () {
-    $this->withoutMiddleware(PreventRequestForgery::class)->post('/contact', formFields() + ['email' => 'bad'])
-        ->assertSessionHasErrors(['name', 'email', 'message']);
-});
 
 it('runs newsletter double opt-in', function () {
     Mail::fake();

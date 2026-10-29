@@ -4,6 +4,8 @@ return [
     'title' => 'Ayarlar',
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
+        'newsletter' => 'Bülten',
+        'members' => 'Üyeler',
         'theme' => 'Tema',
         'brand' => 'Logo ve simge',
         'style' => 'Renkler ve yazı tipi',
@@ -20,6 +22,14 @@ return [
         'ai' => 'Yapay zekâ',
     ],
     'keys' => [
+        'newsletter' => [
+            'download' => 'Onaydan sonra indirilecek dosya (ücretsiz içerik)',
+            'download_name' => 'Aboneye gösterilecek dosya adı',
+        ],
+        'members' => [
+            'registration' => 'Ziyaretçiler hesap oluşturabilir',
+            'header_link' => 'Üst bölümde "Giriş yap / Hesabım" göster',
+        ],
         'appearance' => [
             'logo' => 'Logo',
             'logo_dark' => 'Koyu mod logosu',
@@ -51,6 +61,7 @@ return [
             'default_locale' => 'Varsayılan dil',
             'active_locales' => 'Etkin diller',
             'posts_per_page' => 'Sayfa başına yazı',
+            'share_buttons' => 'Yazıların altında paylaşım bağlantıları (düz bağlantı, üçüncü taraf betiği yok)',
             'theme' => 'Tema',
         ],
         'social' => [
@@ -90,10 +101,11 @@ return [
             'access_log_retention_days' => 'Erişim kaydı saklama süresi (gün)',
         ],
         'features' => [
+            'members' => 'Site üyeleri (hesaplar, üyelere özel yazılar)',
             'access_log' => 'Erişim kaydı ve dahili sayfa sayacı',
             'page_cache' => 'Ziyaretçiler için tam sayfa önbellek',
-            'contact_form' => 'İletişim formu',
             'newsletter' => 'Bülten kaydı (çift onaylı)',
+            'events' => 'Ücretsiz kayıtlı etkinlikler (/events)',
             'ai_assistant' => 'Yapay zekâ yazım asistanı (.env içinde sağlayıcı anahtarı gerekir)',
             'pexels' => 'Pexels stok fotoğrafları (.env içinde PEXELS_API_KEY gerekir)',
             'publish_gate' => 'Yayın kapısı (yayından önce asgari puanlar)',
@@ -103,6 +115,9 @@ return [
         ],
     ],
     'help' => [
+        'newsletter' => [
+            'download' => 'İsteğe bağlı. Aboneliğini onaylayan kişi bu dosya için imzalı bir bağlantı alır (sayfada ve e-postayla). Dosya gizli kalır.',
+        ],
         'general' => [
             'theme' => 'Sitenin yerleşimi ve bileşenleri. Her tema aşağıdaki renkleri, yazı tiplerini ve logoyu kullanır.',
         ],

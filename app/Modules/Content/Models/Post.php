@@ -61,14 +61,41 @@ class Post extends Model
         $categoryIds = $this->categories()->pluck('categories.id');
         $tagIds = $this->tags()->pluck('tags.id');
 
-        return static::query()->published()
+        $related = static::query()->published()
             ->where('locale', $this->locale)
             ->whereKeyNot($this->getKey())
             ->where(fn ($q) => $q
                 ->whereHas('categories', fn ($c) => $c->whereIn('categories.id', $categoryIds))
                 ->orWhereHas('tags', fn ($t) => $t->whereIn('tags.id', $tagIds)))
+            ->with('featuredMedia', 'author')
             ->latest('published_at')
             ->limit($limit)
             ->get();
+        if ($related->count() >= $limit) {
+            return $related;
+        }
+
+        // Too few in the same topics: fill up with the latest posts.
+        return $related->concat(static::query()->published()->where('locale', $this->locale)
+            ->whereKeyNot([$this->getKey(), ...$related->modelKeys()])
+            ->with('featuredMedia', 'author')->latest('published_at')->limit($limit - $related->count())->get());
+    }
+
+    /** @return array{previous: ?self, next: ?self} the published posts just before and after this one */
+    public function adjacent(): array
+    {
+        if (! $this->published_at) {
+            return ['previous' => null, 'next' => null];
+        }
+        $base = fn () => static::query()->published()->where('locale', $this->locale)->whereKeyNot($this->getKey());
+
+        return [
+            'previous' => $base()->where(fn ($q) => $q->where('published_at', '<', $this->published_at)
+                ->orWhere(fn ($w) => $w->where('published_at', $this->published_at)->where('id', '<', $this->id)))
+                ->orderByDesc('published_at')->orderByDesc('id')->first(['id', 'title', 'slug', 'locale', 'published_at']),
+            'next' => $base()->where(fn ($q) => $q->where('published_at', '>', $this->published_at)
+                ->orWhere(fn ($w) => $w->where('published_at', $this->published_at)->where('id', '>', $this->id)))
+                ->orderBy('published_at')->orderBy('id')->first(['id', 'title', 'slug', 'locale', 'published_at']),
+        ];
     }
 }

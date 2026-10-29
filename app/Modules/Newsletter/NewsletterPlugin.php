@@ -2,6 +2,7 @@
 
 namespace App\Modules\Newsletter;
 
+use App\Modules\Newsletter\Filament\Resources\Campaigns\CampaignResource;
 use App\Modules\Newsletter\Filament\Resources\Subscribers\SubscriberResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -20,7 +21,7 @@ class NewsletterPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->resources([SubscriberResource::class]);
+        $panel->resources([CampaignResource::class, SubscriberResource::class]);
     }
 
     public function boot(Panel $panel): void {}

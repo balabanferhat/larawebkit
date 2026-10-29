@@ -7,6 +7,8 @@ use App\Modules\Content\Models\Category;
 use App\Modules\Content\Models\Page;
 use App\Modules\Content\Models\Post;
 use App\Modules\Seo\CanonicalUrl;
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -18,11 +20,26 @@ class SitemapController extends Controller
 
     public const TYPES = ['pages', 'posts', 'categories'];
 
+    /** @var array<string, Closure(): Builder> extra sitemaps registered by optional modules */
+    private static array $extra = [];
+
+    /** Add a sitemap (e.g. events). The query's models need publicPath() and updated_at. */
+    public static function extend(string $type, Closure $query): void
+    {
+        self::$extra[$type] = $query;
+    }
+
+    /** @return list<string> */
+    public static function types(): array
+    {
+        return [...self::TYPES, ...array_keys(self::$extra)];
+    }
+
     public function index(): Response
     {
         $xml = Cache::rememberForever(self::CACHE_KEY.'.index', function () {
             $out = '<?xml version="1.0" encoding="UTF-8"?>'."\n".'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n";
-            foreach (self::TYPES as $type) {
+            foreach (self::types() as $type) {
                 $last = $this->query($type)->max('updated_at');
                 if ($last === null) {
                     continue;
@@ -38,7 +55,7 @@ class SitemapController extends Controller
 
     public function show(string $type): Response
     {
-        abort_unless(in_array($type, self::TYPES, true), 404);
+        abort_unless(in_array($type, self::types(), true), 404);
 
         $xml = Cache::rememberForever(self::CACHE_KEY.".$type", function () use ($type) {
             $out = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
@@ -61,13 +78,17 @@ class SitemapController extends Controller
     public static function flush(): void
     {
         Cache::forget(self::CACHE_KEY.'.index');
-        foreach (self::TYPES as $type) {
+        foreach (self::types() as $type) {
             Cache::forget(self::CACHE_KEY.".$type");
         }
     }
 
     private function query(string $type)
     {
+        if (isset(self::$extra[$type])) {
+            return (self::$extra[$type])();
+        }
+
         return match ($type) {
             'pages' => Page::indexable()->with('featuredMedia')->orderBy('path'),
             'posts' => Post::indexable()->with('featuredMedia')->latest('published_at'),

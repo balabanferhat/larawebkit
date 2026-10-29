@@ -37,12 +37,41 @@ All notable changes to this project are documented here. The format follows
   pagination messages; global search (Cmd/Ctrl+K) over pages, posts, media and users; dashboard with a welcome
   widget, quick actions and a set-up checklist.
 - CI runs the suite at 128M as well (one process per test file) and checks that prebuilt theme CSS is current.
+- **Form builder** (new `forms` module, replaces the v0.1 contact form): text, e-mail, phone, textarea, select,
+  radio, checkbox, date, file and consent fields (consent text and version stored with each submission), half
+  or full width, notification e-mails to several addresses with reply-to, optional confirmation to the sender,
+  submissions with status and notes, CSV export (UTF-8 BOM, formula-safe), honeypot and rate limit; the `form`
+  block embeds any form. v0.1 contact messages are moved into the seeded contact form.
+- **Lead magnet**: a form or the newsletter confirmation can hand out a file from the private disk through a
+  signed link that expires after `DOWNLOAD_LINK_HOURS` (core `SignedDownload`).
+- **Front-end members** (optional `members` module, Settings → Features): registration with e-mail
+  verification, login with throttling, password reset, profile and e-mail change, account deletion that other
+  modules can hook into (`MemberDeleting`), members-only posts whose text never appears in meta, JSON-LD,
+  feeds, `.md` twins, `llms-full.txt` or search; admin list of members. Separate `member` guard: members never
+  reach the admin.
+- **Newsletter campaigns**: compose with the editor, preview, test send, send now or schedule; the scheduler
+  sends `NEWSLETTER_BATCH_SIZE` e-mails a minute through the database queue; `List-Unsubscribe` and RFC 8058
+  one-click unsubscribe; send log, sent / failed / unsubscribed counts, cancel.
+- **Events** (optional `events` module): date, time zone, duration, capacity, online / in person / hybrid,
+  free registration for members (one click) and guests, confirmation e-mail with an `.ics` file, the online
+  link encrypted at rest and shown only on the registrant's signed page, cancel registration, admin "send link
+  to registrants", registrations CSV, Event schema, `/events` listing and sitemap.
+- **WordPress import**: `php artisan larawebkit:import:wordpress {site-url|export.json} [--dry-run]` imports
+  authors, categories, tags, pages and posts with featured and inline images through the WebP pipeline,
+  cleans block markup, keeps page paths and adds 301s for changed URLs, skips categories on request and is
+  idempotent (`import_map`). Guide: `docs/import-wordpress.md`.
+- **Article extras** in every theme: share links (plain URLs, no third-party scripts; "copy link" with
+  JavaScript), previous / next article, related posts filled up with the latest ones.
+- Modules can add their own sitemap with `SitemapController::extend()`.
 
 ### Changed
 - Themes moved from `resources/views/themes` and `resources/css/themes` to `themes/{name}`; Vite now only builds
   the optional project bundle `resources/css/app.css`.
 - The logo setting moved from Settings → General to Appearance (migrated automatically); the theme is chosen in
   Appearance → Themes. Menus are under Appearance in the admin.
+- The contact form is now a form of the form builder; the "Contact form" feature toggle and the
+  `contact_messages` table are gone (messages are migrated). The permission `manage contact messages` became
+  `manage forms`; a migration renames it and adds the new permissions to the built-in roles.
 
 ## [0.1.0] - 2026-10-29
 

@@ -106,7 +106,14 @@ The scheduler then:
 - writes a heartbeat (checked by `larawebkit:deploy-check`),
 - drains the database queue with `queue:work --stop-when-empty` (AI drafts, e-mails),
 - announces scheduled posts (cache bust, sitemap, llms.txt, IndexNow),
-- prunes the access log according to the retention setting.
+- prunes the access log according to the retention setting,
+- sends newsletter campaigns in small batches (one batch of `NEWSLETTER_BATCH_SIZE`, default 50, per minute),
+  which keeps you under the hourly sending limits most hosts set; ask your host for the limit and lower the
+  batch size if needed.
+
+Members, events and the newsletter are off until you enable them in **Settings → Features**. They send e-mail
+(verification, password reset, registration with a calendar file, campaigns), so set `MAIL_*` in `.env` and send
+yourself a test first. Signed links in those e-mails use `APP_URL`; set it to the public https address.
 
 Use the full PHP path if `php` is not the right version, e.g. `/usr/local/bin/ea-php83`.
 

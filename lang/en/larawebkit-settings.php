@@ -4,6 +4,8 @@ return [
     'title' => 'Settings',
     'saved' => 'Settings saved.',
     'groups' => [
+        'newsletter' => 'Newsletter',
+        'members' => 'Members',
         'theme' => 'Theme',
         'brand' => 'Logo & icon',
         'style' => 'Colours & type',
@@ -20,6 +22,14 @@ return [
         'ai' => 'AI',
     ],
     'keys' => [
+        'newsletter' => [
+            'download' => 'Download after confirming (lead magnet)',
+            'download_name' => 'File name shown to the subscriber',
+        ],
+        'members' => [
+            'registration' => 'Visitors can create an account',
+            'header_link' => 'Show "Log in / My account" in the header',
+        ],
         'appearance' => [
             'logo' => 'Logo',
             'logo_dark' => 'Logo for dark mode',
@@ -51,6 +61,7 @@ return [
             'default_locale' => 'Default language',
             'active_locales' => 'Active languages',
             'posts_per_page' => 'Posts per page',
+            'share_buttons' => 'Share links under posts (plain links, no third-party scripts)',
             'theme' => 'Theme',
         ],
         'social' => [
@@ -90,10 +101,11 @@ return [
             'access_log_retention_days' => 'Keep access log for (days)',
         ],
         'features' => [
+            'members' => 'Front-end members (accounts, members-only posts)',
             'access_log' => 'Access log and built-in page counter',
             'page_cache' => 'Full-page cache for visitors',
-            'contact_form' => 'Contact form',
             'newsletter' => 'Newsletter sign-up (double opt-in)',
+            'events' => 'Events with free registration (/events)',
             'ai_assistant' => 'AI writing assistant (needs a provider key in .env)',
             'pexels' => 'Pexels stock photos (needs PEXELS_API_KEY in .env)',
             'publish_gate' => 'Publish gate (minimum scores before publishing)',
@@ -103,6 +115,9 @@ return [
         ],
     ],
     'help' => [
+        'newsletter' => [
+            'download' => 'Optional. After confirming their subscription, people get a signed link to this file (on the page and by e-mail). The file stays private.',
+        ],
         'general' => [
             'theme' => 'Layout and components of the public site. Every theme uses the colours, fonts and logo below.',
         ],

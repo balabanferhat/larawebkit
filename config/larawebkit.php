@@ -28,8 +28,11 @@ return [
         'seo' => ['provider' => Modules\Seo\SeoServiceProvider::class, 'plugin' => Modules\Seo\SeoPlugin::class],
         'geo' => ['provider' => Modules\Geo\GeoServiceProvider::class, 'plugin' => null],
         'privacy' => ['provider' => Modules\Privacy\PrivacyServiceProvider::class, 'plugin' => null],
-        'contact' => ['provider' => Modules\Contact\ContactServiceProvider::class, 'plugin' => Modules\Contact\ContactPlugin::class],
+        'members' => ['provider' => Modules\Members\MembersServiceProvider::class, 'plugin' => Modules\Members\MembersPlugin::class],
+        'forms' => ['provider' => Modules\Forms\FormsServiceProvider::class, 'plugin' => Modules\Forms\FormsPlugin::class],
         'newsletter' => ['provider' => Modules\Newsletter\NewsletterServiceProvider::class, 'plugin' => Modules\Newsletter\NewsletterPlugin::class],
+        'events' => ['provider' => Modules\Events\EventsServiceProvider::class, 'plugin' => Modules\Events\EventsPlugin::class],
+        'import' => ['provider' => Modules\Import\ImportServiceProvider::class, 'plugin' => null],
         'dashboard' => ['provider' => null, 'plugin' => Modules\Dashboard\DashboardPlugin::class],
     ],
 
@@ -40,6 +43,10 @@ return [
     ],
 
     'admin_path' => env('ADMIN_PATH', 'admin'),
+
+    // Signed download links (lead magnets, event files): private disk and how long a link works.
+    'download_disk' => 'local',
+    'download_link_hours' => (int) env('DOWNLOAD_LINK_HOURS', 72),
 
     // Written by the scheduler every minute; read by larawebkit:deploy-check.
     'heartbeat_file' => storage_path('framework/larawebkit-heartbeat'),

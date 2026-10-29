@@ -3,10 +3,14 @@
 namespace App\Modules\Newsletter\Http;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Core\Downloads\SignedDownload;
 use App\Modules\Newsletter\Mail\ConfirmSubscription;
+use App\Modules\Newsletter\Mail\Welcome;
+use App\Modules\Newsletter\Models\CampaignSend;
 use App\Modules\Newsletter\Models\Subscriber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -37,7 +41,33 @@ class NewsletterController extends Controller
         }
         $subscriber->update(['confirmed_at' => now()]);
 
-        return redirect(localized_path('/'))->with('status', __('larawebkit-front.newsletter.confirmed'));
+        // Lead magnet: a signed, expiring download link, on the page and in a welcome e-mail.
+        $download = null;
+        if ($path = setting('newsletter.download')) {
+            $download = SignedDownload::url($path, (string) (setting('newsletter.download_name') ?: basename($path)));
+            Mail::to($subscriber->email)->locale($subscriber->locale)->queue(new Welcome($download));
+        }
+
+        return redirect(localized_path('/'))->with('status', __('larawebkit-front.newsletter.confirmed'))->with('download', $download);
+    }
+
+    public function unsubscribeSigned(Request $request, Subscriber $subscriber): RedirectResponse|Response
+    {
+        if (! $subscriber->unsubscribed_at) {
+            // Attributed to the last campaign the person received (campaign stats: unsubscribes).
+            $subscriber->update(['unsubscribed_at' => now(), 'unsubscribed_campaign_id' => $this->lastCampaignId($subscriber)]);
+        }
+        // Mail clients doing one-click unsubscribe only need a 2xx.
+        if ($request->isMethod('post')) {
+            return response('', 200);
+        }
+
+        return redirect(localized_path('/'))->with('status', __('larawebkit-front.newsletter.unsubscribed'));
+    }
+
+    private function lastCampaignId(Subscriber $subscriber): ?int
+    {
+        return CampaignSend::where('subscriber_id', $subscriber->id)->where('status', 'sent')->latest('sent_at')->value('campaign_id');
     }
 
     public function unsubscribe(string $token): RedirectResponse

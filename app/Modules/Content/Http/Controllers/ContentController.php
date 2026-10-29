@@ -10,6 +10,7 @@ use App\Modules\Content\Models\Post;
 use App\Modules\Content\Models\Tag;
 use App\Modules\Core\ModuleRegistry;
 use App\Modules\Geo\MarkdownTwin;
+use App\Modules\Members\Members;
 use App\Modules\Seo\SeoData;
 use App\Modules\Themes\ThemeManager;
 use Filament\Facades\Filament;
@@ -80,7 +81,9 @@ class ContentController extends Controller
     {
         $q = trim(mb_substr((string) $request->query('q'), 0, 100));
         $posts = $q === '' ? collect() : Post::published()->where('locale', app()->getLocale())
-            ->where(fn ($w) => $w->where('title', 'like', "%$q%")->orWhere('content', 'like', "%$q%"))
+            // The text of members-only posts is not searchable (it must not leak through results).
+            ->where(fn ($w) => $w->where('title', 'like', "%$q%")->orWhere('excerpt', 'like', "%$q%")
+                ->orWhere(fn ($c) => $c->where('members_only', false)->where('content', 'like', "%$q%")))
             ->latest('published_at')->limit(30)->get();
         $seo = SeoData::forListing(__('larawebkit-front.search'), localized_path('/search'))->noindex();
 
@@ -134,9 +137,11 @@ class ContentController extends Controller
     {
         $seo = SeoData::forContent($post);
         $related = $post->related();
-        $locked = $post->members_only && ! auth()->check();
+        $adjacent = $post->adjacent();
+        // Members-only: logged-in verified members (Members module) and admins see the full text.
+        $locked = $post->members_only && ! (ModuleRegistry::enabled('members') ? Members::canSeeMembersOnly() : auth()->check());
 
-        return response()->view($this->theme->view('post'), compact('post', 'seo', 'related', 'locked', 'preview'));
+        return response()->view($this->theme->view('post'), compact('post', 'seo', 'related', 'adjacent', 'locked', 'preview'));
     }
 
     private function renderPage(Request $request, Page $page, ?string $canonicalPath = null, bool $preview = false): Response
