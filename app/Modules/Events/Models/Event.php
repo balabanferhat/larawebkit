@@ -3,6 +3,7 @@
 namespace App\Modules\Events\Models;
 
 use App\Modules\Content\Support\HtmlSanitizer;
+use App\Modules\Events\Events;
 use App\Modules\Logs\Concerns\Auditable;
 use App\Modules\Media\Models\Media;
 use App\Modules\Seo\CanonicalUrl;
@@ -133,7 +134,7 @@ class Event extends Model
 
     public function publicPath(): string
     {
-        return localized_path('/events/'.$this->slug, $this->locale);
+        return localized_path('/'.Events::path($this->locale).'/'.$this->slug, $this->locale);
     }
 
     /**

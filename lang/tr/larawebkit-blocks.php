@@ -28,6 +28,7 @@ return [
         'newsletter' => 'Bülten kaydı',
         'form' => 'Form',
         'latest_posts' => 'Son yazılar',
+        'upcoming_events' => 'Yaklaşan etkinlikler',
         'spacer' => 'Boşluk / ayırıcı',
     ],
     'variants' => [
@@ -46,6 +47,7 @@ return [
         'newsletter' => ['card' => 'Kart', 'inline' => 'Satır içi', 'split' => 'Metin ve görsel'],
         'form' => ['split' => 'Metin ve form yan yana', 'centered' => 'Ortalanmış'],
         'latest_posts' => ['cards' => 'Kartlar', 'list' => 'Liste', 'featured' => 'Biri öne çıkan, diğerleri küçük'],
+        'upcoming_events' => ['cards' => 'Kartlar', 'list' => 'Liste'],
     ],
     'backgrounds' => ['plain' => 'Sayfa arka planı', 'muted' => 'Soluk', 'brand' => 'Marka rengi', 'dark' => 'Koyu', 'image' => 'Görsel'],
     'spacing' => ['normal' => 'Normal', 'compact' => 'Sıkı', 'large' => 'Geniş'],

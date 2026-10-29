@@ -28,6 +28,7 @@ return [
         'newsletter' => 'Newsletter sign-up',
         'form' => 'Form',
         'latest_posts' => 'Latest posts',
+        'upcoming_events' => 'Upcoming events',
         'spacer' => 'Spacer / divider',
     ],
     'variants' => [
@@ -46,6 +47,7 @@ return [
         'newsletter' => ['card' => 'Card', 'inline' => 'Inline', 'split' => 'Text and image'],
         'form' => ['split' => 'Text and form side by side', 'centered' => 'Centered'],
         'latest_posts' => ['cards' => 'Cards', 'list' => 'List', 'featured' => 'One featured, others small'],
+        'upcoming_events' => ['cards' => 'Cards', 'list' => 'List'],
     ],
     'backgrounds' => ['plain' => 'Page background', 'muted' => 'Muted', 'brand' => 'Brand colour', 'dark' => 'Dark', 'image' => 'Image'],
     'spacing' => ['normal' => 'Normal', 'compact' => 'Compact', 'large' => 'Large'],
