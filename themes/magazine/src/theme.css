@@ -81,3 +81,14 @@ body.lwk-body { font-family: var(--font-ui); }
 .lwk-single-reading .lwk-toc, .lwk-single-reading .lwk-author { border-radius: 0; }
 .lwk-button { border-radius: 0; box-shadow: none; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8125rem; }
 .lwk-footer { background: var(--bg); border-top: 3px solid var(--text); }
+
+/* v0.3: the front page and archives are built from blocks */
+.lwk-block-latest-posts.lwk-v-front { padding-block: 0; }
+.lwk-block-latest-posts .lwk-section-head { border-top: 3px solid var(--text); padding-top: 0.75rem; margin-bottom: 1.5rem; }
+.lwk-block-latest-posts .lwk-section-head .lwk-section-heading { font-family: var(--font-ui); font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin: 0; }
+.lwk-block-latest-posts .lwk-cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+.lwk-archive-lead { margin-bottom: clamp(2rem, 4vw, 3rem); padding-bottom: clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--border); }
+.lwk-archive-lead .lwk-card.is-featured { display: grid; gap: clamp(1rem, 3vw, 2.5rem); }
+@media (min-width: 48em) { .lwk-archive-lead .lwk-card.is-featured { grid-template-columns: 1.4fr 1fr; align-items: center; } }
+.lwk-archive-lead .lwk-card-title { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.4rem); line-height: 1.15; }
+.lwk-archive .lwk-listing-head { display: block; }

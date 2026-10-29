@@ -6,6 +6,7 @@
 */
 
 return [
+    'notice' => 'Demo site: every name, article and image here is a made-up example.',
     'post_excerpt' => 'Demo article with placeholder text. Replace it with your own story, or delete it once your site is ready.',
     'blog' => [
         'name' => 'Field Notes',

@@ -46,7 +46,7 @@ return [
         'rich_text' => ['narrow' => 'Okuma genişliği', 'wide' => 'Geniş', 'columns' => 'İki sütun'],
         'newsletter' => ['card' => 'Kart', 'inline' => 'Satır içi', 'split' => 'Metin ve görsel'],
         'form' => ['split' => 'Metin ve form yan yana', 'centered' => 'Ortalanmış'],
-        'latest_posts' => ['cards' => 'Kartlar', 'list' => 'Liste', 'featured' => 'Biri öne çıkan, diğerleri küçük'],
+        'latest_posts' => ['cards' => 'Kartlar', 'list' => 'Liste', 'featured' => 'Biri öne çıkan, diğerleri küçük', 'front' => 'Ön sayfa: manşet, iki yazı ve son yazılar sütunu'],
         'upcoming_events' => ['cards' => 'Kartlar', 'list' => 'Liste'],
     ],
     'backgrounds' => ['plain' => 'Sayfa arka planı', 'muted' => 'Soluk', 'brand' => 'Marka rengi', 'dark' => 'Koyu', 'image' => 'Görsel'],
@@ -64,6 +64,7 @@ return [
         'hide_on_mobile' => 'Mobilde gizle',
     ],
     'fields' => [
+        'offset' => 'En yenilerden atla',
         'heading' => 'Başlık',
         'eyebrow' => 'Üst etiket',
         'eyebrow_help' => 'Başlığın üstünde kısa bir etiket.',
@@ -112,6 +113,7 @@ return [
         'divider' => 'Ayırıcı çizgi göster',
     ],
     'help' => [
+        'offset' => 'En yeni yazılardan bu kadarını atla; örneğin yukarıda zaten gösterilenler.',
         'hero_image' => 'Varyanta göre yan görsel, arka plan görseli veya portre.',
         'video_url' => 'YouTube veya Vimeo bağlantısı. Gizlilik modunda, yalnızca ziyaretçi oynat düğmesine bastıktan sonra yüklenir.',
         'note' => 'Düğmelerin altında küçük metin, ör. "Kredi kartı gerekmez".',
@@ -207,6 +209,20 @@ return [
                 1 => ['question' => 'Ne zaman yanıt veriyorsunuz?', 'answer' => 'Bir iş günü içinde.'],
                 2 => ['question' => 'Yüz yüze görüşebilir miyiz?', 'answer' => 'Nerede ve ne zaman olabileceğini açıklayın.'],
             ],
+        ],
+        'magazine' => [
+            'label' => 'Dergi ana sayfası',
+            'top' => 'Öne çıkanlar',
+            'more' => 'Diğer yazılar',
+            'newsletter' => 'Bülten',
+            'newsletter_text' => 'En yeni yazılar e-posta kutunuzda. Spam yok, istediğiniz zaman ayrılın.',
+        ],
+        'archive' => [
+            'newsletter' => 'Yeni yazıları e-postayla alın',
+            'newsletter_text' => 'Spam yok, istediğiniz zaman ayrılın.',
+        ],
+        'not_found' => [
+            'latest' => 'Son yazılar',
         ],
     ],
 ];

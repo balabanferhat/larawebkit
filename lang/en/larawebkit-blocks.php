@@ -46,7 +46,7 @@ return [
         'rich_text' => ['narrow' => 'Reading width', 'wide' => 'Wide', 'columns' => 'Two columns'],
         'newsletter' => ['card' => 'Card', 'inline' => 'Inline', 'split' => 'Text and image'],
         'form' => ['split' => 'Text and form side by side', 'centered' => 'Centered'],
-        'latest_posts' => ['cards' => 'Cards', 'list' => 'List', 'featured' => 'One featured, others small'],
+        'latest_posts' => ['cards' => 'Cards', 'list' => 'List', 'featured' => 'One featured, others small', 'front' => 'Front page: lead story, two more and a latest rail'],
         'upcoming_events' => ['cards' => 'Cards', 'list' => 'List'],
     ],
     'backgrounds' => ['plain' => 'Page background', 'muted' => 'Muted', 'brand' => 'Brand colour', 'dark' => 'Dark', 'image' => 'Image'],
@@ -64,6 +64,7 @@ return [
         'hide_on_mobile' => 'Hide on mobile',
     ],
     'fields' => [
+        'offset' => 'Skip the newest',
         'heading' => 'Heading',
         'eyebrow' => 'Eyebrow',
         'eyebrow_help' => 'A short label above the heading.',
@@ -112,6 +113,7 @@ return [
         'divider' => 'Show a divider line',
     ],
     'help' => [
+        'offset' => 'Leave out this many of the newest posts, e.g. those already shown above.',
         'hero_image' => 'Side image, background image or portrait, depending on the variant.',
         'video_url' => 'YouTube or Vimeo link. Loaded in privacy mode, only after the visitor clicks play.',
         'note' => 'Small text under the buttons, e.g. "No credit card required".',
@@ -207,6 +209,20 @@ return [
                 1 => ['question' => 'When do you reply?', 'answer' => 'Within one working day.'],
                 2 => ['question' => 'Can we meet in person?', 'answer' => 'Explain where and when.'],
             ],
+        ],
+        'magazine' => [
+            'label' => 'Magazine front page',
+            'top' => 'Top stories',
+            'more' => 'More stories',
+            'newsletter' => 'The newsletter',
+            'newsletter_text' => 'The best new articles in your inbox. No spam, unsubscribe anytime.',
+        ],
+        'archive' => [
+            'newsletter' => 'Get new articles by e-mail',
+            'newsletter_text' => 'No spam, unsubscribe anytime.',
+        ],
+        'not_found' => [
+            'latest' => 'Latest articles',
         ],
     ],
 ];

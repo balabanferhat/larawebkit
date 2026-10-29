@@ -74,6 +74,10 @@ class DemoCommand extends Command
         $this->components->task(__('larawebkit-themes.demo.creating', ['theme' => $themes->get($name)->label()]), function () use ($script, $builder, $themes, $name) {
             $themes->activate($name);
             (require $script)($builder);
+            // Every demo says so in the announcement bar: the people, places and articles are made up.
+            if (blank(setting('header.announcement'))) {
+                $builder->settings(['header.announcement' => __('larawebkit-demo.notice'), 'header.announcement_url' => '']);
+            }
             $builder->save();
         });
         Cache::flush();
