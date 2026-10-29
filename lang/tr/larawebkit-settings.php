@@ -104,6 +104,7 @@ return [
             'access_log' => 'Erişim kaydı ve dahili sayfa sayacı',
             'page_cache' => 'Ziyaretçiler için tam sayfa önbellek',
             'newsletter' => 'Bülten kaydı (çift onaylı)',
+            'events' => 'Ücretsiz kayıtlı etkinlikler (/events)',
             'ai_assistant' => 'Yapay zekâ yazım asistanı (.env içinde sağlayıcı anahtarı gerekir)',
             'pexels' => 'Pexels stok fotoğrafları (.env içinde PEXELS_API_KEY gerekir)',
             'publish_gate' => 'Yayın kapısı (yayından önce asgari puanlar)',

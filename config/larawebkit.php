@@ -31,6 +31,7 @@ return [
         'members' => ['provider' => Modules\Members\MembersServiceProvider::class, 'plugin' => Modules\Members\MembersPlugin::class],
         'forms' => ['provider' => Modules\Forms\FormsServiceProvider::class, 'plugin' => Modules\Forms\FormsPlugin::class],
         'newsletter' => ['provider' => Modules\Newsletter\NewsletterServiceProvider::class, 'plugin' => Modules\Newsletter\NewsletterPlugin::class],
+        'events' => ['provider' => Modules\Events\EventsServiceProvider::class, 'plugin' => Modules\Events\EventsPlugin::class],
         'dashboard' => ['provider' => null, 'plugin' => Modules\Dashboard\DashboardPlugin::class],
     ],
 

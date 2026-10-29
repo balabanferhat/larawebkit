@@ -51,6 +51,7 @@ return [
         'use_ai' => 'Yapay zekâ asistanını kullanma',
         'manage_contact_messages' => 'İletişim mesajlarını okuma',
         'manage_newsletter' => 'Bülten abonelerini yönetme',
+        'manage_events' => 'Etkinlikleri ve kayıtları yönetme',
     ],
     'sessions' => [
         'title' => 'Etkin oturumlar',

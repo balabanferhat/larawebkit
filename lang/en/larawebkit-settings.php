@@ -104,6 +104,7 @@ return [
             'access_log' => 'Access log and built-in page counter',
             'page_cache' => 'Full-page cache for visitors',
             'newsletter' => 'Newsletter sign-up (double opt-in)',
+            'events' => 'Events with free registration (/events)',
             'ai_assistant' => 'AI writing assistant (needs a provider key in .env)',
             'pexels' => 'Pexels stock photos (needs PEXELS_API_KEY in .env)',
             'publish_gate' => 'Publish gate (minimum scores before publishing)',

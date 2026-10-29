@@ -93,6 +93,7 @@ return [
     'members.registration' => ['type' => 'bool', 'default' => true, 'group' => 'members'],
     'members.header_link' => ['type' => 'bool', 'default' => true, 'group' => 'members'],
     'features.newsletter' => ['type' => 'bool', 'default' => false, 'group' => 'features'],
+    'features.events' => ['type' => 'bool', 'default' => false, 'group' => 'features'],
     'features.ai_assistant' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.pexels' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.publish_gate' => ['type' => 'bool', 'default' => true, 'group' => 'features'],

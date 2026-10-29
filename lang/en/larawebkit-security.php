@@ -51,6 +51,7 @@ return [
         'use_ai' => 'Use the AI assistant',
         'manage_contact_messages' => 'Read contact messages',
         'manage_newsletter' => 'Manage newsletter subscribers',
+        'manage_events' => 'Manage events and registrations',
     ],
     'sessions' => [
         'title' => 'Active sessions',
