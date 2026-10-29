@@ -70,9 +70,20 @@ queued long jobs with polling, usage log with estimated cost and a monthly budge
 **Themes** — WordPress-style theme folders (`themes/{name}` with `theme.json`, screenshot, views, prebuilt CSS,
 translations, demo content), discovered automatically, child themes through a parent chain, **Appearance →
 Themes** with screenshot cards and one-click activation, optional zip upload for super-admins (off by
-default). Four designs: **Business**, **Personal brand**, **Magazine** and **Docs**, plus the **Minimal** blog they
-build on. `php artisan larawebkit:demo {theme}` creates a complete demo site with generated images.
-Lighthouse 98–100 in every category on every demo ([reports](docs/lighthouse/README.md)).
+default). Bundled themes:
+
+| Theme | For | Built on |
+|---|---|---|
+| **Minimal** | a simple blog; the root every theme falls back to | — |
+| **Business** | company sites: hero, services, pricing, contact | Minimal |
+| **Personal brand** | one person's site: book-like articles, newsletter first | Minimal |
+| **Magazine** | blogs and magazines: front page, archives, search and 404 built from block presets, reading-focused articles ([screenshots](docs/screenshots/magazine)) | Minimal |
+| **Docs** | product documentation and changelogs | Minimal |
+
+Each has light and dark mode and English and Turkish strings. `php artisan larawebkit:demo {theme}` creates a
+complete demo site with generated images and an "example content" notice. Lighthouse 97–100 on every demo
+([reports](docs/lighthouse/README.md)). Make your own on top of one with the
+[child theme guide](docs/child-themes.md).
 
 **Design and page building** — **Appearance** settings: logo (light/dark), site icon (favicon, Apple touch and
 web-app icons, web manifest), brand and accent colours (auto-adjusted to WCAG AA contrast), six self-hosted
@@ -121,6 +132,8 @@ built-in cookieless page counter, privacy and cookie policy templates.
 - [Deploying to shared hosting](docs/deploy-shared-hosting.md)
 - [Importing from WordPress](docs/import-wordpress.md)
 - [Backups and restore](docs/backups.md)
+- [Child themes](docs/child-themes.md)
+- [Security review](docs/security-review.md)
 - [Recipes for extending the kit](docs/recipes/README.md)
 - [Theme screenshots](docs/screenshots/themes) and [Lighthouse reports](docs/lighthouse/README.md)
 - [v0.1 plan](docs/plan.md), [v0.2 plan](docs/plan-v0.2.md)
