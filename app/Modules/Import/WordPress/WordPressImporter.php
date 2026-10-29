@@ -11,6 +11,7 @@ use App\Modules\Content\Models\Tag;
 use App\Modules\Import\ImportMap;
 use App\Modules\Media\ImagePipeline;
 use App\Modules\Media\Models\Media;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -105,7 +106,16 @@ final class WordPressImporter
             // children. They are not real pages; their old address goes to the home page.
             if (! $this->options['keep_empty_pages'] && ! in_array((int) $page['id'], $parents, true) && $this->isEmptyPage($page)) {
                 $this->count('pages', 'skipped');
-                $this->redirect((string) ($page['link'] ?? ''), localized_path('/'));
+                // An empty WordPress "Blog" page sits where the post listing (or events, search...) lives here:
+                // a redirect would hide that route, so the page is only skipped, and an old redirect removed.
+                $from = Redirect::normalize((string) ($page['link'] ?? ''));
+                if ($this->isSystemRoute($from)) {
+                    if (! $this->dry()) {
+                        Redirect::where('from_path', $from)->where('is_automatic', true)->delete();
+                    }
+                } else {
+                    $this->redirect((string) ($page['link'] ?? ''), localized_path('/'));
+                }
 
                 continue;
             }
@@ -122,6 +132,21 @@ final class WordPressImporter
         }
 
         return ['report' => $this->report, 'redirects' => $this->redirects, 'gone' => $this->goneCount, 'warnings' => $this->warnings, 'missing_alt' => $this->missingAlt];
+    }
+
+    /** Whether a route other than the page catch-all answers this path (blog listing, events, search...). */
+    private function isSystemRoute(string $path): bool
+    {
+        if ($path === '/') {
+            return true;
+        }
+        try {
+            $route = app('router')->getRoutes()->match(Request::create($path, 'GET'));
+        } catch (Throwable) {
+            return false;
+        }
+
+        return ! in_array($route->getName(), ['front.page', 'front.localized.page'], true);
     }
 
     /** @param  array<string, mixed>  $page */
@@ -240,6 +265,8 @@ final class WordPressImporter
         if ($local && $mapped['remote_modified'] === $modified) {
             $this->ids[$kind][$id] = $local->id;
             $this->count($kind, 'unchanged');
+            // Unchanged in WordPress, but the address here may have moved (POST_PREFIX, BLOG_PATH): keep our redirect in step.
+            $this->redirect((string) ($remote['link'] ?? ''), $local->publicPath());
 
             return;
         }
@@ -290,14 +317,15 @@ final class WordPressImporter
 
     /**
      * WordPress builds automatic excerpts by stripping the tags of the body, which glues paragraphs together
-     * ("Nerede?Dışarıda…"). A hand-written excerpt is kept; an automatic one is rebuilt from the cleaned body.
+     * ("Nerede?Dışarıda…"). A hand-written excerpt is kept; an automatic or empty one is built from the body.
      */
     private function excerpt(string $excerpt, string $content): ?string
     {
         $text = MarkupCleaner::text($excerpt);
         $body = MarkupCleaner::text($content);
         $squash = fn (string $s) => preg_replace('/[\s\x{00A0}]+/u', '', rtrim($s, '.…'));
-        if ($text !== '' && $body !== '' && str_starts_with($squash($body), $squash($text))) {
+        // Empty, or WordPress's automatic one: built from the body.
+        if ($body !== '' && ($text === '' || str_starts_with($squash($body), $squash($text)))) {
             // Paragraph text only: captions, headings and embed links make a poor summary.
             preg_match_all('#<p>(.*?)</p>#s', $content, $m);
             $paragraphs = array_filter(array_map(fn ($p) => MarkupCleaner::text($p), $m[1]), fn ($p) => $p !== '' && ! preg_match('#^https?://\S+$#', $p));
@@ -402,12 +430,21 @@ final class WordPressImporter
             return;
         }
         $from = Redirect::normalize($oldUrl);
-        if ($from === '/' || $from === Redirect::normalize($newPath)) {
+        if ($from === '/') {
             return;
         }
         $existing = Redirect::where('from_path', $from)->first();
-        if ($existing?->to_url === $newPath) {
+        if ($existing && ! $existing->is_automatic) {
+            return; // hand-made in the admin: never touched
+        }
+        if ($from === Redirect::normalize($newPath)) {
+            // The item lives at its old address now (e.g. POST_PREFIX emptied): our earlier redirect would hide it.
+            $existing?->delete();
+
             return;
+        }
+        if ($existing?->to_url === $newPath && $existing->status_code === 301) {
+            return; // already in step
         }
         Redirect::updateOrCreate(['from_path' => $from], ['to_url' => $newPath, 'status_code' => 301, 'is_automatic' => true]);
         $this->redirects++;

@@ -16,7 +16,7 @@
         @if ($consent)
             <label class="lwk-choice lwk-newsletter-consent">
                 <input type="checkbox" name="consent" value="1" required>
-                <span>{{ \App\Modules\Newsletter\Models\Subscriber::consentText() }} <a href="{{ localized_path('/privacy-policy') }}">{{ __('larawebkit-front.newsletter.privacy') }}</a></span>
+                <span>{{ \App\Modules\Newsletter\Models\Subscriber::consentText() }} <a href="{{ \App\Modules\Newsletter\Models\Subscriber::consentUrl() }}">{{ __('larawebkit-front.newsletter.privacy') }}</a></span>
             </label>
         @endif
         @error('consent')<p class="lwk-error">{{ $message }}</p>@enderror

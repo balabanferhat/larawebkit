@@ -1,8 +1,12 @@
 <?php
 
 use App\Models\User;
+use App\Modules\Content\Models\Category;
 use App\Modules\Content\Models\Page;
+use App\Modules\Content\Models\Post;
 use App\Modules\Core\Console\DeployCheckCommand;
+use App\Modules\Core\LarawebkitServiceProvider;
+use App\Modules\Settings\SettingsRepository;
 use Illuminate\Console\Scheduling\Schedule;
 
 it('installs non-interactively: settings, roles, default content, super admin', function () {
@@ -77,4 +81,23 @@ it('writes a scheduler heartbeat and drains the queue from the scheduler', funct
     $events = collect(app(Schedule::class)->events())->map(fn ($e) => $e->description ?: $e->command);
 
     expect($events->implode(' '))->toContain('larawebkit:heartbeat')->toContain('larawebkit:queue')->toContain('larawebkit:logs:prune')->toContain('larawebkit:content:announce');
+});
+
+it('builds URLs in the site language when running in the console', function () {
+    app(SettingsRepository::class)->setMany(['general.default_locale' => 'tr', 'general.active_locales' => ['tr', 'en']]);
+    app()->setLocale('en'); // config('app.locale'), what a console run starts with
+
+    expect(blog_path())->toBe('/en/blog'); // the bug: an English prefix on a Turkish site
+
+    LarawebkitServiceProvider::useSiteLocale();
+    $post = Post::factory()->published()->create(['slug' => 'merhaba', 'locale' => 'tr']);
+    $category = Category::create(['name' => 'Haber', 'slug' => 'haber']);
+    expect(app()->getLocale())->toBe('tr')
+        ->and(blog_path())->toBe('/blog')
+        ->and(blog_path('', 'en'))->toBe('/en/blog')
+        ->and(post_path('merhaba', 'en'))->toBe('/en/blog/merhaba')
+        ->and($post->publicPath())->toBe('/blog/merhaba')
+        ->and($category->publicPath())->toBe('/blog/category/haber')
+        ->and($category->publicPath('en'))->toBe('/en/blog/category/haber')
+        ->and(localized_path('/x', 'en'))->toBe('/en/x');
 });

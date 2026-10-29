@@ -42,6 +42,7 @@ return [
         'newsletter' => [
             'require_consent' => 'Ask for explicit consent (unticked checkbox)',
             'consent_text' => 'Consent text',
+            'consent_page' => 'Consent links to',
             'consent_version' => 'Consent text version',
             'band_title' => 'Sign-up box title',
             'band_text' => 'Sign-up box text',
@@ -144,6 +145,7 @@ return [
         'newsletter' => [
             'require_consent' => 'Double opt-in proves the address; under KVKK / GDPR you may also need a consent checkbox. The accepted text and its version are stored with each subscriber.',
             'consent_text' => 'Shown next to the checkbox, followed by a link to the privacy policy. Empty: a neutral default.',
+            'consent_page' => 'A page such as a separate data-protection (KVKK) notice. Empty: the privacy policy.',
             'consent_version' => 'Raise it whenever you change the text: each subscriber keeps the version they accepted.',
             'band_text' => 'Used by the themes\' sign-up boxes. Empty: a neutral text. Promise a schedule only if you keep it.',
             'download' => 'Optional. After confirming their subscription, people get a signed link to this file (on the page and by e-mail). The file stays private.',

@@ -18,6 +18,9 @@ Feedback from migrating a Turkish personal-brand WordPress site onto 0.2.0 witho
 - **Events**: the path per language (`EVENTS_PATH`, `EVENTS_PATHS=tr:etkinlikler`) and an "Upcoming events"
   section block.
 - **Classic font pair**: system serif headings and system sans body, nothing downloaded.
+- Newsletter consent can link to a page of your choice (`newsletter.consent_page`, e.g. a separate KVKK notice;
+  its translation is used per language); empty keeps the privacy policy.
+- `Category::publicPath()` and `Tag::publicPath()` take an optional locale, like `blog_path()` and `post_path()`.
 - **WordPress import**: `--gone` answers the old URLs of skipped posts and categories with 410 Gone (an admin
   change to 301 survives re-runs); empty theme-part pages (slider, header...) are skipped and their old address
   sent home (`--keep-empty-pages` to import them); featured images without alt text get the post title (or a
@@ -31,6 +34,15 @@ Feedback from migrating a Turkish personal-brand WordPress site onto 0.2.0 witho
   (trailing-slash 301, then the redirect).
 - The privacy and cookie policy stubs are created in every active language and linked as translations;
   seeding before choosing a site language warns.
+- WordPress import: an empty page whose address is a route here (an empty "Blog" page at `/blog/`, the events
+  path...) is skipped without a redirect, so it no longer hides the post listing; such a redirect left by an
+  earlier import is removed.
+- WordPress import: re-runs keep the importer's own (automatic) redirects pointing at the posts' current
+  addresses, also for unchanged posts, so changing `POST_PREFIX` after an import works; a redirect whose old
+  address is now the post's own address is deleted. Hand-made redirects are never touched, and a redirect
+  edited in the admin counts as hand-made.
+- Console commands build URLs in the site language (`/blog`, not `/en/blog` on a Turkish site).
+- WordPress import: posts with an empty excerpt get one from the body paragraphs, like automatic excerpts.
 
 ## [0.2.0] - 2026-10-29
 
