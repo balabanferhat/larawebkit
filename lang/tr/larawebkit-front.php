@@ -36,9 +36,23 @@ return [
     'rss' => 'RSS beslemesi',
     'previous' => 'Önceki',
     'next' => 'Sonraki',
+    'close' => 'Kapat',
     'pagination' => 'Sayfalama',
     'categories' => 'Kategoriler',
     'tags' => 'Etiketler',
+    'nav' => [
+        'toggle' => 'Menü',
+        'submenu' => ':label alt menüsünü göster',
+        'dismiss' => 'Duyuruyu kapat',
+    ],
+    'footer' => [
+        'contact' => 'İletişim',
+        'legal' => 'Yasal',
+        'copyright' => '© :year :name. Tüm hakları saklıdır.',
+    ],
+    'social' => [
+        'profile' => ':network profili',
+    ],
     'contact' => [
         'title' => 'İletişim',
         'name' => 'Adınız',

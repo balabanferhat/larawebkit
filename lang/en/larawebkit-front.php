@@ -36,9 +36,23 @@ return [
     'rss' => 'RSS feed',
     'previous' => 'Previous',
     'next' => 'Next',
+    'close' => 'Close',
     'pagination' => 'Pagination',
     'categories' => 'Categories',
     'tags' => 'Tags',
+    'nav' => [
+        'toggle' => 'Menu',
+        'submenu' => 'Show the :label submenu',
+        'dismiss' => 'Dismiss announcement',
+    ],
+    'footer' => [
+        'contact' => 'Contact',
+        'legal' => 'Legal',
+        'copyright' => '© :year :name. All rights reserved.',
+    ],
+    'social' => [
+        'profile' => ':network profile',
+    ],
     'contact' => [
         'title' => 'Contact',
         'name' => 'Your name',

@@ -34,6 +34,12 @@ trait HasContent
     /** Public path of this item, e.g. "/blog/hello-world". */
     abstract public function publicPath(): string;
 
+    /** @return list<array{question: string, answer: string}> FAQ items for FAQPage schema and the Markdown twin */
+    public function faqItems(): array
+    {
+        return array_values(array_filter((array) ($this->faq ?? []), fn ($i) => filled($i['question'] ?? null) && filled($i['answer'] ?? null)));
+    }
+
     public function initializeHasContent(): void
     {
         $this->mergeCasts([

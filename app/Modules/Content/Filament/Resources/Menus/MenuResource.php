@@ -56,19 +56,33 @@ class MenuResource extends Resource
             TextInput::make('name')->label(__('larawebkit-content.taxonomy.name'))->required()->maxLength(100),
             Select::make('location')->label(__('larawebkit-content.menus.location'))->required()->unique(ignoreRecord: true)->native(false)
                 ->options(collect(Menu::LOCATIONS)->mapWithKeys(fn ($l) => [$l => __("larawebkit-content.menus.locations.$l")])->all()),
-            Repeater::make('items')->label(__('larawebkit-content.menus.items'))->relationship()->orderColumn('sort_order')
+            Repeater::make('rootItems')->label(__('larawebkit-content.menus.items'))->relationship()->orderColumn('sort_order')
                 ->schema([
-                    TextInput::make('label')->label(__('larawebkit-content.menus.label'))->required()->maxLength(100),
-                    MorphToSelect::make('linkable')->label(__('larawebkit-content.menus.link_to'))
-                        ->types([
-                            MorphToSelect\Type::make(Page::class)->titleAttribute('title')->label(__('larawebkit-content.pages.singular')),
-                            MorphToSelect\Type::make(Post::class)->titleAttribute('title')->label(__('larawebkit-content.posts.singular')),
-                        ])->searchable()->preload(),
-                    TextInput::make('url')->label(__('larawebkit-content.menus.custom_url'))->helperText(__('larawebkit-content.menus.custom_url_help'))->maxLength(500),
-                    Toggle::make('new_tab')->label(__('larawebkit-content.menus.new_tab')),
+                    ...self::itemFields(),
+                    Repeater::make('children')->label(__('larawebkit-content.menus.children'))->relationship()->orderColumn('sort_order')
+                        ->helperText(__('larawebkit-content.menus.children_help'))
+                        ->schema(self::itemFields())
+                        ->defaultItems(0)->columns(2)->collapsible()->collapsed()->itemLabel(fn (array $state) => $state['label'] ?? null)
+                        ->addActionLabel(__('larawebkit-content.menus.add_child'))->columnSpanFull(),
                 ])
+                ->addActionLabel(__('larawebkit-content.menus.add_item'))
                 ->columns(2)->collapsible()->itemLabel(fn (array $state) => $state['label'] ?? null)->columnSpanFull(),
         ]);
+    }
+
+    /** @return array<int, mixed> */
+    private static function itemFields(): array
+    {
+        return [
+            TextInput::make('label')->label(__('larawebkit-content.menus.label'))->required()->maxLength(100),
+            MorphToSelect::make('linkable')->label(__('larawebkit-content.menus.link_to'))
+                ->types([
+                    MorphToSelect\Type::make(Page::class)->titleAttribute('title')->label(__('larawebkit-content.pages.singular')),
+                    MorphToSelect\Type::make(Post::class)->titleAttribute('title')->label(__('larawebkit-content.posts.singular')),
+                ])->searchable()->preload(),
+            TextInput::make('url')->label(__('larawebkit-content.menus.custom_url'))->helperText(__('larawebkit-content.menus.custom_url_help'))->maxLength(500),
+            Toggle::make('new_tab')->label(__('larawebkit-content.menus.new_tab')),
+        ];
     }
 
     public static function table(Table $table): Table
