@@ -43,6 +43,12 @@ class SettingsRepository
         return $default ?? ($definition['default'] ?? null);
     }
 
+    /** Whether a value was saved (false = still the default from config). */
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->stored());
+    }
+
     public function set(string $key, mixed $value): void
     {
         $definition = $this->definition($key);

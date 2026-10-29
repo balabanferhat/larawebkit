@@ -17,8 +17,22 @@ class DefaultContent
     {
         $locale = (string) setting('general.default_locale', 'en');
 
-        $privacy = $this->page('privacy-policy', __('larawebkit-privacy.pages.privacy_title', [], $locale), __('larawebkit-privacy.pages.privacy_body', [], $locale), $locale);
-        $cookies = $this->page('cookie-policy', __('larawebkit-privacy.pages.cookie_title', [], $locale), __('larawebkit-privacy.pages.cookie_body', [], $locale), $locale);
+        // Policy stubs in every active language, linked as translations of each other (hreflang).
+        $locales = array_values(array_unique([$locale, ...array_map('strval', (array) setting('general.active_locales', [$locale]))]));
+        $pages = [];
+        foreach (['privacy-policy' => 'privacy', 'cookie-policy' => 'cookie'] as $slug => $key) {
+            foreach ($locales as $l) {
+                $pages[$slug][$l] = $this->page($slug, __("larawebkit-privacy.pages.{$key}_title", [], $l), __("larawebkit-privacy.pages.{$key}_body", [], $l), $l);
+            }
+            $group = $pages[$slug][$locale]->translation_group;
+            foreach ($pages[$slug] as $page) {
+                if ($page->translation_group !== $group) {
+                    $page->forceFill(['translation_group' => $group])->saveQuietly();
+                }
+            }
+        }
+        $privacy = $pages['privacy-policy'][$locale];
+        $cookies = $pages['cookie-policy'][$locale];
 
         $this->contactForm($locale);
 

@@ -5,6 +5,33 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+Feedback from migrating a Turkish personal-brand WordPress site onto 0.2.0 without touching the core.
+
+### Added
+- **Newsletter consent** (KVKK / GDPR): Settings → Newsletter → "Ask for explicit consent" adds an unticked
+  checkbox with your text and a privacy link; the accepted text, its version and the time are stored per
+  subscriber, shown in the admin and in the new subscriber CSV export.
+- Newsletter sign-up box title and text in the settings (`newsletter.band_title`, `newsletter.band_text`);
+  the personal and magazine themes no longer promise a sending schedule.
+- **Post URL prefix**: `POST_PREFIX` (default `blog`; empty = `/{slug}` like WordPress post-name permalinks,
+  a page with the same path wins) and `BLOG_PATH` for the listing and the category / tag archives.
+- **Events**: the path per language (`EVENTS_PATH`, `EVENTS_PATHS=tr:etkinlikler`) and an "Upcoming events"
+  section block.
+- **Classic font pair**: system serif headings and system sans body, nothing downloaded.
+- **WordPress import**: `--gone` answers the old URLs of skipped posts and categories with 410 Gone (an admin
+  change to 301 survives re-runs); empty theme-part pages (slider, header...) are skipped and their old address
+  sent home (`--keep-empty-pages` to import them); featured images without alt text get the post title (or a
+  meaningful media title) and every image without alt text is listed in the report.
+
+### Fixed
+- WordPress import built redirect targets with the console locale (`/en/blog/...`) instead of `--locale`.
+- Automatic WordPress excerpts glued paragraphs together ("Nerede?Dışarıda"); they are rebuilt from the body,
+  hand-written excerpts are kept. `MarkupCleaner::text()` keeps a space between blocks.
+- An old URL with a trailing slash that has an admin redirect is answered in one hop instead of two
+  (trailing-slash 301, then the redirect).
+- The privacy and cookie policy stubs are created in every active language and linked as translations;
+  seeding before choosing a site language warns.
+
 ## [0.2.0] - 2026-10-29
 
 ### Added
