@@ -21,6 +21,7 @@ SQLite locally, MySQL/MariaDB in production. Runs on plain shared hosting (cPane
 git clone https://github.com/<you>/larawebkit.git my-site && cd my-site
 composer setup            # install, .env, key, migrate, seed, storage link, build assets
 php artisan larawebkit:install   # site name, language, first admin (super-admin)
+php artisan larawebkit:demo business   # optional: demo site (business, personal, magazine, docs, minimal)
 php artisan serve
 ```
 
@@ -66,9 +67,25 @@ logged override.
 servers (Ollama), fallback order, cheap vs strong model per action, versioned locale-aware prompt files,
 queued long jobs with polling, usage log with estimated cost and a monthly budget.
 
-**Front end** — three themes (minimal blog, business/landing, documentation), dark mode, accessible markup
-(skip link, landmarks, one H1, breadcrumbs, TOC, focus styles), branded Markdown e-mails, contact form,
-optional double opt-in newsletter, ~4 kB CSS per theme.
+**Themes** — WordPress-style theme folders (`themes/{name}` with `theme.json`, screenshot, views, prebuilt CSS,
+translations, demo content), discovered automatically, child themes through a parent chain, **Appearance →
+Themes** with screenshot cards and one-click activation, optional zip upload for super-admins (off by
+default). Four designs: **Business**, **Personal brand**, **Magazine** and **Docs**, plus the **Minimal** blog they
+build on. `php artisan larawebkit:demo {theme}` creates a complete demo site with generated images.
+Lighthouse 98–100 in every category on every demo ([reports](docs/lighthouse/README.md)).
+
+**Design and page building** — **Appearance** settings: logo (light/dark), site icon (favicon, Apple touch and
+web-app icons, web manifest), brand and accent colours (auto-adjusted to WCAG AA contrast), six self-hosted
+variable font pairs, corner radius, default colour scheme; themes read them as CSS custom properties, so no
+rebuild. Pages are built from **16 section blocks** (hero, features, CTA, testimonials, FAQ → FAQPage schema,
+pricing, team, logos, stats, gallery with lightbox, privacy-friendly click-to-load video, rich text, newsletter,
+form, latest posts, spacer), each with variants, backgrounds, anchors and hide-on-mobile, and page presets
+(landing, about, services, contact). Nested menus with accessible dropdowns and mobile menu, header CTA,
+announcement bar, footer columns with contact details and social icons. Designed 404 (search + popular pages),
+500, maintenance and empty states.
+
+**Front end** — dark mode, accessible markup (skip link, landmarks, one H1, breadcrumbs, TOC, focus styles),
+branded Markdown e-mails, contact form, optional double opt-in newsletter.
 
 **SEO** — titles/descriptions/canonical/OG/Twitter with fallbacks, auto 1200×630 OG image, hreflang,
 JSON-LD (Organization or Person, WebSite + SearchAction, BlogPosting/Article, BreadcrumbList, FAQPage,
@@ -88,7 +105,8 @@ built-in cookieless page counter, privacy and cookie policy templates.
 - [Architecture and module map](docs/architecture.md)
 - [Deploying to shared hosting](docs/deploy-shared-hosting.md)
 - [Recipes for extending the kit](docs/recipes/README.md)
-- [v0.1 plan](docs/plan.md)
+- [Theme screenshots](docs/screenshots/themes) and [Lighthouse reports](docs/lighthouse/README.md)
+- [v0.1 plan](docs/plan.md), [v0.2 plan](docs/plan-v0.2.md)
 
 ## Development
 
@@ -96,6 +114,7 @@ built-in cookieless page counter, privacy and cookie policy templates.
 php artisan test       # Pest
 npm test               # browser scorer = server scorer (shared fixtures)
 vendor/bin/pint        # code style
+php artisan larawebkit:themes:build   # rebuild themes/*/assets/theme.css after editing themes/*/src
 ```
 
 ## Roadmap

@@ -5,15 +5,15 @@ long-running worker in production.
 
 ## 1. Build locally (or in CI)
 
-Production servers do not need Node. Build the front-end assets on your machine or in CI and upload them:
+Production servers do not need Node. Theme CSS and JS are prebuilt and committed in `themes/{name}/assets`, so
+a plain upload works. Only if your project adds Tailwind utilities to its own views (`resources/css/app.css`)
+build that bundle on your machine or in CI:
 
 ```bash
 composer install --no-dev --optimize-autoloader
-npm ci --ignore-scripts && npm run build   # creates public/build
 php artisan filament:assets                # admin assets in public/js, public/css
+npm ci --ignore-scripts && npm run build   # optional: public/build for resources/css/app.css
 ```
-
-Without `public/build` the site still works: themes fall back to inlined base CSS.
 
 ## Memory: set `memory_limit` to 256M
 
@@ -85,6 +85,8 @@ cd ~/larawebkit
 php artisan key:generate
 php artisan larawebkit:install      # migrations, roles, default pages, first super admin
 php artisan storage:link
+php artisan larawebkit:themes:publish   # copy theme assets to public/themes (served by the web server)
+php artisan larawebkit:demo business    # optional: demo content for a theme (business, personal, magazine, docs)
 php artisan config:cache && php artisan route:cache && php artisan view:cache
 ```
 
@@ -126,6 +128,7 @@ php artisan down
 composer install --no-dev --optimize-autoloader
 php artisan migrate --force
 php artisan filament:assets
+php artisan larawebkit:themes:publish
 php artisan config:cache && php artisan route:cache && php artisan view:cache
 php artisan up
 ```
@@ -134,8 +137,11 @@ After changing image sizes in `config/larawebkit-media.php` run `php artisan lar
 
 ## Caching and compression
 
-- `public/.htaccess` enables Brotli/gzip and one-year cache headers for build files and image
+- `public/.htaccess` enables Brotli/gzip and one-year cache headers for build files, theme assets and image
   variants (their URLs change when they change).
+- Theme assets are copied to `public/themes/{name}` on activation and by `larawebkit:themes:publish`. If the
+  copy is not possible, a PHP route serves them from `themes/` (slower, but the site keeps working).
+- Fonts are self-hosted (`public/fonts/lwk`, SIL Open Font License): no request to Google Fonts.
 - The full-page cache for anonymous visitors uses the `file` cache store and is busted on every
   content or settings change. Disable it in **Settings → Features** if needed.
 - Laravel's default `.htaccess` removes trailing slashes. If you choose the "add trailing slash"

@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Modules\Core\ModuleRegistry;
 use App\Modules\Security\Filament\Auth\Login;
+use App\Modules\Themes\AdminBranding;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -12,7 +13,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -36,9 +36,17 @@ class AdminPanelProvider extends PanelProvider
                 isRequired: (bool) config('larawebkit-security.require_two_factor'),
             )
             ->brandName(fn () => setting('general.site_name', config('app.name')))
-            ->colors(['primary' => Color::Indigo])
+            // Same brand as the public site (Appearance): logo, favicon and primary colour.
+            ->brandLogo(fn () => AdminBranding::logo())
+            ->darkModeBrandLogo(fn () => AdminBranding::logo(dark: true))
+            ->brandLogoHeight('2rem')
+            ->favicon(fn () => AdminBranding::favicon())
+            ->colors(fn () => AdminBranding::colors())
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->globalSearchFieldKeyBindingSuffix()
             ->navigationGroups([
                 NavigationGroup::make(fn () => __('larawebkit.nav.content')),
+                NavigationGroup::make(fn () => __('larawebkit.nav.appearance')),
                 NavigationGroup::make(fn () => __('larawebkit.nav.marketing')),
                 NavigationGroup::make(fn () => __('larawebkit.nav.logs'))->collapsed(),
                 NavigationGroup::make(fn () => __('larawebkit.nav.system'))->collapsed(),

@@ -36,6 +36,14 @@ class UserResource extends Resource
 
     protected static ?int $navigationSort = 91;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
+    /** @return list<string> */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'email'];
+    }
+
     public static function getNavigationGroup(): string|UnitEnum|null
     {
         return __('larawebkit.nav.system');

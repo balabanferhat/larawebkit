@@ -2,6 +2,7 @@
 
 return [
     'nav' => [
+        'appearance' => 'Appearance',
         'content' => 'Content',
         'marketing' => 'Marketing',
         'logs' => 'Logs',
@@ -33,6 +34,7 @@ return [
         'admin_exists' => 'An admin with this e-mail already exists; their role was set to super-admin.',
     ],
     'deploy_check' => [
+        'themes' => 'Theme assets published to public/themes (run php artisan larawebkit:themes:publish)',
         'title' => 'Deployment check',
         'php' => 'PHP version :version (needs :required+)',
         'extension' => 'PHP extension: :name',

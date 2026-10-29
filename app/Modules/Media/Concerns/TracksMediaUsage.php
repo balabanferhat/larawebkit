@@ -44,6 +44,10 @@ trait TracksMediaUsage
         foreach (ContentImages::ids($this->content ?? '') as $id) {
             $wanted[] = [$id, 'content'];
         }
+        // Images used elsewhere on the model, e.g. in a page's section blocks.
+        foreach (method_exists($this, 'extraMediaIds') ? $this->extraMediaIds() : [] as $id) {
+            $wanted[] = [(int) $id, 'blocks'];
+        }
 
         $existing = Media::whereIn('id', array_column($wanted, 0))->pluck('id')->all();
         $this->mediaUsages()->get()->each(function (MediaUsage $usage) use ($wanted) {

@@ -1,0 +1,83 @@
+@import "theme:minimal/src/theme.css";
+
+/* Magazine: editorial serif typography, hairline rules, a centred masthead and dense story grids. */
+:root { --t-heading-weight: 650; --t-heading-tracking: -0.012em; --t-container: 78rem; --t-measure: 40rem; --t-body-size: 1.0625rem; --t-section: clamp(2.5rem, 6vw, 4.5rem); }
+body.lwk-body { font-family: var(--font-ui); }
+.lwk-prose, .lwk-lead, .lwk-card-excerpt, .lwk-section-intro, .lwk-hero-text { font-family: var(--font-body); }
+
+/* Top bar and masthead */
+.lwk-topbar { border-bottom: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); }
+.lwk-topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.5rem; }
+.lwk-topbar .lwk-social a { width: 1.9rem; height: 1.9rem; border: 0; background: none; }
+.lwk-topbar .lwk-social .lwk-icon { width: 0.95rem; height: 0.95rem; }
+.lwk-masthead { border-bottom: 0; position: relative; }
+.lwk-masthead .lwk-header-inner { display: grid; grid-template-columns: 1fr auto 1fr; padding-block: clamp(1rem, 3vw, 1.75rem); }
+.lwk-masthead .lwk-brand { margin: 0; justify-self: center; }
+.lwk-masthead .lwk-brand-name { font-family: var(--font-heading); font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.lwk-masthead .lwk-logo { height: clamp(2.5rem, 2rem + 2vw, 3.75rem); max-width: 20rem; }
+.lwk-masthead-side { display: flex; align-items: center; gap: 0.5rem; }
+.lwk-masthead-end { justify-content: flex-end; }
+@media (min-width: 60em) { .lwk-masthead .lwk-search input { width: 11rem; background: transparent; } }
+.lwk-sections { border-block: 1px solid var(--text); box-shadow: 0 3px 0 -2px var(--text); background: var(--bg); }
+.lwk-sections .lwk-menu-list { justify-content: center; gap: 0 0.5rem; }
+.lwk-sections .lwk-menu a, .lwk-sections .lwk-sub-toggle.is-label { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.85rem 0.6rem; border-radius: 0; }
+.lwk-sections .lwk-menu a:hover { background: none; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.4em; }
+.lwk-sections .lwk-sub { border-radius: 0; border-top: 2px solid var(--text); }
+@media (max-width: 59.99em) {
+    .lwk-masthead .lwk-header-inner { grid-template-columns: 1fr auto; }
+    .lwk-masthead-side:first-child { display: none; }
+    .lwk-masthead .lwk-brand { justify-self: start; }
+    .lwk-topbar .lwk-social { display: none; }
+    .lwk-sections { border: 0; box-shadow: none; }
+    .lwk-sections .lwk-menu-list { justify-content: flex-start; }
+    .lwk-sections .lwk-menu a { font-size: 0.95rem; }
+}
+
+/* Rules and section titles */
+.lwk-rule-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-top: 3px solid var(--text); padding-top: 0.75rem; margin-bottom: 1.5rem; }
+.lwk-rule-title { font-family: var(--font-ui); font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+.lwk-front-rail .lwk-rule-title { border-top: 3px solid var(--text); padding-top: 0.75rem; margin-bottom: 0.5rem; }
+.lwk-more { font-size: 0.875rem; }
+
+/* Front page */
+.lwk-front { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); padding-block: clamp(1.5rem, 4vw, 2.5rem) var(--t-section); }
+@media (min-width: 60em) {
+    .lwk-front { grid-template-columns: 2fr 1.15fr 1fr; }
+    .lwk-front-secondary { border-inline: 1px solid var(--border); padding-inline: clamp(1rem, 2vw, 1.75rem); }
+}
+.lwk-front-secondary { display: grid; gap: 1.75rem; align-content: start; }
+.lwk-front .is-featured .lwk-card-title { font-size: clamp(1.75rem, 1.2rem + 2vw, 2.6rem); line-height: 1.12; }
+.lwk-front .is-featured .lwk-card-media img { aspect-ratio: 3 / 2; }
+.lwk-front .is-featured .lwk-card-excerpt { font-size: 1.15rem; }
+.lwk-rail { counter-reset: rail; display: grid; }
+.lwk-rail li { counter-increment: rail; display: grid; gap: 0.3rem; padding: 1rem 0 1rem 2.5rem; border-bottom: 1px solid var(--border); position: relative; }
+.lwk-rail li::before { content: counter(rail); position: absolute; left: 0; top: 0.85rem; font-family: var(--font-heading); font-size: 1.75rem; font-weight: 700; color: var(--brand-strong); line-height: 1; }
+.lwk-rail-title { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 650; line-height: 1.3; color: var(--text); text-decoration: none; }
+.lwk-rail-title:hover { color: var(--link); }
+.lwk-section-row { padding-bottom: var(--t-section); }
+.lwk-cards-4 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 1.5rem; }
+.lwk-card { gap: 0.75rem; }
+.lwk-card-title { font-weight: 650; }
+.lwk-card-media { border-radius: 0; }
+.lwk-card:hover .lwk-card-media img { transform: none; }
+.lwk-card-title a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+.lwk-magazine-newsletter { padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--text); background: var(--bg-soft); }
+@media (min-width: 60em) { .lwk-magazine-newsletter { grid-template-columns: 1fr 1fr; align-items: center; column-gap: 3rem; } .lwk-magazine-newsletter .lwk-inline-form { grid-column: 2; grid-row: 1 / span 2; } }
+.lwk-magazine-newsletter .lwk-newsletter-title { font-size: 1.75rem; }
+
+/* Listings */
+.lwk-listing-head { border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+.lwk-listing-head h1 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.6rem); }
+
+/* Reading-focused article */
+.lwk-single-reading .lwk-post-head { text-align: center; margin-inline: auto; max-width: 52rem; }
+.lwk-single-reading .lwk-post-head h1 { font-size: clamp(2.2rem, 1.4rem + 3.6vw, 4rem); line-height: 1.08; letter-spacing: -0.02em; }
+.lwk-single-reading .lwk-post-head .lwk-lead { margin-inline: auto; font-style: italic; }
+.lwk-single-reading .lwk-post-meta, .lwk-single-reading .lwk-breadcrumbs ol { justify-content: center; }
+.lwk-single-reading .lwk-post-image img { border-radius: 0; aspect-ratio: 2 / 1; }
+.lwk-single-reading .lwk-prose { font-size: 1.2rem; line-height: 1.75; }
+.lwk-single-reading .lwk-prose > p:first-child::first-letter { float: left; font-family: var(--font-heading); font-size: 4.2em; line-height: 0.82; font-weight: 700; padding: 0.06em 0.12em 0 0; }
+.lwk-single-reading .lwk-prose blockquote { border-left: 0; border-block: 2px solid var(--text); padding: 1.25rem 0; font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; text-align: center; line-height: 1.35; }
+.lwk-single-reading .lwk-toc, .lwk-single-reading .lwk-author { border-radius: 0; }
+.lwk-button { border-radius: 0; box-shadow: none; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8125rem; }
+.lwk-footer { background: var(--bg); border-top: 3px solid var(--text); }

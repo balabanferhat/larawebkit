@@ -2,6 +2,7 @@
 
 return [
     'nav' => [
+        'appearance' => 'Görünüm',
         'content' => 'İçerik',
         'marketing' => 'Pazarlama',
         'logs' => 'Kayıtlar',
@@ -33,6 +34,7 @@ return [
         'admin_exists' => 'Bu e-postaya sahip bir yönetici zaten var; rolü süper yönetici olarak ayarlandı.',
     ],
     'deploy_check' => [
+        'themes' => 'Tema varlıkları public/themes klasörüne yayınlandı (php artisan larawebkit:themes:publish çalıştırın)',
         'title' => 'Yayın kontrolü',
         'php' => 'PHP sürümü :version (gereken :required+)',
         'extension' => 'PHP eklentisi: :name',

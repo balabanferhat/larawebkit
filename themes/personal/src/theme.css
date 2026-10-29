@@ -1,0 +1,46 @@
+@import "theme:minimal/src/theme.css";
+
+/* Personal brand: warm paper tones, a literary serif for headings, soft shapes and a newsletter-first footer. */
+:root { --t-heading-weight: 560; --t-heading-tracking: -0.015em; --t-container: 70rem; --t-measure: 40rem; --t-body-size: 1.075rem; }
+h1, h2, .lwk-hero-title, .lwk-section-heading { font-variation-settings: "SOFT" 50, "WONK" 0; }
+.lwk-hero-title { font-size: clamp(2.6rem, 1.6rem + 4.4vw, 4.8rem); line-height: 1.02; letter-spacing: -0.03em; }
+.lwk-brand-name { font-family: var(--font-heading); font-weight: 600; font-size: 1.35rem; letter-spacing: -0.01em; }
+.lwk-header { border-bottom-color: transparent; }
+.lwk-header.is-sticky { background: color-mix(in srgb, var(--bg) 90%, transparent); }
+.lwk-button { border-radius: 999px; padding-inline: 1.5rem; box-shadow: none; }
+.lwk-button-secondary { background: transparent; border-color: var(--text); color: var(--text); }
+.lwk-eyebrow { font-family: var(--font-ui); letter-spacing: 0.14em; color: var(--accent-text); }
+.lwk-eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: currentColor; }
+.lwk-block-hero.is-first.lwk-bg-plain { background: radial-gradient(40rem 30rem at 80% 30%, var(--brand-soft), transparent 70%), var(--bg); }
+.lwk-v-portrait .lwk-hero-visual { position: relative; }
+.lwk-v-portrait .lwk-hero-visual::before { content: ""; position: absolute; inset: 8% -6% -4% 10%; border-radius: 999px 999px var(--radius-lg) var(--radius-lg); background: var(--accent); opacity: 0.18; z-index: -1; transform: rotate(4deg); }
+.lwk-v-portrait .lwk-hero-visual img { box-shadow: none; border: 0; }
+.lwk-quote { background: var(--surface); border-color: transparent; box-shadow: none; }
+.lwk-v-single .lwk-quote blockquote { font-style: italic; font-weight: 400; }
+.lwk-v-cards .lwk-feature { background: var(--surface); border-color: transparent; box-shadow: 0 1px 0 var(--border); }
+.lwk-feature-icon { border-radius: 50%; background: color-mix(in srgb, var(--accent) 14%, var(--bg)); color: var(--accent-text); }
+.lwk-card-media, .lwk-post-image img, .lwk-hero-visual img { border-radius: var(--radius-lg); }
+.lwk-card-title { font-weight: 560; font-size: 1.4rem; }
+.lwk-block-newsletter.lwk-v-card .lwk-signup { background: var(--bg-soft); border-color: transparent; box-shadow: none; }
+
+/* Centred article */
+.lwk-single-centered .lwk-post-head { text-align: center; margin-inline: auto; }
+.lwk-single-centered .lwk-post-head h1 { margin-inline: auto; max-width: 20ch; }
+.lwk-single-centered .lwk-post-head .lwk-lead { margin-inline: auto; }
+.lwk-single-centered .lwk-post-meta, .lwk-single-centered .lwk-breadcrumbs ol { justify-content: center; }
+.lwk-single-centered .lwk-post-image { max-width: 60rem; }
+.lwk-prose { font-size: 1.125rem; }
+.lwk-prose > p:first-child::first-letter { float: left; font-family: var(--font-heading); font-size: 3.6em; line-height: 0.85; padding: 0.08em 0.1em 0 0; color: var(--brand-strong); }
+
+/* Footer */
+.lwk-newsletter-band { padding-block: clamp(3rem, 7vw, 5rem); background: var(--brand); color: var(--on-brand); --text: var(--on-brand); --muted: var(--on-brand); }
+.lwk-newsletter-band .lwk-newsletter { max-width: 40rem; margin-inline: auto; text-align: center; justify-items: center; }
+.lwk-newsletter-band .lwk-newsletter-title { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); }
+.lwk-newsletter-band .lwk-inline-form { width: 100%; max-width: 30rem; }
+.lwk-newsletter-band .lwk-inline-form button { background: var(--on-brand); color: var(--brand); border-color: var(--on-brand); }
+.lwk-newsletter-band input { border-color: transparent; }
+.lwk-footer { background: var(--bg); }
+.lwk-footer-personal { display: grid; justify-items: center; gap: 1.25rem; padding-block: clamp(3rem, 6vw, 4rem); text-align: center; }
+.lwk-footer-personal .lwk-brand { margin: 0; }
+.lwk-footer-about-text { color: var(--muted); max-width: 32rem; }
+.lwk-footer-personal .lwk-menu-list { flex-direction: row; justify-content: center; gap: 0.25rem 1.5rem; }

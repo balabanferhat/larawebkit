@@ -2,8 +2,11 @@
 
 namespace App\Modules\Content\Models;
 
+use App\Modules\Blocks\BlockRegistry;
 use App\Modules\Content\Concerns\HasContent;
 use App\Modules\Content\Concerns\HasRevisions;
+use App\Modules\Core\ModuleRegistry;
+use App\Modules\Editor\Scoring\TextAnalyzer;
 use App\Modules\Logs\Concerns\Auditable;
 use App\Modules\Media\Concerns\TracksMediaUsage;
 use Database\Factories\PageFactory;
@@ -15,12 +18,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Hierarchical page: its path is the parent's path plus its own slug,
- * e.g. /about/team. Template comes from the active theme.
+ * e.g. /about/team. Template comes from the active theme. A page can be
+ * built from section blocks (`blocks`, see App\Modules\Blocks).
  */
 class Page extends Model
 {
     /** @use HasFactory<PageFactory> */
-    use Auditable, HasContent, HasFactory, HasRevisions, SoftDeletes, TracksMediaUsage;
+    use Auditable, HasContent, HasFactory, SoftDeletes, TracksMediaUsage;
+
+    use HasRevisions {
+        revisionFields as traitRevisionFields;
+    }
 
     public const TEMPLATES = ['default', 'full-width', 'landing', 'contact', 'legal'];
 
@@ -30,6 +38,45 @@ class Page extends Model
 
     /** Slugs are unique among siblings only. */
     protected string $slugScope = 'parent_id';
+
+    protected function casts(): array
+    {
+        return ['blocks' => 'array'];
+    }
+
+    public function hasBlocks(): bool
+    {
+        return ModuleRegistry::enabled('blocks') && ! empty($this->blocks);
+    }
+
+    /** @return list<array{type: string, data: array<string, mixed>}> */
+    public function blockList(): array
+    {
+        return $this->hasBlocks() ? app(BlockRegistry::class)->normalize($this->blocks) : [];
+    }
+
+    /** Page FAQ plus the items of FAQ blocks (FAQPage schema, Markdown twin). */
+    public function faqItems(): array
+    {
+        return [...(array) ($this->faq ?? []), ...($this->hasBlocks() ? app(BlockRegistry::class)->faq($this->blocks) : [])];
+    }
+
+    /** Text of the section blocks as Markdown (Markdown twin, llms-full.txt, word count). */
+    public function blocksText(bool $withFaq = true): string
+    {
+        return $this->hasBlocks() ? app(BlockRegistry::class)->text($this->blocks, $withFaq ? [] : ['faq']) : '';
+    }
+
+    /** @return list<int> */
+    public function extraMediaIds(): array
+    {
+        return $this->hasBlocks() ? app(BlockRegistry::class)->mediaIds($this->blocks) : [];
+    }
+
+    public function revisionFields(): array
+    {
+        return [...$this->traitRevisionFields(), 'blocks'];
+    }
 
     protected static function newFactory(): PageFactory
     {
@@ -83,6 +130,13 @@ class Page extends Model
 
     protected static function booted(): void
     {
+        // Block text counts towards the word count (scores, publish gate, reading time).
+        static::saving(function (Page $page) {
+            if ($text = $page->blocksText()) {
+                $page->word_count += count(TextAnalyzer::words($text));
+            }
+        });
+
         // Children follow when a parent's path changes.
         static::updated(function (Page $page) {
             if ($page->wasChanged('path')) {

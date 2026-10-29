@@ -1,0 +1,25 @@
+@import "theme:minimal/src/theme.css";
+
+/* Business: bold sans headings, brand mark, card surfaces and a dark footer. */
+:root { --t-heading-weight: 800; --t-heading-tracking: -0.03em; --t-container: 76rem; }
+.lwk-brand-name { display: inline-flex; align-items: center; gap: 0.6rem; }
+.lwk-brand-name::before { content: ""; width: 1.6rem; height: 1.6rem; border-radius: 0.5rem; background: conic-gradient(from 210deg, var(--brand), var(--accent), var(--brand)); box-shadow: inset 0 0 0 4px color-mix(in srgb, #fff 35%, transparent); }
+.lwk-menu-header a, .lwk-menu-header .lwk-sub-toggle.is-label { font-weight: 600; }
+.lwk-button { border-radius: 999px; padding-inline: 1.4rem; }
+.lwk-header-cta { box-shadow: 0 6px 16px -6px var(--brand); }
+.lwk-eyebrow { padding: 0.3rem 0.75rem; border-radius: 999px; background: var(--brand-soft); }
+.lwk-bg-brand .lwk-eyebrow, .lwk-bg-dark .lwk-eyebrow, .lwk-v-background .lwk-eyebrow { background: rgb(255 255 255 / 0.14); }
+.lwk-block-hero.is-first.lwk-bg-plain { background: radial-gradient(50rem 32rem at 90% 0%, var(--brand-soft), transparent 70%), radial-gradient(36rem 24rem at 0% 100%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%), var(--bg); }
+.lwk-hero-visual img { border: 1px solid var(--border); }
+.lwk-card { padding: 0.75rem 0.75rem 1.25rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--t-shadow); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+.lwk-card:hover { box-shadow: var(--t-shadow-lg); transform: translateY(-2px); }
+.lwk-card-media { border-radius: var(--radius); }
+.lwk-card-body { padding-inline: 0.5rem; }
+.lwk-block-stats.lwk-bg-brand { background: linear-gradient(120deg, var(--brand), color-mix(in srgb, var(--brand) 65%, #000)); }
+
+.lwk-footer { background: #0b1120; color: #cbd5e1; border-top: 0; --text: #f1f5f9; --muted: #94a3b8; --border: #1e293b; --surface: #111a2e; --link: #ffffff; --bg-soft: #111a2e; }
+.lwk-footer .lwk-brand { color: #fff; }
+.lwk-footer .lwk-menu a { color: #cbd5e1; }
+.lwk-footer .lwk-menu a:hover, .lwk-footer .lwk-contact-list a:hover { color: #fff; }
+.lwk-footer .lwk-social a { background: transparent; color: #e2e8f0; }
+.lwk-footer-bottom a, .lwk-footer-bottom .lwk-menu a { color: #94a3b8; }

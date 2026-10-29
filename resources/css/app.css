@@ -1,0 +1,9 @@
+/*
+ * Optional project stylesheet with Tailwind utilities. Themes do not need it: their CSS is
+ * prebuilt in themes/{name}/assets. When public/build exists (npm run build), this file is
+ * loaded after the theme CSS, so utilities used in project views just work.
+ */
+@import "tailwindcss";
+
+@source "../views";
+@source "../../themes/*/views";

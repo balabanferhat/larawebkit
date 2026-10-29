@@ -70,6 +70,20 @@ class PostResource extends Resource
         return static::canEdit($record);
     }
 
+    /** Global search (Ctrl/Cmd + K) over titles, slugs and the text of the content. */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'slug', 'content'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('larawebkit-editor.fields.status') => __('larawebkit-content.status.'.$record->status),
+            __('larawebkit-editor.fields.locale') => strtoupper((string) $record->locale),
+        ];
+    }
+
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery()->withoutGlobalScopes([SoftDeletingScope::class]);

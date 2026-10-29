@@ -135,7 +135,7 @@ class SeoData
         if ($content instanceof Post || ($content instanceof Page && $content->template !== 'legal')) {
             $seo->schema[] = self::article($content, $seo);
         }
-        if (! empty($content->faq)) {
+        if ($faq = $content->faqItems()) {
             $seo->schema[] = [
                 '@type' => 'FAQPage',
                 '@id' => $seo->canonical.'#faq',
@@ -143,7 +143,7 @@ class SeoData
                     '@type' => 'Question',
                     'name' => $item['question'],
                     'acceptedAnswer' => ['@type' => 'Answer', 'text' => $item['answer']],
-                ], array_values(array_filter($content->faq, fn ($i) => filled($i['question'] ?? null) && filled($i['answer'] ?? null)))),
+                ], $faq),
             ];
         }
 
@@ -215,7 +215,7 @@ class SeoData
     public static function organization(): array
     {
         $type = setting('organization.type', 'Organization') === 'Person' ? 'Person' : 'Organization';
-        $logo = setting('organization.logo') ?: setting('general.logo');
+        $logo = setting('organization.logo') ?: setting('appearance.logo');
         $logoMedia = $logo ? Media::find($logo) : null;
 
         return array_filter([

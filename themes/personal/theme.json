@@ -1,0 +1,33 @@
+{
+    "name": "Personal brand",
+    "description": "One person's site: portrait hero, story, offers, testimonials and a newsletter-first layout.",
+    "version": "0.2.0",
+    "author": "larawebkit",
+    "license": "MIT",
+    "parent": "minimal",
+    "supports": {
+        "blocks": "*"
+    },
+    "defaults": {
+        "primary": "#b4532a",
+        "accent": "#0f766e",
+        "font_pair": "fraunces",
+        "radius": "large",
+        "light": {
+            "bg": "#fffbf6",
+            "bg_soft": "#f7efe5",
+            "surface": "#ffffff",
+            "text": "#1f1a17",
+            "muted": "#6b5f55",
+            "border": "#e8dccd"
+        },
+        "dark": {
+            "bg": "#14110f",
+            "bg_soft": "#1d1916",
+            "surface": "#231e1a",
+            "text": "#f2ebe4",
+            "muted": "#b5a99d",
+            "border": "#3a322b"
+        }
+    }
+}

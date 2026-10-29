@@ -1,0 +1,17 @@
+{
+    "name": "Business",
+    "description": "Company, agency or services site: bold hero, services, case studies, team and contact.",
+    "version": "0.2.0",
+    "author": "larawebkit",
+    "license": "MIT",
+    "parent": "minimal",
+    "supports": {
+        "blocks": "*"
+    },
+    "defaults": {
+        "primary": "#1d4ed8",
+        "accent": "#f59e0b",
+        "font_pair": "jakarta",
+        "radius": "large"
+    }
+}

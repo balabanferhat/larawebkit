@@ -5,12 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: [
-                'resources/css/themes/minimal.css',
-                'resources/css/themes/business.css',
-                'resources/css/themes/docs.css',
-                'resources/js/site.js',
-            ],
+            // Themes ship prebuilt CSS (themes/{name}/assets); this bundle is only for project-specific utilities.
+            input: ['resources/css/app.css'],
             refresh: true,
         }),
         tailwindcss(),

@@ -23,12 +23,32 @@ config/larawebkit.php ─► App\Modules\Core\LarawebkitServiceProvider
 | Content | pages (hierarchical), posts, categories, tags, redirects, menus, revisions, front controllers, locale prefixes, scheduled publishing | `HasContent`, `HasRevisions`, `HtmlSanitizer`, `ContentController` |
 | Editor | the editor form (Filament RichEditor/TipTap + media modal), SEO/human/GEO scorers (PHP + identical JS), publish gate, autosave, Pexels | `EditorSchema`, `ContentScorer`, `PublishGate`, `PexelsClient` |
 | Ai | `AiManager` with Anthropic / OpenAI / DeepSeek / Ollama drivers, fallback order, per-action model tier, prompt files, usage log, monthly budget, queued tasks | `AiManager`, `PromptRepository`, `RunAiTask` |
-| Themes | theme resolution with fallback to `minimal`, content renderer (TOC, heading anchors), theme CSS via Vite with inline fallback | `ThemeManager`, `ContentRenderer`, `ThemeAssets` |
+| Themes | WordPress-style themes in `themes/{name}` (theme.json, parent chain, prebuilt assets), Appearance (design tokens, fonts, favicons, manifest), Themes page and zip installer, demo content, admin branding, content renderer | `ThemeManager`, `ThemeAssets`, `DesignTokens`, `Favicons`, `DemoBuilder`, `ContentRenderer` |
+| Blocks | section blocks for pages (Filament Builder → Blade components), presets, FAQ/text/media extraction for SEO, GEO and scores | `BlockRegistry`, `Block`, `BlockFields`, `BlockPresets` |
 | Seo | `SeoData` (meta, OG/Twitter, hreflang, JSON-LD), sitemaps, robots.txt, RSS, IndexNow, canonical host, full-page cache, 404 log | `SeoData`, `CanonicalUrl`, `PageCache`, `OgImage` |
 | Geo | `llms.txt`, `llms-full.txt`, Markdown twins, AI crawler policy | `LlmsTxt`, `MarkdownTwin`, `AiCrawlerPolicy` |
 | Privacy | cookie consent banner (no analytics before consent), policy page stubs | `components/lwk/consent.blade.php` |
 | Contact / Newsletter | contact form (stored + e-mailed), double opt-in newsletter (optional) | `ContactController`, `NewsletterController` |
 | Dashboard | admin widgets: views, top pages, referrers (AI highlighted), content needing attention, recent changes, AI budget | `Analytics`, `Widgets\*` |
+
+## Themes
+
+```
+themes/business/
+├── theme.json        name, version, author, parent: "minimal", supports.blocks, design defaults
+├── screenshot.webp   card on Appearance → Themes
+├── views/            only what differs from the parent (theme::post searches the chain)
+├── src/theme.css     plain CSS on design tokens, @import "theme:minimal/src/theme.css"
+├── assets/theme.css  prebuilt by `larawebkit:themes:build` (PHP, no Node), committed
+├── lang/{en,tr}/     theme.php (name, description, strings), demo.php (demo texts)
+└── demo.php          `larawebkit:demo business`
+```
+
+`<x-lwk.head />` prints the design tokens as CSS custom properties (`DesignTokens`: brand colours adjusted to
+WCAG AA, font stacks, radius, neutral palettes from the theme chain), the `@font-face` rules for the chosen
+self-hosted font pair, favicons and the manifest link, then the theme's CSS/JS (`ThemeAssets`: the copy in
+`public/themes/{name}`, or a PHP fallback route). Blocks render through `theme::blocks.{type}` when a theme
+overrides one, else `components/lwk/blocks/{type}`.
 
 ## How the modules talk
 

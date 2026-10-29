@@ -36,6 +36,14 @@ class MediaResource extends Resource
 
     protected static ?int $navigationSort = 30;
 
+    protected static ?string $recordTitleAttribute = 'title';
+
+    /** @return list<string> */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'file_name', 'alt', 'caption'];
+    }
+
     public static function getNavigationGroup(): string|UnitEnum|null
     {
         return __('larawebkit.nav.content');

@@ -25,6 +25,9 @@ Before adding a feature, read `docs/architecture.md` (module map) and `docs/reci
 new module). If no recipe fits, write one alongside the feature.
 
 Useful commands: `php artisan test` (Pest), `npm test` (JS scorer parity), `vendor/bin/pint` (style),
-`php artisan larawebkit:deploy-check`. If you change scoring rules, update both
+`php artisan larawebkit:deploy-check`, `php artisan larawebkit:demo {theme}` (demo site),
+`php artisan larawebkit:themes:build` (after editing `themes/*/src/*.css`; commit `themes/*/assets`).
+Themes live in `themes/{name}` (see `docs/recipes/new-theme.md`); section blocks in `app/Modules/Blocks`
+(`docs/recipes/new-block.md`). If you change scoring rules, update both
 `app/Modules/Editor/Scoring` and `resources/js/larawebkit/scoring.js`, then regenerate
 `tests/fixtures/scoring/expected.json` with `php tests/fixtures/scoring/generate.php`.

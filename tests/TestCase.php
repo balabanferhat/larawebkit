@@ -25,5 +25,9 @@ abstract class TestCase extends BaseTestCase
         // Release the previous application (and any image bitmaps it referenced) before the next
         // test boots a new one, so memory does not pile up across the suite.
         gc_collect_cycles();
+        // LWK_MEMLOG=/path/to/file logs memory per test (to find what grows across the suite).
+        if (getenv('LWK_MEMLOG')) {
+            file_put_contents(getenv('LWK_MEMLOG'), sprintf("%s %d %d\n", $this->name(), memory_get_usage(true) >> 20, memory_get_usage() >> 20), FILE_APPEND);
+        }
     }
 }

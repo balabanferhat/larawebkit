@@ -4,6 +4,11 @@ return [
     'title' => 'Settings',
     'saved' => 'Settings saved.',
     'groups' => [
+        'theme' => 'Theme',
+        'brand' => 'Logo & icon',
+        'style' => 'Colours & type',
+        'header' => 'Header',
+        'footer' => 'Footer',
         'general' => 'General',
         'social' => 'Social',
         'organization' => 'Organization',
@@ -15,15 +20,38 @@ return [
         'ai' => 'AI',
     ],
     'keys' => [
+        'appearance' => [
+            'logo' => 'Logo',
+            'logo_dark' => 'Logo for dark mode',
+            'favicon' => 'Site icon (favicon)',
+            'primary_color' => 'Primary (brand) colour',
+            'accent_color' => 'Accent colour',
+            'font_pair' => 'Fonts',
+            'radius' => 'Corner radius',
+            'color_scheme' => 'Default colour scheme',
+            'theme_toggle' => 'Show the light/dark switch',
+        ],
+        'header' => [
+            'sticky' => 'Sticky header',
+            'search' => 'Show search in the header',
+            'cta_label' => 'Button label',
+            'cta_url' => 'Button link',
+            'announcement' => 'Announcement bar text',
+            'announcement_url' => 'Announcement link',
+        ],
+        'footer' => [
+            'text' => 'About text',
+            'show_contact' => 'Show contact details (from Settings → Organization)',
+            'copyright' => 'Copyright line',
+        ],
         'general' => [
             'site_name' => 'Site name',
             'tagline' => 'Tagline',
-            'logo' => 'Logo',
             'contact_email' => 'Contact e-mail',
             'default_locale' => 'Default language',
             'active_locales' => 'Active languages',
-            'theme' => 'Theme',
             'posts_per_page' => 'Posts per page',
+            'theme' => 'Theme',
         ],
         'social' => [
             'links' => 'Social profiles',
@@ -75,6 +103,27 @@ return [
         ],
     ],
     'help' => [
+        'general' => [
+            'theme' => 'Layout and components of the public site. Every theme uses the colours, fonts and logo below.',
+        ],
+        'appearance' => [
+            'logo' => 'Shown in the header instead of the site name. A wide PNG or WebP with transparency works best.',
+            'logo_dark' => 'Optional. Used when visitors view the site in dark mode.',
+            'favicon' => 'A square image of at least 512 × 512 px. Browser, Apple touch and web app icons are generated from it.',
+            'primary_color' => 'Buttons, links and highlights. Leave empty for the theme default. Links are darkened or lightened automatically when needed for readable contrast.',
+            'accent_color' => 'Secondary highlights (badges, details). Leave empty for the theme default.',
+            'font_pair' => 'Self-hosted variable fonts (no Google Fonts request). "Theme default" uses the pair the theme was designed with.',
+            'color_scheme' => '"System" follows the visitor\'s device. The light/dark switch overrides it per visitor.',
+        ],
+        'header' => [
+            'cta_label' => 'Optional call-to-action button on the right of the menu, e.g. "Get a quote".',
+            'cta_url' => 'A path such as /contact or a full URL.',
+            'announcement' => 'A slim bar above the header. Leave empty to hide it. Visitors can dismiss it.',
+        ],
+        'footer' => [
+            'text' => 'A short description shown under the logo in the footer.',
+            'copyright' => 'Leave empty for "© {year} {site name}".',
+        ],
         'seo' => [
             'canonical_host' => 'e.g. example.com. Requests on other hosts are redirected (301). Leave empty to disable.',
             'robots_extra' => 'Appended to the generated robots.txt.',
@@ -96,6 +145,9 @@ return [
         ],
     ],
     'options' => [
+        'system' => 'Follow the device',
+        'light' => 'Light',
+        'dark' => 'Dark',
         'organization' => 'An organization',
         'person' => 'A person',
         'ignore' => 'Leave as is',

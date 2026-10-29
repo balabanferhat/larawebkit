@@ -3,10 +3,12 @@
 namespace App\Modules\Editor\Filament;
 
 use App\Models\User;
+use App\Modules\Blocks\Filament\BlocksField;
 use App\Modules\Content\Models\Category;
 use App\Modules\Content\Models\Page;
 use App\Modules\Content\Models\Post;
 use App\Modules\Content\Models\Tag;
+use App\Modules\Core\ModuleRegistry;
 use App\Modules\Media\ImagePipeline;
 use App\Modules\Media\Models\Media;
 use Filament\Forms\Components\DateTimePicker;
@@ -95,8 +97,12 @@ class EditorSchema
                     ->helperText(__('larawebkit-editor.help.slug'))
                     ->extraInputAttributes(['data-lwk-field' => 'slug']),
                 ...($type === 'post' ? [Textarea::make('excerpt')->label(__('larawebkit-editor.fields.excerpt'))->rows(2)->maxLength(500)] : []),
-                self::richEditor(),
+                ...($type === 'page' && ModuleRegistry::enabled('blocks') ? [BlocksField::preset()] : []),
+                self::richEditor()->helperText($type === 'page' && ModuleRegistry::enabled('blocks') ? __('larawebkit-blocks.field.content_help') : null),
             ]),
+            ...($type === 'page' && ModuleRegistry::enabled('blocks')
+                ? [Section::make(__('larawebkit-blocks.field.section'))->description(__('larawebkit-blocks.field.section_help'))->collapsible()->schema([BlocksField::make()])]
+                : []),
             Section::make(__('larawebkit-editor.sections.citability'))
                 ->description(__('larawebkit-editor.help.citability'))
                 ->collapsible()
