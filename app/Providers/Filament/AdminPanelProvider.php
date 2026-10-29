@@ -39,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors(['primary' => Color::Indigo])
             ->navigationGroups([
                 NavigationGroup::make(fn () => __('larawebkit.nav.content')),
+                NavigationGroup::make(fn () => __('larawebkit.nav.appearance')),
                 NavigationGroup::make(fn () => __('larawebkit.nav.marketing')),
                 NavigationGroup::make(fn () => __('larawebkit.nav.logs'))->collapsed(),
                 NavigationGroup::make(fn () => __('larawebkit.nav.system'))->collapsed(),

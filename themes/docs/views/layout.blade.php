@@ -1,4 +1,4 @@
-@extends('themes.minimal.layout')
+@extends('theme-minimal::layout')
 
 @section('header')
     <header class="lwk-header">

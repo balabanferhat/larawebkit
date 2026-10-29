@@ -2,6 +2,7 @@
 
 return [
     'nav' => [
+        'appearance' => 'Görünüm',
         'content' => 'İçerik',
         'marketing' => 'Pazarlama',
         'logs' => 'Kayıtlar',

@@ -28,11 +28,11 @@ class MenuResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBars3;
 
-    protected static ?int $navigationSort = 40;
+    protected static ?int $navigationSort = 20;
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
-        return __('larawebkit.nav.content');
+        return __('larawebkit.nav.appearance');
     }
 
     public static function getModelLabel(): string

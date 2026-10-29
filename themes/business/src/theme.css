@@ -1,8 +1,5 @@
-@import "tailwindcss";
-@import "./base.css";
+@import "theme:minimal/src/theme.css";
 
-@source "../../views/themes";
-@source "../../views/components/lwk";
 
 :root { --accent: #0f766e; --radius: 1rem; --measure: 48rem; }
 [data-theme="dark"] { --accent: #5eead4; }

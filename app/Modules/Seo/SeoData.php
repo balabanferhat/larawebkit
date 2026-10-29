@@ -215,7 +215,7 @@ class SeoData
     public static function organization(): array
     {
         $type = setting('organization.type', 'Organization') === 'Person' ? 'Person' : 'Organization';
-        $logo = setting('organization.logo') ?: setting('general.logo');
+        $logo = setting('organization.logo') ?: setting('appearance.logo');
         $logoMedia = $logo ? Media::find($logo) : null;
 
         return array_filter([

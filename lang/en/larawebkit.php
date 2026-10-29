@@ -2,6 +2,7 @@
 
 return [
     'nav' => [
+        'appearance' => 'Appearance',
         'content' => 'Content',
         'marketing' => 'Marketing',
         'logs' => 'Logs',

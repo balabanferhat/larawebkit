@@ -1,0 +1,25 @@
+{
+    "name": "Magazine",
+    "description": "Editorial: featured grid, categories, reading-focused articles and author pages.",
+    "version": "0.2.0",
+    "author": "larawebkit",
+    "license": "MIT",
+    "parent": "minimal",
+    "supports": {
+        "blocks": "*"
+    },
+    "defaults": {
+        "primary": "#c0262d",
+        "accent": "#1f2937",
+        "font_pair": "editorial",
+        "radius": "none",
+        "light": {
+            "bg": "#ffffff",
+            "bg_soft": "#f4f2ee",
+            "surface": "#ffffff",
+            "text": "#111111",
+            "muted": "#5c5c5c",
+            "border": "#e2ded6"
+        }
+    }
+}

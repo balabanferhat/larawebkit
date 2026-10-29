@@ -1,0 +1,17 @@
+{
+    "name": "Documentation",
+    "description": "Sidebar navigation, a table of contents and a reading width made for technical docs.",
+    "version": "0.2.0",
+    "author": "larawebkit",
+    "license": "MIT",
+    "parent": "minimal",
+    "supports": {
+        "blocks": "*"
+    },
+    "defaults": {
+        "primary": "#2563eb",
+        "accent": "#7c3aed",
+        "font_pair": "inter",
+        "radius": "medium"
+    }
+}

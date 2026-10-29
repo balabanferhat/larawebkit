@@ -23,7 +23,7 @@ return [
         'content' => ['provider' => Modules\Content\ContentServiceProvider::class, 'plugin' => Modules\Content\ContentPlugin::class],
         'editor' => ['provider' => Modules\Editor\EditorServiceProvider::class, 'plugin' => null],
         'ai' => ['provider' => Modules\Ai\AiServiceProvider::class, 'plugin' => Modules\Ai\AiPlugin::class],
-        'themes' => ['provider' => Modules\Themes\ThemesServiceProvider::class, 'plugin' => null],
+        'themes' => ['provider' => Modules\Themes\ThemesServiceProvider::class, 'plugin' => Modules\Themes\ThemesPlugin::class],
         'seo' => ['provider' => Modules\Seo\SeoServiceProvider::class, 'plugin' => Modules\Seo\SeoPlugin::class],
         'geo' => ['provider' => Modules\Geo\GeoServiceProvider::class, 'plugin' => null],
         'privacy' => ['provider' => Modules\Privacy\PrivacyServiceProvider::class, 'plugin' => null],

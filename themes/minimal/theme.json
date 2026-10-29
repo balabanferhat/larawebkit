@@ -1,0 +1,16 @@
+{
+    "name": "Minimal blog",
+    "description": "A clean, text-first blog. Root of the bundled themes: every view another theme does not define comes from here.",
+    "version": "0.2.0",
+    "author": "larawebkit",
+    "license": "MIT",
+    "supports": {
+        "blocks": "*"
+    },
+    "defaults": {
+        "primary": "#3b3fd8",
+        "accent": "#db2777",
+        "font_pair": "system",
+        "radius": "medium"
+    }
+}

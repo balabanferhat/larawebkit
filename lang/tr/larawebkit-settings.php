@@ -4,6 +4,11 @@ return [
     'title' => 'Ayarlar',
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
+        'theme' => 'Tema',
+        'brand' => 'Logo ve simge',
+        'style' => 'Renkler ve yazı tipi',
+        'header' => 'Üst bölüm',
+        'footer' => 'Alt bilgi',
         'general' => 'Genel',
         'social' => 'Sosyal',
         'organization' => 'Kurum',
@@ -15,15 +20,38 @@ return [
         'ai' => 'Yapay zekâ',
     ],
     'keys' => [
+        'appearance' => [
+            'logo' => 'Logo',
+            'logo_dark' => 'Koyu mod logosu',
+            'favicon' => 'Site simgesi (favicon)',
+            'primary_color' => 'Ana (marka) rengi',
+            'accent_color' => 'Vurgu rengi',
+            'font_pair' => 'Yazı tipleri',
+            'radius' => 'Köşe yuvarlaklığı',
+            'color_scheme' => 'Varsayılan renk modu',
+            'theme_toggle' => 'Açık/koyu mod düğmesini göster',
+        ],
+        'header' => [
+            'sticky' => 'Sabit üst bölüm',
+            'search' => 'Üst bölümde arama göster',
+            'cta_label' => 'Düğme metni',
+            'cta_url' => 'Düğme bağlantısı',
+            'announcement' => 'Duyuru çubuğu metni',
+            'announcement_url' => 'Duyuru bağlantısı',
+        ],
+        'footer' => [
+            'text' => 'Hakkında metni',
+            'show_contact' => 'İletişim bilgilerini göster (Ayarlar → Kuruluş)',
+            'copyright' => 'Telif satırı',
+        ],
         'general' => [
             'site_name' => 'Site adı',
             'tagline' => 'Slogan',
-            'logo' => 'Logo',
             'contact_email' => 'İletişim e-postası',
             'default_locale' => 'Varsayılan dil',
             'active_locales' => 'Etkin diller',
-            'theme' => 'Tema',
             'posts_per_page' => 'Sayfa başına yazı',
+            'theme' => 'Tema',
         ],
         'social' => [
             'links' => 'Sosyal profiller',
@@ -75,6 +103,27 @@ return [
         ],
     ],
     'help' => [
+        'general' => [
+            'theme' => 'Sitenin yerleşimi ve bileşenleri. Her tema aşağıdaki renkleri, yazı tiplerini ve logoyu kullanır.',
+        ],
+        'appearance' => [
+            'logo' => 'Üst bölümde site adı yerine gösterilir. Saydam arka planlı, geniş bir PNG veya WebP en iyisidir.',
+            'logo_dark' => 'İsteğe bağlı. Ziyaretçi siteyi koyu modda görüntülerken kullanılır.',
+            'favicon' => 'En az 512 × 512 px kare bir görsel. Tarayıcı, Apple ve web uygulaması simgeleri bundan üretilir.',
+            'primary_color' => 'Düğmeler, bağlantılar ve vurgular. Tema varsayılanı için boş bırakın. Okunabilir kontrast gerekiyorsa bağlantı rengi otomatik koyulaştırılır veya açılır.',
+            'accent_color' => 'İkincil vurgular (rozetler, ayrıntılar). Tema varsayılanı için boş bırakın.',
+            'font_pair' => 'Sunucuda barındırılan değişken yazı tipleri (Google Fonts isteği yok). "Tema varsayılanı", temanın tasarlandığı çifti kullanır.',
+            'color_scheme' => '"Cihazı izle", ziyaretçinin cihaz ayarına uyar. Açık/koyu düğmesi bunu ziyaretçi bazında değiştirir.',
+        ],
+        'header' => [
+            'cta_label' => 'Menünün sağında isteğe bağlı eylem düğmesi, ör. "Teklif alın".',
+            'cta_url' => '/iletisim gibi bir yol ya da tam bir URL.',
+            'announcement' => 'Üst bölümün üstünde ince bir çubuk. Gizlemek için boş bırakın. Ziyaretçiler kapatabilir.',
+        ],
+        'footer' => [
+            'text' => 'Alt bilgide logonun altında görünen kısa açıklama.',
+            'copyright' => '"© {yıl} {site adı}" için boş bırakın.',
+        ],
         'seo' => [
             'canonical_host' => 'örn. ornek.com. Diğer alan adlarındaki istekler 301 ile yönlendirilir. Kapatmak için boş bırakın.',
             'robots_extra' => 'Oluşturulan robots.txt dosyasının sonuna eklenir.',
@@ -96,6 +145,9 @@ return [
         ],
     ],
     'options' => [
+        'system' => 'Cihazı izle',
+        'light' => 'Açık',
+        'dark' => 'Koyu',
         'organization' => 'Bir kurum',
         'person' => 'Bir kişi',
         'ignore' => 'Olduğu gibi bırak',

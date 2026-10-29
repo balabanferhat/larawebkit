@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <x-lwk.seo :seo="$seo" />
     @stack('head')
-    <script>(function(){try{var t=localStorage.getItem('lwk-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark';}catch(e){}})();</script>
-    @themeStyles
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <x-lwk.head />
 </head>
 <body class="lwk-body">
     <a href="#main" class="lwk-skip">{{ __('larawebkit-front.skip') }}</a>
