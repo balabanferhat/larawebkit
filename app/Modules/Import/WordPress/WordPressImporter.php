@@ -45,17 +45,35 @@ final class WordPressImporter
 
     private int $redirects = 0;
 
+    private int $goneCount = 0;
+
+    /** @var list<string> images imported without alt text, for the report */
+    private array $missingAlt = [];
+
     public function __construct(private MarkupCleaner $cleaner) {}
 
     /**
-     * @param  array{dry_run?: bool, skip_categories?: list<string>, locale?: string, author?: ?User, images?: bool, media_hosts?: list<string>}  $options
-     * @return array{report: array<string, array<string, int>>, redirects: int, warnings: list<string>}
+     * @param  array{dry_run?: bool, skip_categories?: list<string>, gone?: bool, keep_empty_pages?: bool, locale?: string, author?: ?User, images?: bool, media_hosts?: list<string>}  $options
+     * @return array{report: array<string, array<string, int>>, redirects: int, gone: int, warnings: list<string>, missing_alt: list<string>}
      */
     public function run(Source $source, array $options = []): array
     {
+        // Paths (redirect targets, localized_path) are built in the content's locale, not the console's.
+        $previousLocale = app()->getLocale();
+        app()->setLocale((string) ($options['locale'] ?? setting('general.default_locale', 'en')));
+        try {
+            return $this->import($source, $options);
+        } finally {
+            app()->setLocale($previousLocale);
+        }
+    }
+
+    /** @param  array<string, mixed>  $options */
+    private function import(Source $source, array $options): array
+    {
         $this->site = $source->siteUrl();
         $this->key = Str::limit(preg_replace('/^www\./', '', strtolower((string) parse_url($this->site, PHP_URL_HOST))) ?: 'wordpress', 190, '');
-        $this->options = $options + ['dry_run' => false, 'skip_categories' => [], 'locale' => (string) setting('general.default_locale', 'en'), 'author' => null, 'images' => true, 'media_hosts' => []];
+        $this->options = $options + ['dry_run' => false, 'skip_categories' => [], 'gone' => false, 'keep_empty_pages' => false, 'locale' => (string) setting('general.default_locale', 'en'), 'author' => null, 'images' => true, 'media_hosts' => []];
         $this->report = array_fill_keys([...self::KINDS, 'media'], ['created' => 0, 'updated' => 0, 'unchanged' => 0, 'skipped' => 0]);
 
         $data = [];
@@ -72,6 +90,7 @@ final class WordPressImporter
         foreach ($data['categories'] as $category) {
             if (in_array((int) $category['id'], $skipIds, true)) {
                 $this->count('categories', 'skipped');
+                $this->gone((string) ($category['link'] ?? ''));
 
                 continue;
             }
@@ -80,19 +99,55 @@ final class WordPressImporter
         foreach ($data['tags'] as $tag) {
             $this->importTerm('tags', $tag);
         }
+        $parents = collect($data['pages'])->pluck('parent')->map(fn ($id) => (int) $id)->filter()->all();
         foreach ($this->parentsFirst($data['pages']) as $page) {
+            // Layout parts many themes keep as pages (slider, header, an empty "Blog" page): no content, no
+            // children. They are not real pages; their old address goes to the home page.
+            if (! $this->options['keep_empty_pages'] && ! in_array((int) $page['id'], $parents, true) && $this->isEmptyPage($page)) {
+                $this->count('pages', 'skipped');
+                $this->redirect((string) ($page['link'] ?? ''), localized_path('/'));
+
+                continue;
+            }
             $this->importContent('pages', $page, $source);
         }
         foreach ($data['posts'] as $post) {
             if (array_intersect(array_map('intval', (array) ($post['categories'] ?? [])), $skipIds) !== []) {
                 $this->count('posts', 'skipped');
+                $this->gone((string) ($post['link'] ?? ''));
 
                 continue;
             }
             $this->importContent('posts', $post, $source);
         }
 
-        return ['report' => $this->report, 'redirects' => $this->redirects, 'warnings' => $this->warnings];
+        return ['report' => $this->report, 'redirects' => $this->redirects, 'gone' => $this->goneCount, 'warnings' => $this->warnings, 'missing_alt' => $this->missingAlt];
+    }
+
+    /** @param  array<string, mixed>  $page */
+    private function isEmptyPage(array $page): bool
+    {
+        $html = $this->cleaner->clean(Arr::get($page, 'content.rendered'), $this->site);
+
+        return (int) ($page['featured_media'] ?? 0) === 0 && trim(MarkupCleaner::text($html)) === '' && ! str_contains($html, '<img');
+    }
+
+    /**
+     * --gone: the old URL of something left out on purpose answers 410 Gone instead of 404, so search
+     * engines drop it. firstOrCreate: an admin who later turns it into a 301 keeps that on re-runs.
+     */
+    private function gone(string $oldUrl): void
+    {
+        if (! $this->options['gone'] || $this->dry() || $oldUrl === '' || ! MarkupCleaner::sameSite($oldUrl, $this->site)) {
+            return;
+        }
+        $from = Redirect::normalize($oldUrl);
+        if ($from === '/') {
+            return;
+        }
+        if (Redirect::firstOrCreate(['from_path' => $from], ['to_url' => null, 'status_code' => 410, 'is_automatic' => true])->wasRecentlyCreated) {
+            $this->goneCount++;
+        }
     }
 
     /** @param  array<string, mixed>  $remote */
@@ -200,11 +255,12 @@ final class WordPressImporter
         $date = filled($remote['date_gmt'] ?? null) ? Carbon::parse($remote['date_gmt'], 'UTC') : (filled($remote['date'] ?? null) ? Carbon::parse($remote['date']) : now());
         $content = $this->cleaner->clean(Arr::get($remote, 'content.rendered'), $this->site, fn (string $src, ?int $wpId, string $alt) => $this->inlineImage($source, $src, $wpId, $alt));
         $authorId = $this->ids['users'][(int) ($remote['author'] ?? 0)] ?? $this->options['author']?->id;
-        $featured = (int) ($remote['featured_media'] ?? 0) > 0 ? $this->featuredImage($source, (int) $remote['featured_media']) : null;
+        $title = html_entity_decode(strip_tags((string) Arr::get($remote, 'title.rendered', '')), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $featured = (int) ($remote['featured_media'] ?? 0) > 0 ? $this->featuredImage($source, (int) $remote['featured_media'], $title) : null;
 
         $local ??= new $model;
         $local->fill([
-            'title' => html_entity_decode(strip_tags((string) Arr::get($remote, 'title.rendered', '')), ENT_QUOTES | ENT_HTML5, 'UTF-8') ?: Str::headline((string) ($remote['slug'] ?? $singular)),
+            'title' => $title ?: Str::headline((string) ($remote['slug'] ?? $singular)),
             'slug' => $local->exists ? $local->slug : (Str::slug(urldecode((string) ($remote['slug'] ?? ''))) ?: null),
             'locale' => $local->exists ? $local->locale : $this->options['locale'],
             'content' => $content,
@@ -214,7 +270,7 @@ final class WordPressImporter
             'featured_media_id' => $featured?->id ?? $local->featured_media_id,
         ]);
         if ($kind === 'posts') {
-            $local->excerpt = Str::limit(MarkupCleaner::text(Arr::get($remote, 'excerpt.rendered')), 300, '…') ?: null;
+            $local->excerpt = $this->excerpt((string) Arr::get($remote, 'excerpt.rendered'), $content);
         } else {
             $local->parent_id = $this->ids['pages'][(int) ($remote['parent'] ?? 0)] ?? null;
             $local->sort_order = (int) ($remote['menu_order'] ?? 0);
@@ -232,7 +288,26 @@ final class WordPressImporter
         $this->redirect((string) ($remote['link'] ?? ''), $local->publicPath());
     }
 
-    private function featuredImage(Source $source, int $wpId): ?Media
+    /**
+     * WordPress builds automatic excerpts by stripping the tags of the body, which glues paragraphs together
+     * ("Nerede?Dışarıda…"). A hand-written excerpt is kept; an automatic one is rebuilt from the cleaned body.
+     */
+    private function excerpt(string $excerpt, string $content): ?string
+    {
+        $text = MarkupCleaner::text($excerpt);
+        $body = MarkupCleaner::text($content);
+        $squash = fn (string $s) => preg_replace('/[\s\x{00A0}]+/u', '', rtrim($s, '.…'));
+        if ($text !== '' && $body !== '' && str_starts_with($squash($body), $squash($text))) {
+            // Paragraph text only: captions, headings and embed links make a poor summary.
+            preg_match_all('#<p>(.*?)</p>#s', $content, $m);
+            $paragraphs = array_filter(array_map(fn ($p) => MarkupCleaner::text($p), $m[1]), fn ($p) => $p !== '' && ! preg_match('#^https?://\S+$#', $p));
+            $text = Str::words(implode(' ', $paragraphs) ?: $body, 55, '');
+        }
+
+        return Str::limit($text, 300, '…') ?: null;
+    }
+
+    private function featuredImage(Source $source, int $wpId, string $fallbackAlt = ''): ?Media
     {
         $item = $source->media($wpId);
         if (! $item || blank($item['source_url'] ?? null)) {
@@ -241,12 +316,30 @@ final class WordPressImporter
             return null;
         }
 
-        return $this->download((string) $item['source_url'], (string) ($item['alt_text'] ?? ''), MarkupCleaner::text(Arr::get($item, 'caption.rendered')), MarkupCleaner::text(Arr::get($item, 'title.rendered')));
+        // Empty alt text is common in WordPress: fall back to a real media title, then the post title.
+        $title = MarkupCleaner::text(Arr::get($item, 'title.rendered'));
+        $alt = trim((string) ($item['alt_text'] ?? ''));
+        if ($alt === '') {
+            $alt = self::meaningfulTitle($title) ? $title : $fallbackAlt;
+            $this->missingAlt[] = (string) $item['source_url'].' (alt set to "'.$alt.'", please check)';
+        }
+
+        return $this->download((string) $item['source_url'], $alt, MarkupCleaner::text(Arr::get($item, 'caption.rendered')), $title);
+    }
+
+    /** "IMG_2034", "dsc-0042" or "photo-1" say nothing about the picture. */
+    private static function meaningfulTitle(string $title): bool
+    {
+        return $title !== '' && ! preg_match('/^(img|dsc|dscn|pxl|photo|image|screenshot|whatsapp)?[\s_-]*[\d\s_-]+$/i', $title)
+            && ! preg_match('/^(img|dsc|dscn|pxl)[\s_-]?\d+/i', $title);
     }
 
     /** @return array{src: string, id: int}|null */
     private function inlineImage(Source $source, string $src, ?int $wpId, string $alt): ?array
     {
+        if (trim($alt) === '') {
+            $this->missingAlt[] = $src;
+        }
         $url = $wpId ? ($source->media($wpId)['source_url'] ?? null) : null;
         // Without the attachment, ask for the full size instead of a "-1024x683" thumbnail.
         $url ??= preg_replace('/-\d+x\d+(\.[a-z]{3,4})(\?.*)?$/i', '$1', $src);
@@ -305,7 +398,7 @@ final class WordPressImporter
     /** A 301 from the old WordPress path when it differs from the new one. */
     private function redirect(string $oldUrl, string $newPath): void
     {
-        if ($oldUrl === '' || ! MarkupCleaner::sameSite($oldUrl, $this->site)) {
+        if ($this->dry() || $oldUrl === '' || ! MarkupCleaner::sameSite($oldUrl, $this->site)) {
             return;
         }
         $from = Redirect::normalize($oldUrl);

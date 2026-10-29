@@ -113,7 +113,9 @@ final class MarkupCleaner
 
     public static function text(?string $html): string
     {
-        $text = html_entity_decode(strip_tags((string) $html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        // Block ends become spaces first, or "<p>Nerede?</p><p>Dışarıda</p>" reads "Nerede?Dışarıda".
+        $html = (string) preg_replace('#(</(p|li|h[1-6]|blockquote|div|td|th|figcaption|pre)>|<br\s*/?>)#i', '$1 ', (string) $html);
+        $text = html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $text = (string) preg_replace('/\s*(\[(…|\.\.\.)\]|Continue reading.*|Read more.*|Devamını oku.*)\s*$/iu', '', $text);
 
         return trim((string) preg_replace('/\s+/u', ' ', $text));

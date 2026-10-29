@@ -6,6 +6,7 @@ use App\Modules\Content\Models\Page;
 use App\Modules\Content\Models\Post;
 use App\Modules\Content\Models\Redirect;
 use App\Modules\Content\Models\Tag;
+use App\Modules\Import\WordPress\MarkupCleaner;
 use App\Modules\Media\Models\Media;
 use App\Modules\Settings\SettingsRepository;
 use Illuminate\Http\Client\Request;
@@ -43,6 +44,10 @@ function fakeWordPress(array $override = []): void
             return Http::response('nope', 404);
         }
         if (preg_match('#/wp-json/wp/v2/media/(\d+)$#', $path, $m)) {
+            if (isset($override['media-'.$m[1]])) {
+                return Http::response($override['media-'.$m[1]]);
+            }
+
             return is_file(base_path("tests/fixtures/wordpress/media-{$m[1]}.json")) ? Http::response(wpFixture("media-{$m[1]}")) : Http::response(['code' => 'rest_post_invalid_id'], 404);
         }
         if (preg_match('#/wp-json/wp/v2/(\w+)$#', $path, $m)) {
@@ -183,4 +188,80 @@ it('imports an export file and refuses bad input', function () {
     $this->artisan('larawebkit:import:wordpress', ['source' => base_path('composer.json')])->assertFailed();
     $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--author' => 'nobody@example.com'])->assertFailed();
     $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--locale' => 'xx'])->assertFailed();
+});
+
+it('builds redirect targets in the import locale, not the console locale', function () {
+    app(SettingsRepository::class)->setMany(['general.default_locale' => 'tr', 'general.active_locales' => ['tr']]);
+    app()->setLocale('en');
+    fakeWordPress();
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--locale' => 'tr', '--no-images' => true])->assertSuccessful();
+
+    expect(Redirect::where('from_path', '/category/gardening')->sole()->to_url)->toBe('/blog/category/gardening')
+        ->and(Redirect::where('from_path', '/2024/05/hello-tomatoes')->sole()->to_url)->toBe('/blog/hello-tomatoes')
+        ->and(app()->getLocale())->toBe('en');
+});
+
+it('answers 410 Gone for skipped posts and categories with --gone, keeping an admin change on re-runs', function () {
+    fakeWordPress();
+    $args = ['source' => 'https://example.com', '--skip-category' => ['private-notes'], '--gone' => true, '--no-images' => true];
+
+    $this->artisan('larawebkit:import:wordpress', $args)->expectsOutputToContain('410 Gone: 2')->assertSuccessful();
+    $this->get('/2024/06/my-diary/')->assertStatus(410);
+    expect(Redirect::where('from_path', '/category/private-notes')->sole()->status_code)->toBe(410);
+
+    Redirect::where('from_path', '/2024/06/my-diary')->sole()->update(['status_code' => 301, 'to_url' => '/blog']);
+    $this->artisan('larawebkit:import:wordpress', $args)->assertSuccessful();
+    expect(Redirect::where('from_path', '/2024/06/my-diary')->sole()->status_code)->toBe(301);
+
+    // Without --gone nothing is written for them.
+    Redirect::query()->delete();
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--skip-category' => ['private-notes'], '--no-images' => true])->assertSuccessful();
+    expect(Redirect::where('from_path', '/2024/06/my-diary')->exists())->toBeFalse();
+});
+
+it('rebuilds glued automatic excerpts from the body and keeps hand-written ones', function () {
+    $posts = wpFixture('posts-1');
+    $posts[0]['content']['rendered'] = '<p>Nerede?</p><p>Dışarıda, bahçede.</p><h2>Sonra</h2><p>Eve döndük.</p>';
+    $posts[0]['excerpt']['rendered'] = '<p>Nerede?Dışarıda, bahçede.Sonra [&hellip;]</p>';
+    $posts[1]['content']['rendered'] = '<p>Body text.</p>';
+    $posts[1]['excerpt']['rendered'] = '<p>A summary written by hand.</p>';
+    fakeWordPress(['posts-1' => $posts]);
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--no-images' => true])->assertSuccessful();
+
+    expect(Post::where('slug', 'hello-tomatoes')->sole()->excerpt)->toBe('Nerede? Dışarıda, bahçede. Eve döndük.')
+        ->and(Post::where('slug', 'my-diary')->sole()->excerpt)->toBe('A summary written by hand.')
+        ->and(MarkupCleaner::text('<p>One</p><p>Two</p><ul><li>a</li><li>b</li></ul>'))->toBe('One Two a b');
+});
+
+it('skips empty theme-part pages and sends their old address home', function () {
+    $pages = wpFixture('pages');
+    $pages[] = ['id' => 40, 'slug' => 'slider', 'status' => 'publish', 'link' => 'https://example.com/slider/', 'title' => ['rendered' => 'Slider'], 'content' => ['rendered' => "\n<p>&nbsp;</p>\n"], 'parent' => 0, 'featured_media' => 0, 'modified_gmt' => '2024-01-01T00:00:00'];
+    $pages[] = ['id' => 41, 'slug' => 'holder', 'status' => 'publish', 'link' => 'https://example.com/holder/', 'title' => ['rendered' => 'Holder'], 'content' => ['rendered' => ''], 'parent' => 0, 'featured_media' => 0, 'modified_gmt' => '2024-01-01T00:00:00'];
+    $pages[] = ['id' => 42, 'slug' => 'child', 'status' => 'publish', 'link' => 'https://example.com/holder/child/', 'title' => ['rendered' => 'Child'], 'content' => ['rendered' => '<p>Real text.</p>'], 'parent' => 41, 'featured_media' => 0, 'modified_gmt' => '2024-01-01T00:00:00'];
+    fakeWordPress(['pages' => $pages]);
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--no-images' => true])->assertSuccessful();
+
+    expect(Page::where('slug', 'slider')->exists())->toBeFalse()
+        ->and(Page::where('slug', 'holder')->exists())->toBeTrue() // it has a child: kept so the child keeps its path
+        ->and(Page::where('slug', 'child')->sole()->path)->toBe('holder/child');
+    $this->get('/slider/')->assertRedirect('/');
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--no-images' => true, '--keep-empty-pages' => true])->assertSuccessful();
+    expect(Page::where('slug', 'slider')->exists())->toBeTrue();
+});
+
+it('gives featured images without alt text the post title and lists them in the report', function () {
+    $media = wpFixture('media-13');
+    $media['alt_text'] = '';
+    $media['title']['rendered'] = 'IMG_2034';
+    fakeWordPress(['media-13' => $media]);
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com'])
+        ->expectsOutputToContain('images without alt text')
+        ->assertSuccessful();
+
+    expect(Post::where('slug', 'hello-tomatoes')->sole()->featuredMedia->alt)->toBe('Hello “tomatoes”');
 });
