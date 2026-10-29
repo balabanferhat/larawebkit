@@ -1,6 +1,24 @@
 <?php
 
 return [
+    'welcome' => [
+        'morning' => 'Good morning, :name',
+        'afternoon' => 'Good afternoon, :name',
+        'evening' => 'Good evening, :name',
+        'subtitle' => 'Here is what is happening on :site.',
+        'new_post' => 'New post',
+        'new_page' => 'New page',
+        'media' => 'Media library',
+        'appearance' => 'Appearance',
+        'view_site' => 'View site',
+        'checklist' => 'Finish setting up your site',
+        'check_theme' => 'Choose a theme',
+        'check_brand' => 'Add your logo and site icon',
+        'check_basics' => 'Add a tagline and contact e-mail',
+        'check_post' => 'Publish your first post',
+        'done' => 'done',
+        'todo' => 'to do',
+    ],
     'views_30' => 'Views (30 days)',
     'unique' => ':count unique daily visitors',
     'failed_logins' => 'Failed logins',

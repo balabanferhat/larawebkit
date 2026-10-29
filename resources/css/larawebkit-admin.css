@@ -136,3 +136,15 @@
 .lwk-theme-body p { margin: 0; font-size: 0.875rem; }
 .lwk-theme-meta { font-size: 0.75rem !important; color: var(--lwk-muted); }
 .lwk-theme-actions { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.25rem; }
+
+/* Dashboard welcome */
+.lwk-welcome { display: grid; gap: 1.5rem; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--lwk-border); background: linear-gradient(135deg, color-mix(in srgb, var(--lwk-primary) 10%, var(--lwk-bg)), var(--lwk-bg)); }
+@media (min-width: 64rem) { .lwk-welcome { grid-template-columns: 1.6fr 1fr; align-items: center; } }
+.lwk-welcome-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+.lwk-welcome-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.lwk-welcome-checklist { padding: 1rem 1.25rem; border-radius: 0.625rem; background: var(--lwk-bg); border: 1px solid var(--lwk-border); }
+.lwk-welcome-checklist ul { display: grid; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.875rem; }
+.lwk-welcome-checklist li { display: flex; gap: 0.5rem; }
+.lwk-welcome-checklist li.is-done { color: var(--lwk-muted); text-decoration: line-through; }
+.lwk-welcome-checklist a { text-decoration: underline; }
+.lwk-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

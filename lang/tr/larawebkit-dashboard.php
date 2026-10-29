@@ -1,6 +1,24 @@
 <?php
 
 return [
+    'welcome' => [
+        'morning' => 'Günaydın, :name',
+        'afternoon' => 'İyi günler, :name',
+        'evening' => 'İyi akşamlar, :name',
+        'subtitle' => ':site sitesinde neler oluyor.',
+        'new_post' => 'Yeni yazı',
+        'new_page' => 'Yeni sayfa',
+        'media' => 'Medya kütüphanesi',
+        'appearance' => 'Görünüm',
+        'view_site' => 'Siteyi gör',
+        'checklist' => 'Sitenizin kurulumunu tamamlayın',
+        'check_theme' => 'Bir tema seçin',
+        'check_brand' => 'Logonuzu ve site simgenizi ekleyin',
+        'check_basics' => 'Slogan ve iletişim e-postası ekleyin',
+        'check_post' => 'İlk yazınızı yayınlayın',
+        'done' => 'tamam',
+        'todo' => 'yapılacak',
+    ],
     'views_30' => 'Görüntülenme (30 gün)',
     'unique' => ':count günlük tekil ziyaretçi',
     'failed_logins' => 'Hatalı girişler',
