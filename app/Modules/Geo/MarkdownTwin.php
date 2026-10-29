@@ -36,13 +36,19 @@ class MarkdownTwin
         if ($content instanceof Post && $content->members_only) {
             $lines[] = trim((string) $content->excerpt);
         } else {
+            if (method_exists($content, 'blocksText') && ($blocks = $content->blocksText(withFaq: false)) !== '') {
+                // Section blocks first (FAQ blocks are listed once, with the page FAQ, below).
+                $lines[] = $blocks;
+                $lines[] = '';
+            }
             $lines[] = $this->htmlToMarkdown((string) $content->content);
         }
 
-        if (! empty($content->faq)) {
+        $faq = method_exists($content, 'faqItems') ? $content->faqItems() : (array) $content->faq;
+        if ($faq !== []) {
             $lines[] = '';
             $lines[] = '## '.__('larawebkit-front.faq');
-            foreach ($content->faq as $item) {
+            foreach ($faq as $item) {
                 $lines[] = '';
                 $lines[] = '### '.trim((string) ($item['question'] ?? ''));
                 $lines[] = trim((string) ($item['answer'] ?? ''));

@@ -2,6 +2,8 @@
 
 namespace App\Modules\Editor;
 
+use App\Modules\Blocks\BlockRegistry;
+use App\Modules\Core\ModuleRegistry;
 use App\Modules\Editor\Scoring\ContentInput;
 use App\Modules\Editor\Scoring\GeoChecker;
 use App\Modules\Editor\Scoring\HumanScorer;
@@ -28,10 +30,11 @@ class ContentScorer
 
     public function inputFromModel(Model $model): ContentInput
     {
-        return $this->inputFromState($model->getAttributes() + [
+        return $this->inputFromState([
             'keywords' => $model->keywords,
             'faq' => $model->faq,
-        ]);
+            'blocks' => $model->getAttribute('blocks'),
+        ] + $model->getAttributes());
     }
 
     /** @param  array<string, mixed>  $state  form state or model attributes */
@@ -51,9 +54,16 @@ class ContentScorer
             $keywords = json_decode($keywords, true) ?: explode(',', $keywords);
         }
 
+        $content = is_string($state['content'] ?? null) ? $state['content'] : '';
+        // Pages built from section blocks: their text counts like editor content.
+        if (! empty($state['blocks']) && ModuleRegistry::enabled('blocks')) {
+            $content = app(BlockRegistry::class)->html($state['blocks']).$content;
+            $faq = [...array_values((array) $faq), ...app(BlockRegistry::class)->faq($state['blocks'])];
+        }
+
         return ContentInput::fromArray([
             'title' => $state['title'] ?? '',
-            'content' => is_string($state['content'] ?? null) ? $state['content'] : '',
+            'content' => $content,
             'meta_description' => $state['meta_description'] ?? '',
             'keywords' => $keywords,
             'locale' => $state['locale'] ?? app()->getLocale(),
