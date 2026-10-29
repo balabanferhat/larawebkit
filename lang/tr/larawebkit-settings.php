@@ -4,6 +4,7 @@ return [
     'title' => 'Ayarlar',
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
+        'backup' => 'Yedekler',
         'newsletter' => 'Bülten',
         'members' => 'Üyeler',
         'theme' => 'Tema',
@@ -22,6 +23,11 @@ return [
         'ai' => 'Yapay zekâ',
     ],
     'keys' => [
+        'backup' => [
+            'frequency' => 'Otomatik yedek',
+            'time' => 'Saat (SS:DD, sunucu saati)',
+            'keep' => 'Saklanacak yedek sayısı',
+        ],
         'newsletter' => [
             'download' => 'Onaydan sonra indirilecek dosya (ücretsiz içerik)',
             'download_name' => 'Aboneye gösterilecek dosya adı',
@@ -115,6 +121,10 @@ return [
         ],
     ],
     'help' => [
+        'backup' => [
+            'frequency' => 'Veritabanı ve yüklenen dosyalar tek zip içinde, cron ile. Sistem → Yedekler listeler ve indirir.',
+            'keep' => 'Daha eski arşivler silinir (.env içinde uzak disk tanımlıysa orada da).',
+        ],
         'newsletter' => [
             'download' => 'İsteğe bağlı. Aboneliğini onaylayan kişi bu dosya için imzalı bir bağlantı alır (sayfada ve e-postayla). Dosya gizli kalır.',
         ],
@@ -160,6 +170,9 @@ return [
         ],
     ],
     'options' => [
+        'off' => 'Kapalı',
+        'daily' => 'Günlük',
+        'weekly' => 'Haftalık (pazar)',
         'system' => 'Cihazı izle',
         'light' => 'Açık',
         'dark' => 'Koyu',

@@ -109,7 +109,9 @@ The scheduler then:
 - prunes the access log according to the retention setting,
 - sends newsletter campaigns in small batches (one batch of `NEWSLETTER_BATCH_SIZE`, default 50, per minute),
   which keeps you under the hourly sending limits most hosts set; ask your host for the limit and lower the
-  batch size if needed.
+  batch size if needed,
+- backs up the database and uploads every night at 03:00 and keeps the newest seven (Settings → Backups;
+  copies to FTP, SFTP or S3 and restore steps in [backups.md](backups.md)).
 
 Members, events and the newsletter are off until you enable them in **Settings → Features**. They send e-mail
 (verification, password reset, registration with a calendar file, campaigns), so set `MAIL_*` in `.env` and send

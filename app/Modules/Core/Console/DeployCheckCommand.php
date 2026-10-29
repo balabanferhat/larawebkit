@@ -2,6 +2,7 @@
 
 namespace App\Modules\Core\Console;
 
+use App\Modules\Backup\BackupManager;
 use App\Modules\Core\ModuleRegistry;
 use App\Modules\Media\ImagePipeline;
 use App\Modules\Media\MemoryBudget;
@@ -102,6 +103,12 @@ class DeployCheckCommand extends Command
         $last = is_file($file) ? (int) file_get_contents($file) : 0;
         $fresh = $last > 0 && time() - $last < 180;
         $this->check($fresh, __('larawebkit.deploy_check.heartbeat').' — '.($last ? __('larawebkit.deploy_check.heartbeat_stale', ['ago' => Carbon::createFromTimestamp($last)->diffForHumans()]) : __('larawebkit.deploy_check.heartbeat_missing')), ! $production);
+
+        if (ModuleRegistry::enabled('backup') && $dbOk && setting('backup.frequency', 'daily') !== 'off') {
+            $last = BackupManager::lastRun();
+            $recent = $last && $last['ok'] && Carbon::parse($last['at'])->gt(now()->subDays(setting('backup.frequency') === 'weekly' ? 8 : 2));
+            $this->check($recent, __('larawebkit.deploy_check.backup').' — '.($last ? Carbon::parse($last['at'])->diffForHumans().($last['ok'] ? '' : ': '.($last['error'] ?? '')) : __('larawebkit.deploy_check.backup_never')), true);
+        }
 
         foreach (['PEXELS_API_KEY' => config('services.pexels.key'), 'ANTHROPIC_API_KEY' => config('larawebkit-ai.providers.anthropic.api_key'), 'INDEXNOW_KEY' => config('services.indexnow.key')] as $name => $value) {
             $this->rows[] = [filled($value) ? '<fg=green>✔</>' : '<fg=gray>–</>', __('larawebkit.deploy_check.optional', ['name' => $name]), 'info'];

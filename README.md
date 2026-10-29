@@ -116,6 +116,7 @@ built-in cookieless page counter, privacy and cookie policy templates.
 - [Architecture and module map](docs/architecture.md)
 - [Deploying to shared hosting](docs/deploy-shared-hosting.md)
 - [Importing from WordPress](docs/import-wordpress.md)
+- [Backups and restore](docs/backups.md)
 - [Recipes for extending the kit](docs/recipes/README.md)
 - [Theme screenshots](docs/screenshots/themes) and [Lighthouse reports](docs/lighthouse/README.md)
 - [v0.1 plan](docs/plan.md), [v0.2 plan](docs/plan-v0.2.md)

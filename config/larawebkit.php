@@ -32,6 +32,7 @@ return [
         'forms' => ['provider' => Modules\Forms\FormsServiceProvider::class, 'plugin' => Modules\Forms\FormsPlugin::class],
         'newsletter' => ['provider' => Modules\Newsletter\NewsletterServiceProvider::class, 'plugin' => Modules\Newsletter\NewsletterPlugin::class],
         'events' => ['provider' => Modules\Events\EventsServiceProvider::class, 'plugin' => Modules\Events\EventsPlugin::class],
+        'backup' => ['provider' => Modules\Backup\BackupServiceProvider::class, 'plugin' => Modules\Backup\BackupPlugin::class],
         'import' => ['provider' => Modules\Import\ImportServiceProvider::class, 'plugin' => null],
         'dashboard' => ['provider' => null, 'plugin' => Modules\Dashboard\DashboardPlugin::class],
     ],
