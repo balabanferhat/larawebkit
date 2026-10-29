@@ -15,6 +15,33 @@ php artisan filament:assets                # admin assets in public/js, public/c
 
 Without `public/build` the site still works: themes fall back to inlined base CSS.
 
+## Memory: set `memory_limit` to 256M
+
+Images are decoded into bitmaps of about **4.6 bytes per pixel** before they are resized to WebP.
+A 12 MP photo needs ~55 MB, a 24 MP phone photo ~110 MB, on top of ~60-100 MB for Laravel itself.
+
+| `memory_limit` | Largest image that can be processed (approx.) |
+|---|---|
+| 128M | ~10 MP (many phone photos are refused) |
+| **256M (recommended)** | ~40 MP — every common phone and camera photo |
+| 512M | ~90 MP |
+
+How larawebkit protects a small server:
+
+- Before decoding, the image header is read and the upload is **refused with a clear message** when it is larger than
+  `MEDIA_MAX_MEGAPIXELS` (default 40) or when its estimated bitmap does not fit into the memory that is still free.
+  The user sees e.g. "The image is 6000 × 4000 px (24 MP), too large for this server's memory (memory_limit 128M,
+  about 10.9 MP fit)" instead of a blank error page.
+- Only one full-size bitmap is ever held: the original is downscaled in place to the largest variant, every smaller
+  variant is made from the previous one, rotation (EXIF) is applied after the first downscale, and the Open Graph
+  image is cut from the largest variant, not the original.
+- `php artisan larawebkit:deploy-check` warns when `memory_limit` is below 256M and prints the size that fits.
+
+Raise the limit in cPanel → **Select PHP Version → Options** (or **MultiPHP INI Editor**): `memory_limit = 256M`.
+If your host does not allow it, lower `MEDIA_MAX_MEGAPIXELS` (e.g. `10` for 128M) so editors get the size limit
+up front, or resize photos before uploading. GD and Imagick need about the same memory; Imagick counts it outside
+PHP's limit, so set `MEDIA_MAX_MEGAPIXELS` to protect the server in that case.
+
 ## 2. Upload and point the document root
 
 1. Upload the project (everything except `node_modules`, `.env`, `storage/logs/*`) to e.g. `~/larawebkit`.
@@ -85,7 +112,7 @@ Use the full PHP path if `php` is not the right version, e.g. `/usr/local/bin/ea
 php artisan larawebkit:deploy-check
 ```
 
-It checks PHP and extensions, WebP support, writable directories, `.env` values, the storage link,
+It checks PHP and extensions, `memory_limit` (warns below 256M), WebP support, writable directories, `.env` values, the storage link,
 the database, pending migrations, the queue driver and the cron heartbeat. It exits with code 1
 when a required check fails.
 

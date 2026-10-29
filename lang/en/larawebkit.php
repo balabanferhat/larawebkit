@@ -37,6 +37,7 @@ return [
         'php' => 'PHP version :version (needs :required+)',
         'extension' => 'PHP extension: :name',
         'image' => 'Image driver (GD or Imagick) with WebP support',
+        'memory' => 'PHP memory_limit is :limit (256M recommended; images up to about :mp MP can be processed)',
         'writable' => 'Writable: :path',
         'app_key' => 'APP_KEY is set',
         'debug' => 'APP_DEBUG is off in production',

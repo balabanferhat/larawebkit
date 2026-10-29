@@ -22,3 +22,9 @@ All notable changes to this project are documented here. The format follows
   GEO (llms.txt, llms-full.txt, Markdown twins, AI crawler policy).
 - Cookie consent, policy page templates, admin dashboard.
 - Docs: architecture, shared-hosting deployment, recipes; CI on PHP 8.3/8.4 with Pint.
+
+### Fixed
+- Image pipeline memory: input megapixel cap and memory estimate before decoding (clear refusal instead of a
+  fatal error), a single full-size bitmap per upload, EXIF rotation after the first downscale, OG image from the
+  largest variant. Test suite passes at `memory_limit=256M` (enforced in `phpunit.xml` and CI, including Windows).
+- `larawebkit:deploy-check` warns when `memory_limit` is below 256M; its test no longer depends on `public/storage`.

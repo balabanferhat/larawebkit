@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Modules\Content\Models\Page;
+use App\Modules\Core\Console\DeployCheckCommand;
 use Illuminate\Console\Scheduling\Schedule;
 
 it('installs non-interactively: settings, roles, default content, super admin', function () {
@@ -24,9 +25,33 @@ it('rejects a weak admin password', function () {
 });
 
 it('runs the deploy check', function () {
+    // Hermetic: provide what a fresh clone may lack (storage link, cron heartbeat) and restore it afterwards.
     file_put_contents(config('larawebkit.heartbeat_file'), (string) time());
+    $link = public_path('storage');
+    $created = ! file_exists($link);
+    if ($created) {
+        mkdir($link); // a directory satisfies the check and needs no symlink rights (Windows)
+    }
 
-    $this->artisan('larawebkit:deploy-check')->expectsOutputToContain('PHP')->assertSuccessful();
+    try {
+        $missing = array_filter(DeployCheckCommand::REQUIRED_EXTENSIONS, fn ($ext) => ! extension_loaded($ext));
+        $this->artisan('larawebkit:deploy-check')
+            ->expectsOutputToContain('PHP memory_limit is')
+            ->assertExitCode($missing === [] ? 0 : 1);
+    } finally {
+        if ($created) {
+            rmdir($link);
+        }
+    }
+});
+
+it('warns when memory_limit is below 256M', function () {
+    $previous = ini_set('memory_limit', '128M');
+    try {
+        $this->artisan('larawebkit:deploy-check')->expectsOutputToContain('PHP memory_limit is 128M (256M recommended');
+    } finally {
+        ini_set('memory_limit', $previous);
+    }
 });
 
 it('fails the deploy check in production without the storage link', function () {

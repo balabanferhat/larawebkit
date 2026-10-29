@@ -3,6 +3,7 @@
 namespace App\Modules\Core\Console;
 
 use App\Modules\Media\ImagePipeline;
+use App\Modules\Media\MemoryBudget;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -19,6 +20,12 @@ class DeployCheckCommand extends Command
 
     protected $description = 'Check PHP, extensions, writable directories, .env values and the cron heartbeat.';
 
+    public const REQUIRED_EXTENSIONS = ['pdo', 'mbstring', 'openssl', 'tokenizer', 'xml', 'ctype', 'json', 'fileinfo'];
+
+    public const OPTIONAL_EXTENSIONS = ['intl', 'zip', 'bcmath'];
+
+    public const RECOMMENDED_MEMORY = 256 * 1024 * 1024;
+
     /** @var list<array{0: string, 1: string, 2: string}> */
     private array $rows = [];
 
@@ -28,9 +35,16 @@ class DeployCheckCommand extends Command
         $production = app()->environment('production');
 
         $this->check(version_compare(PHP_VERSION, '8.3.0', '>='), __('larawebkit.deploy_check.php', ['version' => PHP_VERSION, 'required' => '8.3']));
-        foreach (['pdo', 'mbstring', 'openssl', 'tokenizer', 'xml', 'ctype', 'json', 'fileinfo', 'intl', 'zip', 'bcmath'] as $ext) {
-            $this->check(extension_loaded($ext), __('larawebkit.deploy_check.extension', ['name' => $ext]), in_array($ext, ['intl', 'zip', 'bcmath'], true));
+        foreach ([...self::REQUIRED_EXTENSIONS, ...self::OPTIONAL_EXTENSIONS] as $ext) {
+            $this->check(extension_loaded($ext), __('larawebkit.deploy_check.extension', ['name' => $ext]), in_array($ext, self::OPTIONAL_EXTENSIONS, true));
         }
+
+        // Image processing needs ~4.6 bytes per pixel: 256M handles 24 MP phone photos.
+        $limit = MemoryBudget::memoryLimitBytes();
+        $this->check($limit === null || $limit >= self::RECOMMENDED_MEMORY, __('larawebkit.deploy_check.memory', [
+            'limit' => ini_get('memory_limit'),
+            'mp' => $limit === null ? '∞' : MemoryBudget::maxMegapixelsFor(max(0, $limit - 64 * 1024 * 1024)),
+        ]), true);
 
         $image = false;
         try {

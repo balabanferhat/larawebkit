@@ -37,6 +37,7 @@ return [
         'php' => 'PHP sürümü :version (gereken :required+)',
         'extension' => 'PHP eklentisi: :name',
         'image' => 'WebP destekli görsel sürücüsü (GD veya Imagick)',
+        'memory' => 'PHP memory_limit :limit (256M önerilir; yaklaşık :mp MP\'ye kadar görseller işlenebilir)',
         'writable' => 'Yazılabilir: :path',
         'app_key' => 'APP_KEY tanımlı',
         'debug' => 'Canlıda APP_DEBUG kapalı',
