@@ -2,6 +2,7 @@
 
 namespace App\Modules\Seo\Http\Middleware;
 
+use App\Modules\Content\Models\Redirect;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +48,22 @@ class CanonicalHost
             };
         }
 
-        if ($scheme !== $request->getScheme() || $host !== $request->getHost() || $path !== $request->getPathInfo()) {
+        // An admin redirect for this address (old WordPress URLs end in a slash) answers in one hop: no
+        // trailing-slash 301 first. Same host: HandleRedirects does it; other host: straight to the target.
+        $changed = $scheme !== $request->getScheme() || $host !== $request->getHost() || $path !== $request->getPathInfo();
+        if ($changed && class_exists(Redirect::class) && ($redirect = rescue(fn () => Redirect::lookup($request->getPathInfo()), report: false))) {
+            if ($scheme === $request->getScheme() && $host === $request->getHost()) {
+                return $next($request);
+            }
+            if ($redirect['status'] !== 410 && filled($redirect['to'])) {
+                $path = (string) parse_url((string) $redirect['to'], PHP_URL_PATH) ?: '/';
+                if (preg_match('#^https?://#i', (string) $redirect['to'])) {
+                    return redirect()->to((string) $redirect['to'], 301);
+                }
+            }
+        }
+
+        if ($changed || $path !== $request->getPathInfo()) {
             $port = $request->getPort();
             $portPart = in_array($port, [80, 443], true) || $host !== $request->getHost() ? '' : ':'.$port;
             $query = $request->getQueryString();
