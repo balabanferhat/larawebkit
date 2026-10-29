@@ -8,9 +8,11 @@ use App\Modules\Content\Filament\Resources\Posts\Pages\ListPosts;
 use App\Modules\Content\Models\Category;
 use App\Modules\Content\Models\Page;
 use App\Modules\Content\Models\Post;
+use App\Modules\Newsletter\Models\Subscriber;
 use App\Modules\Settings\Filament\Pages\ManageSettings;
 use App\Modules\Settings\Mail\TestMail;
 use App\Modules\Settings\SettingsRepository;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
@@ -106,4 +108,20 @@ it('sends a test e-mail from the settings page', function () {
 
     Mail::assertSent(TestMail::class, fn ($m) => $m->hasTo('me@example.com'));
     expect((new TestMail)->render())->toContain(__('larawebkit-settings.mail_test.body'));
+});
+
+it('survives crafted search and form input: arrays, LIKE wildcards', function () {
+    Post::factory()->published()->create(['title' => 'Plain title', 'excerpt' => 'Nothing special', 'content' => '<p>Body</p>']);
+    Post::factory()->published()->create(['title' => '100% honest', 'excerpt' => 'With a percent sign', 'content' => '<p>Body</p>']);
+
+    $this->get('/search?q[]=x')->assertOk()->assertDontSee('lwk-result', false);
+    $this->get('/search?q=%25')->assertOk()->assertSee('<mark>%</mark> honest', false)->assertDontSee('Plain title');
+    $this->get('/search?q=_')->assertOk()->assertDontSee('Plain title');
+    $this->get('/search?q=plain')->assertOk()->assertSee('<mark>Plain</mark> title', false);
+
+    // The public-form time token as an array is a rejected bot, not a server error.
+    app(SettingsRepository::class)->set('features.newsletter', true);
+    $this->withoutMiddleware(PreventRequestForgery::class)
+        ->post('/newsletter/subscribe', ['_lwk_ts' => ['x'], 'email' => 'a@example.com'])->assertStatus(302);
+    expect(Subscriber::count())->toBe(0);
 });

@@ -71,7 +71,10 @@ class FormSubmitter
     /** @return array{field: string, path: string, name: string, size: int, mime: string} */
     private function storeFile(Form $form, string $field, UploadedFile $file): array
     {
-        $extension = strtolower($file->getClientOriginalExtension() ?: $file->extension() ?: 'bin');
+        // The extension comes from the content (what the mimes rule checked), never from the visitor's file
+        // name: "invoice.php" with PDF content is stored as .pdf.
+        $extension = strtolower((string) $file->extension());
+        $extension = in_array($extension, FieldTypes::FILE_TYPES, true) ? $extension : 'bin';
         $path = $file->storeAs(
             trim((string) config('larawebkit-forms.directory', 'form-uploads'), '/').'/'.$form->id.'/'.Str::uuid(),
             Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) ?: 'file').'.'.$extension,
