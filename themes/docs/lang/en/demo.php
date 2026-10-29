@@ -1,0 +1,40 @@
+<?php
+
+return [
+    'tagline' => 'Everything you need to install, configure and ship with Orbit, a fictional open-source tool for the larawebkit demo.',
+    'announcement' => 'Orbit 2.0 is out: faster builds and a new config format',
+    'footer' => 'Orbit is a fictional project used to demonstrate the larawebkit Documentation theme.',
+    'team_role' => 'Maintainers',
+    'team_bio' => 'The (fictional) people who maintain Orbit.',
+    'blog' => 'Release notes',
+    'steps' => 'Steps',
+    'steps_text' => 'Run the following command in your terminal. The output tells you what to do next.',
+    'tip' => 'Tip: every command explains its options with',
+    'menus' => ['docs' => 'Documentation', 'community' => 'Community', 'legal' => 'Legal', 'privacy' => 'Privacy', 'cookies' => 'Cookies'],
+    'pages' => [
+        'getting-started' => ['title' => 'Getting started', 'summary' => 'Install Orbit and create your first project in five minutes.', 'code' => "curl -fsSL https://example.com/install.sh | sh\norbit --version"],
+        'installation' => ['title' => 'Installation', 'summary' => 'System requirements and the three ways to install Orbit.', 'code' => "# macOS and Linux\nbrew install orbit\n\n# or with npm\nnpm install --global orbit-cli"],
+        'quick-start' => ['title' => 'Quick start', 'summary' => 'Create a project, run it locally and open it in the browser.', 'code' => "orbit new my-site\ncd my-site\norbit dev"],
+        'configuration' => ['title' => 'Configuration', 'summary' => 'Where settings live, how environments work and which defaults to change.', 'code' => "# orbit.toml\nname = \"my-site\"\nregion = \"eu-central\"\n\n[build]\ncommand = \"npm run build\""],
+        'guides' => ['title' => 'Guides', 'summary' => 'Step-by-step guides for the most common tasks.', 'code' => 'orbit guides --list'],
+        'projects' => ['title' => 'Working with projects', 'summary' => 'Create, rename, archive and share projects.', 'code' => "orbit projects list\norbit projects rename my-site my-new-site"],
+        'deploying' => ['title' => 'Deploying', 'summary' => 'Publish a project with one command and roll back if needed.', 'code' => "orbit deploy --prod\norbit rollback"],
+        'teams' => ['title' => 'Teams and permissions', 'summary' => 'Invite people and choose what they can change.', 'code' => 'orbit team invite ada@example.com --role editor'],
+        'reference' => ['title' => 'Reference', 'summary' => 'Every command, option and configuration key.', 'code' => 'orbit help'],
+        'cli' => ['title' => 'CLI commands', 'summary' => 'All commands with their options and examples.', 'code' => "orbit new <name>\norbit dev [--port=3000]\norbit deploy [--prod]"],
+        'config-file' => ['title' => 'orbit.toml', 'summary' => 'Every key in the configuration file, with defaults.', 'code' => "[dev]\nport = 3000\n\n[deploy]\nregion = \"eu-central\""],
+        'api' => ['title' => 'HTTP API', 'summary' => 'Authenticate and call the API from your own scripts.', 'code' => "curl https://api.example.com/v1/projects \\\n  -H \"Authorization: Bearer \$ORBIT_TOKEN\""],
+        'faq' => ['title' => 'FAQ', 'summary' => 'Answers to the questions we hear most often.'],
+    ],
+    'faq' => [
+        1 => ['q' => 'Is Orbit free?', 'a' => 'Orbit is a fictional open-source project in this demo. Replace these answers with your own product\'s FAQ.'],
+        2 => ['q' => 'Which operating systems are supported?', 'a' => 'macOS, Linux and Windows (with WSL).'],
+        3 => ['q' => 'Where do I report a bug?', 'a' => 'Open an issue on GitHub with the output of orbit doctor.'],
+        4 => ['q' => 'Can I use Orbit offline?', 'a' => 'Yes, everything except deploys works without a connection.'],
+    ],
+    'releases' => [
+        1 => ['title' => 'Orbit 2.0: faster builds and a new config format', 'excerpt' => 'Builds are up to three times faster, and orbit.toml replaces the old JSON file.'],
+        2 => ['title' => 'Orbit 1.8: team roles and audit log', 'excerpt' => 'Invite editors and viewers, and see who changed what.'],
+        3 => ['title' => 'Orbit 1.7: Windows support', 'excerpt' => 'Orbit now runs on Windows through WSL.'],
+    ],
+];

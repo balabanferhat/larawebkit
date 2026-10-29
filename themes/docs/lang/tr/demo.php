@@ -1,0 +1,40 @@
+<?php
+
+return [
+    'tagline' => 'larawebkit demosu için hayalî bir açık kaynak araç olan Orbit\'i kurmak, yapılandırmak ve yayına almak için gereken her şey.',
+    'announcement' => 'Orbit 2.0 çıktı: daha hızlı derleme ve yeni yapılandırma biçimi',
+    'footer' => 'Orbit, larawebkit Dokümantasyon temasını tanıtmak için kullanılan hayalî bir projedir.',
+    'team_role' => 'Geliştiriciler',
+    'team_bio' => 'Orbit\'i geliştiren (hayalî) kişiler.',
+    'blog' => 'Sürüm notları',
+    'steps' => 'Adımlar',
+    'steps_text' => 'Aşağıdaki komutu terminalinizde çalıştırın. Çıktı size sonraki adımı söyler.',
+    'tip' => 'İpucu: her komut seçeneklerini şununla açıklar:',
+    'menus' => ['docs' => 'Dokümantasyon', 'community' => 'Topluluk', 'legal' => 'Yasal', 'privacy' => 'Gizlilik', 'cookies' => 'Çerezler'],
+    'pages' => [
+        'getting-started' => ['title' => 'Başlarken', 'summary' => 'Orbit\'i kurun ve ilk projenizi beş dakikada oluşturun.', 'code' => "curl -fsSL https://example.com/install.sh | sh\norbit --version"],
+        'installation' => ['title' => 'Kurulum', 'summary' => 'Sistem gereksinimleri ve Orbit\'i kurmanın üç yolu.', 'code' => "# macOS ve Linux\nbrew install orbit\n\n# ya da npm ile\nnpm install --global orbit-cli"],
+        'quick-start' => ['title' => 'Hızlı başlangıç', 'summary' => 'Bir proje oluşturun, yerelde çalıştırın ve tarayıcıda açın.', 'code' => "orbit new my-site\ncd my-site\norbit dev"],
+        'configuration' => ['title' => 'Yapılandırma', 'summary' => 'Ayarların nerede durduğu, ortamların nasıl çalıştığı ve hangi varsayılanların değiştirileceği.', 'code' => "# orbit.toml\nname = \"my-site\"\nregion = \"eu-central\"\n\n[build]\ncommand = \"npm run build\""],
+        'guides' => ['title' => 'Rehberler', 'summary' => 'En sık yapılan işler için adım adım rehberler.', 'code' => 'orbit guides --list'],
+        'projects' => ['title' => 'Projelerle çalışmak', 'summary' => 'Proje oluşturun, yeniden adlandırın, arşivleyin ve paylaşın.', 'code' => "orbit projects list\norbit projects rename my-site my-new-site"],
+        'deploying' => ['title' => 'Yayına alma', 'summary' => 'Bir projeyi tek komutla yayınlayın, gerekirse geri alın.', 'code' => "orbit deploy --prod\norbit rollback"],
+        'teams' => ['title' => 'Ekipler ve yetkiler', 'summary' => 'Kişileri davet edin ve neleri değiştirebileceklerini seçin.', 'code' => 'orbit team invite ada@example.com --role editor'],
+        'reference' => ['title' => 'Başvuru', 'summary' => 'Tüm komutlar, seçenekler ve yapılandırma anahtarları.', 'code' => 'orbit help'],
+        'cli' => ['title' => 'CLI komutları', 'summary' => 'Seçenekleri ve örnekleriyle tüm komutlar.', 'code' => "orbit new <ad>\norbit dev [--port=3000]\norbit deploy [--prod]"],
+        'config-file' => ['title' => 'orbit.toml', 'summary' => 'Yapılandırma dosyasındaki her anahtar ve varsayılan değeri.', 'code' => "[dev]\nport = 3000\n\n[deploy]\nregion = \"eu-central\""],
+        'api' => ['title' => 'HTTP API', 'summary' => 'Kimlik doğrulayın ve API\'yi kendi betiklerinizden çağırın.', 'code' => "curl https://api.example.com/v1/projects \\\n  -H \"Authorization: Bearer \$ORBIT_TOKEN\""],
+        'faq' => ['title' => 'SSS', 'summary' => 'En sık duyduğumuz soruların yanıtları.'],
+    ],
+    'faq' => [
+        1 => ['q' => 'Orbit ücretsiz mi?', 'a' => 'Orbit bu demoda hayalî bir açık kaynak projedir. Bu yanıtları kendi ürününüzün SSS\'siyle değiştirin.'],
+        2 => ['q' => 'Hangi işletim sistemleri destekleniyor?', 'a' => 'macOS, Linux ve Windows (WSL ile).'],
+        3 => ['q' => 'Hatayı nereye bildiririm?', 'a' => 'orbit doctor çıktısıyla birlikte GitHub\'da bir kayıt açın.'],
+        4 => ['q' => 'Orbit\'i çevrimdışı kullanabilir miyim?', 'a' => 'Evet, yayına alma dışında her şey bağlantısız çalışır.'],
+    ],
+    'releases' => [
+        1 => ['title' => 'Orbit 2.0: daha hızlı derleme ve yeni yapılandırma biçimi', 'excerpt' => 'Derlemeler üç kata kadar hızlı ve eski JSON dosyasının yerini orbit.toml aldı.'],
+        2 => ['title' => 'Orbit 1.8: ekip rolleri ve denetim kaydı', 'excerpt' => 'Editör ve izleyici davet edin, kimin neyi değiştirdiğini görün.'],
+        3 => ['title' => 'Orbit 1.7: Windows desteği', 'excerpt' => 'Orbit artık WSL üzerinden Windows\'ta çalışıyor.'],
+    ],
+];

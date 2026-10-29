@@ -6,7 +6,7 @@
         @if ($variant === 'list' && $image)
             <div class="lwk-features-media"><x-lwk.image :media="$image" sizes="(min-width: 960px) 40vw, 100vw" /></div>
         @endif
-        <ul class="lwk-feature-list" role="list">
+        <ul class="lwk-feature-list" role="list" style="--cols: {{ count($items) % 4 === 0 && count($items) > 0 ? 4 : max(1, min(3, count($items))) }}">
             @foreach ($items as $item)
                 <li class="lwk-feature">
                     @if ($icon = \App\Modules\Blocks\BlockIcons::render($item['icon'] ?? null))<span class="lwk-feature-icon">{{ $icon }}</span>@endif
