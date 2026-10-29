@@ -6,6 +6,7 @@
 */
 
 return [
+    'notice' => 'Demo sitesi: buradaki tüm adlar, yazılar ve görseller uydurma örneklerdir.',
     'post_excerpt' => 'Yer tutucu metinli demo yazısı. Kendi hikâyenizle değiştirin ya da siteniz hazır olduğunda silin.',
     'blog' => [
         'name' => 'Saha Notları',

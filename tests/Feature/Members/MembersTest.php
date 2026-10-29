@@ -182,3 +182,7 @@ it('shows a login link in the header and lists members in the admin', function (
     $this->actingAs(superAdmin());
     Livewire::test(ListMembers::class)->assertSee('reader@example.com');
 });
+
+it('does not break on a crafted e-mail array on the reset page', function () {
+    $this->get('/account/reset-password/some-token?email[]=x')->assertOk();
+});

@@ -79,11 +79,15 @@ class ContentController extends Controller
 
     public function search(Request $request): Response
     {
-        $q = trim(mb_substr((string) $request->query('q'), 0, 100));
+        // ?q[]=x is not a search (no 500); % and _ are searched for literally, not as LIKE wildcards.
+        $q = is_string($raw = $request->query('q')) ? trim(mb_substr($raw, 0, 100)) : '';
+        // "!" as the escape character behaves the same in MySQL, MariaDB and SQLite.
+        $like = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $q).'%';
+        $match = fn ($query, string $column) => $query->whereRaw("$column LIKE ? ESCAPE '!'", [$like]);
         $posts = $q === '' ? collect() : Post::published()->where('locale', app()->getLocale())
             // The text of members-only posts is not searchable (it must not leak through results).
-            ->where(fn ($w) => $w->where('title', 'like', "%$q%")->orWhere('excerpt', 'like', "%$q%")
-                ->orWhere(fn ($c) => $c->where('members_only', false)->where('content', 'like', "%$q%")))
+            ->where(fn ($w) => $match($w, 'title')->orWhere(fn ($o) => $match($o, 'excerpt'))
+                ->orWhere(fn ($c) => $match($c->where('members_only', false), 'content')))
             ->latest('published_at')->limit(30)->get();
         $seo = SeoData::forListing(__('larawebkit-front.search'), localized_path('/search'))->noindex();
 

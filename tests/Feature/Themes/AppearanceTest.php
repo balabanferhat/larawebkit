@@ -119,3 +119,17 @@ it('offers a classic pair with system serif headings and no font download', func
         ->and(Fonts::options())->toHaveKey('classic');
     $this->get('/')->assertOk()->assertDontSee('fonts/lwk/', false);
 });
+
+it('keeps text colours at 4.5:1 on every background, in every theme and colour scheme', function (string $theme) {
+    app(SettingsRepository::class)->set('general.theme', $theme);
+    foreach (app(DesignTokens::class)->variables() as $scheme => $vars) {
+        if (! isset($vars['--bg'])) {
+            continue;
+        }
+        foreach (['--link', '--muted', '--accent-text', '--text'] as $fg) {
+            foreach (['--bg', '--bg-soft', '--surface'] as $bg) {
+                expect(Color::hex($vars[$fg])->contrast(Color::hex($vars[$bg])))->toBeGreaterThanOrEqual(4.5, "$theme $scheme $fg on $bg");
+            }
+        }
+    }
+})->with(['minimal', 'business', 'personal', 'magazine', 'docs']);

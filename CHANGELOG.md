@@ -5,6 +5,32 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added (v0.3 preparation)
+- **Magazine theme, v0.3:** the front page, the blog / category / tag archives, search and the 404 page are built
+  from block presets (`magazine`, `archive`, `not_found`) instead of fixed markup. The `latest_posts` block gets a
+  `front` variant (lead story, two secondary stories, a latest rail) and an `offset` field. "Magazine front page"
+  is offered as a page preset, so editors can make their own front page from the same blocks. Archives show
+  the newest story large on the first page. Screenshots of every page (desktop / mobile, light / dark) are in
+  `docs/screenshots/magazine/`. Lighthouse: home 97, article 98, all other categories 100.
+- Demo sites say so: `larawebkit:demo` sets an announcement that all names, articles and images are made-up
+  examples.
+- `docs/child-themes.md`: building a child theme step by step. `docs/security-review.md`: the security review
+  and its findings.
+- Tests for the magazine theme, and a contrast test (4.5:1 for text colours on every background, in every
+  theme and colour scheme).
+
+### Fixed (v0.3 preparation)
+- **Accessibility** (axe, WCAG 2.2 AA, 8 pages × desktop / mobile × light / dark, now without violations):
+  - link, muted and accent text colours are adjusted against every background they sit on, not only the soft
+    one; the consent banner link in dark mode was 4.23:1;
+  - the announcement bar and the magazine top bar are landmarks;
+  - the big 404 number has enough contrast.
+- **Security** (details in `docs/security-review.md`):
+  - array input (`?q[]=x`, a crafted anti-spam token, `?email[]=x` on the member reset page) no longer causes
+    a server error;
+  - `%` and `_` in a search are matched literally instead of listing every post;
+  - uploaded form files get the extension of their content.
+
 Feedback from migrating a Turkish personal-brand WordPress site onto 0.2.0 without touching the core.
 
 ### Added

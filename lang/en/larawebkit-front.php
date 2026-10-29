@@ -86,6 +86,7 @@ return [
         'sent' => 'Thank you, we received your message.',
         'disabled' => 'The contact form is disabled.',
     ],
+    'announcement' => 'Announcement',
     'newsletter' => [
         'title' => 'Newsletter',
         'text' => 'Get new articles by e-mail. No spam, unsubscribe anytime.',

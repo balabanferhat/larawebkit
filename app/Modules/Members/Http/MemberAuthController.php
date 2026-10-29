@@ -133,7 +133,7 @@ class MemberAuthController
 
     public function showReset(Request $request, string $token): Response
     {
-        return $this->page('reset', __('larawebkit-members.reset.title'), ['token' => $token, 'email' => (string) $request->query('email')]);
+        return $this->page('reset', __('larawebkit-members.reset.title'), ['token' => $token, 'email' => is_string($email = $request->query('email')) ? $email : '']);
     }
 
     public function reset(Request $request): RedirectResponse

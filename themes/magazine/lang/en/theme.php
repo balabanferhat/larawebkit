@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'topbar' => 'Date and social links',
     'name' => 'Magazine',
     'description' => 'Editorial: featured grid, categories, reading-focused articles and author pages.',
     'top_stories' => 'Top stories',

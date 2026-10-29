@@ -35,6 +35,6 @@ return [
     ],
 
     // Page presets offered when creating a page (App\Modules\Blocks\BlockPresets).
-    'presets' => ['landing', 'about', 'services', 'contact'],
+    'presets' => ['landing', 'about', 'services', 'contact', 'magazine'],
 
 ];

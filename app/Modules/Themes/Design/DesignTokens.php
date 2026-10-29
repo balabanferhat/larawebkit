@@ -64,6 +64,16 @@ class DesignTokens
             $bg = Color::hex($neutral['bg']);
             $soft = Color::hex($neutral['bg_soft']);
             $text = Color::hex($neutral['text']);
+            $surface = Color::hex($neutral['surface']);
+            // Text colours must read on every background they sit on (page, soft panels, cards, the
+            // consent banner): adjust them against the one each colour contrasts least with.
+            $readable = function (Color $color) use ($bg, $soft, $surface): Color {
+                foreach ([$soft, $surface, $bg] as $background) {
+                    $color = $color->readableOn($background, 4.5);
+                }
+
+                return $color;
+            };
             // Buttons keep the exact brand colour in light mode; in dark mode a too-dark
             // brand is lifted so the button still stands out from the background.
             $button = $scheme === 'dark' && $brand->contrast($bg) < 3 ? $brand->readableOn($bg, 3) : $brand;
@@ -72,18 +82,18 @@ class DesignTokens
             $schemes[$scheme] = [
                 '--bg' => $bg->toHex(),
                 '--bg-soft' => $soft->toHex(),
-                '--surface' => Color::hex($neutral['surface'])->toHex(),
+                '--surface' => $surface->toHex(),
                 '--text' => $text->toHex(),
-                '--muted' => Color::hex($neutral['muted'])->readableOn($soft, 4.5)->toHex(),
+                '--muted' => $readable(Color::hex($neutral['muted']))->toHex(),
                 '--border' => Color::hex($neutral['border'])->toHex(),
                 '--brand' => $button->toHex(),
                 '--on-brand' => $button->onColor()->toHex(),
                 '--brand-soft' => $brand->mix($bg, $scheme === 'dark' ? 0.82 : 0.9)->toHex(),
                 '--brand-strong' => $brand->readableOn($bg->mix($brand, 0.1), 4.5)->toHex(),
-                '--link' => $brand->readableOn($soft, 4.5)->toHex(),
+                '--link' => $readable($brand)->toHex(),
                 '--accent' => $accentFill->toHex(),
                 '--on-accent' => $accentFill->onColor()->toHex(),
-                '--accent-text' => $accent->readableOn($soft, 4.5)->toHex(),
+                '--accent-text' => $readable($accent)->toHex(),
             ] + ($scheme === 'light' ? $common : []);
         }
 

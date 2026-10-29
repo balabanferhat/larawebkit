@@ -56,6 +56,19 @@ final class BlockPresets
                 ['type' => 'form', 'data' => ['variant' => 'split', 'form' => 'contact', 'heading' => $t('form'), 'text' => $t('form_text')]],
                 ['type' => 'faq', 'data' => ['variant' => 'accordion', 'heading' => $t('faq'), 'items' => $items('question', 2, ['question', 'answer'])]],
             ],
+            // A magazine front page: lead story with two secondary stories and a "latest" rail, then the newsletter.
+            'magazine' => [
+                ['type' => 'latest_posts', 'data' => ['variant' => 'front', 'heading' => $t('top'), 'count' => 8]],
+                ['type' => 'latest_posts', 'data' => ['variant' => 'cards', 'heading' => $t('more'), 'count' => 6, 'offset' => 8]],
+                ['type' => 'newsletter', 'data' => ['variant' => 'inline', 'background' => 'muted', 'heading' => $t('newsletter'), 'text' => $t('newsletter_text')]],
+            ],
+            // Not offered in the page editor: themes put these under archives and on the 404 page.
+            'archive' => [
+                ['type' => 'newsletter', 'data' => ['variant' => 'inline', 'background' => 'muted', 'spacing' => 'compact', 'heading' => $t('newsletter'), 'text' => $t('newsletter_text')]],
+            ],
+            'not_found' => [
+                ['type' => 'latest_posts', 'data' => ['variant' => 'cards', 'heading' => $t('latest'), 'count' => 3]],
+            ],
             default => [],
         };
     }

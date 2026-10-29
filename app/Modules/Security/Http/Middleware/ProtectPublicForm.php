@@ -25,7 +25,9 @@ class ProtectPublicForm
         }
 
         try {
-            $time = (int) Crypt::decryptString((string) $request->input($config['time_field']));
+            // A crafted array (time[]=...) is a rejected bot, not a 500.
+            $token = $request->input($config['time_field']);
+            $time = (int) Crypt::decryptString(is_string($token) ? $token : '');
         } catch (DecryptException) {
             return $this->reject();
         }

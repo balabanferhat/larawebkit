@@ -224,3 +224,15 @@ it('warns when seeding before a site language was chosen', function () {
     app(SettingsRepository::class)->set('general.default_locale', 'en');
     $this->artisan('db:seed', ['--class' => LarawebkitSeeder::class])->doesntExpectOutputToContain('No site language chosen yet');
 });
+
+it('refuses an upload whose name does not match its content (PDF bytes named .php)', function () {
+    Mail::fake();
+    Storage::fake('local');
+    quoteForm();
+
+    postForm('quote', ['name' => 'A', 'email' => 'a@example.com', 'budget' => 'Small', 'consent' => '1', 'message' => 'Hi',
+        'brief' => UploadedFile::fake()->createWithContent('brief.php', "%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF")])
+        ->assertSessionHasErrors('fields.brief');
+
+    expect(FormSubmission::count())->toBe(0)->and(Storage::disk('local')->allFiles())->toBe([]);
+});

@@ -15,9 +15,10 @@
             @endforeach
         </ul>
     @else
-        <div @class(['lwk-cards', 'lwk-cards-featured' => $variant === 'featured'])>
+        {{-- "front" is laid out by themes that support it (magazine); elsewhere it reads as "featured". --}}
+        <div @class(['lwk-cards', 'lwk-cards-featured' => in_array($variant, ['featured', 'front'], true)])>
             @foreach ($posts as $post)
-                <x-lwk.post-card :post="$post" :featured="$variant === 'featured' && $loop->first" heading="h3" />
+                <x-lwk.post-card :post="$post" :featured="in_array($variant, ['featured', 'front'], true) && $loop->first" heading="h3" />
             @endforeach
         </div>
     @endif
