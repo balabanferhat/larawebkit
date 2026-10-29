@@ -40,6 +40,11 @@ return [
             'keep' => 'Backups to keep',
         ],
         'newsletter' => [
+            'require_consent' => 'Ask for explicit consent (unticked checkbox)',
+            'consent_text' => 'Consent text',
+            'consent_version' => 'Consent text version',
+            'band_title' => 'Sign-up box title',
+            'band_text' => 'Sign-up box text',
             'download' => 'Download after confirming (lead magnet)',
             'download_name' => 'File name shown to the subscriber',
         ],
@@ -137,6 +142,10 @@ return [
             'keep' => 'Older archives are deleted (also on the remote disk, if one is set in .env).',
         ],
         'newsletter' => [
+            'require_consent' => 'Double opt-in proves the address; under KVKK / GDPR you may also need a consent checkbox. The accepted text and its version are stored with each subscriber.',
+            'consent_text' => 'Shown next to the checkbox, followed by a link to the privacy policy. Empty: a neutral default.',
+            'consent_version' => 'Raise it whenever you change the text: each subscriber keeps the version they accepted.',
+            'band_text' => 'Used by the themes\' sign-up boxes. Empty: a neutral text. Promise a schedule only if you keep it.',
             'download' => 'Optional. After confirming their subscription, people get a signed link to this file (on the page and by e-mail). The file stays private.',
         ],
         'general' => [

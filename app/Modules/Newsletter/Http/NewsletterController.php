@@ -20,13 +20,18 @@ class NewsletterController extends Controller
     public function subscribe(Request $request): RedirectResponse
     {
         abort_unless(setting('features.newsletter', false), 404);
-        $data = $request->validate(['email' => ['required', 'email', 'max:190']]);
+        $consent = (bool) setting('newsletter.require_consent', false);
+        $data = $request->validate(['email' => ['required', 'email', 'max:190'], 'consent' => $consent ? ['accepted'] : ['nullable']]);
 
         $subscriber = Subscriber::firstOrNew(['email' => mb_strtolower($data['email'])]);
         // Same answer whether or not the address exists (no enumeration).
         if (! $subscriber->exists || ! $subscriber->confirmed_at || $subscriber->unsubscribed_at) {
             $token = Str::random(48);
-            $subscriber->fill(['token' => hash('sha256', $token), 'locale' => app()->getLocale(), 'unsubscribed_at' => null, 'confirmed_at' => null])->save();
+            $subscriber->fill(['token' => hash('sha256', $token), 'locale' => app()->getLocale(), 'unsubscribed_at' => null, 'confirmed_at' => null]);
+            if ($consent) {
+                $subscriber->fill(['consent_version' => (int) setting('newsletter.consent_version', 1), 'consent_text' => Subscriber::consentText(), 'consented_at' => now()]);
+            }
+            $subscriber->save();
             Mail::to($subscriber->email)->send(new ConfirmSubscription($subscriber, $token));
         }
 

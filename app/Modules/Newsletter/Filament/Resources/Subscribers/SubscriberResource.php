@@ -62,6 +62,9 @@ class SubscriberResource extends Resource
                 TextColumn::make('locale')->badge(),
                 TextColumn::make('confirmed_at')->label(__('larawebkit-mail.newsletter.confirmed'))->dateTime()->placeholder('—')->sortable(),
                 TextColumn::make('unsubscribed_at')->label(__('larawebkit-mail.newsletter.unsubscribed'))->dateTime()->placeholder('—'),
+                TextColumn::make('consent_version')->label(__('larawebkit-newsletter.consent.version'))->placeholder('—')
+                    ->tooltip(fn (Subscriber $record) => $record->consent_text)->toggleable(),
+                TextColumn::make('consented_at')->label(__('larawebkit-newsletter.consent.at'))->dateTime()->placeholder('—')->toggleable(),
                 TextColumn::make('created_at')->label(__('larawebkit-logs.fields.time'))->since(),
             ])
             ->filters([TernaryFilter::make('confirmed_at')->nullable()->label(__('larawebkit-mail.newsletter.confirmed'))])

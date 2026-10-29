@@ -54,6 +54,7 @@ return [
         'grotesk' => 'Space Grotesk + Inter',
         'fraunces' => 'Fraunces + Inter',
         'editorial' => 'Newsreader + Source Serif 4',
+        'classic' => 'Klasik: sistem serif başlıklar + sistem sans (indirme yok)',
     ],
     'radius' => [
         'none' => 'Köşeli',

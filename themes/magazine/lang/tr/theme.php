@@ -6,5 +6,5 @@ return [
     'top_stories' => 'Öne çıkanlar',
     'more_in' => ':category bölümünde daha fazlası',
     'newsletter_title' => 'Haftalık sayı',
-    'newsletter_text' => 'Haftanın en iyi yazıları her cuma sabahı e-posta kutunuzda.',
+    'newsletter_text' => 'En iyi yazılar e-posta kutunuzda. Spam yok, istediğiniz zaman ayrılın.',
 ];

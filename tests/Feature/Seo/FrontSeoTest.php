@@ -6,8 +6,10 @@ use App\Modules\Content\Models\Post;
 use App\Modules\Content\Models\Redirect;
 use App\Modules\Content\Models\Tag;
 use App\Modules\Media\ImagePipeline;
+use App\Modules\Seo\Http\Middleware\CanonicalHost;
 use App\Modules\Seo\Models\NotFoundLog;
 use App\Modules\Settings\SettingsRepository;
+use Illuminate\Http\Request;
 
 function publishedPost(array $attributes = []): Post
 {
@@ -189,6 +191,25 @@ it('applies canonical host, https and trailing slash redirects', function () {
     app(SettingsRepository::class)->set('seo.force_https', true);
 
     $this->get('http://www.example.com/blog/')->assertRedirect('https://example.com/blog')->assertStatus(301);
+});
+
+it('answers an old URL with a trailing slash in one hop when a redirect exists', function () {
+    config(['larawebkit-seo.enforce_in_tests' => true]);
+    Redirect::create(['from_path' => '/hello/', 'to_url' => '/blog/hello', 'status_code' => 301]);
+    Redirect::create(['from_path' => '/gone/', 'to_url' => null, 'status_code' => 410]);
+
+    // The test client trims trailing slashes, so the middleware sees the real request here.
+    $next = fn () => response('handled by HandleRedirects');
+    $middleware = app(CanonicalHost::class);
+    expect($middleware->handle(Request::create('http://localhost/hello/'), $next)->getContent())->toBe('handled by HandleRedirects')
+        ->and($middleware->handle(Request::create('http://localhost/gone/'), $next)->getContent())->toBe('handled by HandleRedirects')
+        ->and($middleware->handle(Request::create('http://localhost/about/'), $next)->headers->get('Location'))->toBe('http://localhost/about');
+    $this->get('http://localhost/hello/')->assertRedirect('/blog/hello')->assertStatus(301);
+
+    // Canonical host and the admin redirect together: still one hop, straight to the final URL.
+    app(SettingsRepository::class)->setMany(['seo.canonical_host' => 'example.com', 'seo.force_https' => true]);
+    $this->get('http://www.example.com/hello/')->assertRedirect('https://example.com/blog/hello')->assertStatus(301);
+    $this->get('http://www.example.com/gone/')->assertRedirect('https://example.com/gone'); // 410 is answered on the canonical host
 });
 
 it('shows only a teaser for members-only posts', function () {

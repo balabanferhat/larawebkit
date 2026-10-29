@@ -6,7 +6,7 @@
     <article class="lwk-post lwk-event">
         <header class="lwk-container lwk-post-head">
             <x-lwk.breadcrumbs :seo="$seo" />
-            <a href="{{ localized_path('/events') }}" class="lwk-card-kicker">{{ __('larawebkit-events.plural') }}</a>
+            <a href="{{ \App\Modules\Events\Events::indexPath() }}" class="lwk-card-kicker">{{ __('larawebkit-events.plural') }}</a>
             <h1>{{ $event->title }}</h1>
             @if (filled($event->summary))<p class="lwk-lead">{{ $event->summary }}</p>@endif
         </header>

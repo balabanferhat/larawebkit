@@ -36,10 +36,15 @@ class ContentServiceProvider extends ServiceProvider
     public static function frontRoutes(): void
     {
         Route::get('/', [ContentController::class, 'home'])->name('home');
-        Route::get('/blog', [ContentController::class, 'blog'])->name('blog');
-        Route::get('/blog/category/{slug}', [ContentController::class, 'category'])->name('category');
-        Route::get('/blog/tag/{slug}', [ContentController::class, 'tag'])->name('tag');
-        Route::get('/blog/{slug}', [ContentController::class, 'post'])->name('post');
+        $blog = '/'.config('larawebkit-content.blog_path', 'blog');
+        $prefix = (string) config('larawebkit-content.post_prefix', 'blog');
+        Route::get($blog, [ContentController::class, 'blog'])->name('blog');
+        Route::get($blog.'/category/{slug}', [ContentController::class, 'category'])->name('category');
+        Route::get($blog.'/tag/{slug}', [ContentController::class, 'tag'])->name('tag');
+        // Without a prefix posts are served by the page catch-all (ContentController::page, pages first).
+        if ($prefix !== '') {
+            Route::get('/'.$prefix.'/{slug}', [ContentController::class, 'post'])->name('post');
+        }
         Route::get('/author/{slug}', [ContentController::class, 'author'])->name('author');
         Route::get('/search', [ContentController::class, 'search'])->name('search');
     }

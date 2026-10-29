@@ -81,7 +81,7 @@ class EditorSchema
     /** @return array<int, mixed> */
     private static function main(string $type): array
     {
-        $prefix = $type === 'post' ? url('/blog').'/' : url('/').'/';
+        $prefix = rtrim(url('/'), '/').($type === 'post' ? post_path('', (string) setting('general.default_locale', 'en')) : '/');
 
         return [
             Section::make()->schema([

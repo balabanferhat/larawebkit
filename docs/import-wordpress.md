@@ -18,6 +18,13 @@ The command reads the public WordPress REST API (`/wp-json/wp/v2`), 100 items pe
 Published and scheduled items keep their status; drafts and private items (only visible when the API returns
 them) become drafts. Imported posts are not sent to IndexNow: search engines already know them.
 
+## Excerpts and alt text
+
+Hand-written excerpts are kept. WordPress's automatic ones (the first words of the body with the paragraphs
+glued together) are rebuilt from the cleaned body. Featured images without alt text get the post title, or the
+media title when it describes the picture; the report lists every image without alt text so you can describe
+them in the media library.
+
 ## Markup
 
 Rendered Gutenberg or classic-editor HTML is cleaned to the editor's markup: block comments, classes, inline
@@ -27,6 +34,10 @@ site become relative, so they keep working on the new domain. Everything then go
 sanitizer.
 
 ## URLs
+
+Redirect targets use the language of the import (`--locale`). To keep WordPress post-name permalinks
+(`/hello/`) set `POST_PREFIX=` (empty) in `.env` before importing: posts then live at `/{slug}` and need no
+redirect (a page with the same path wins). Otherwise:
 
 Pages keep their paths. Posts, categories and tags move to `/blog/...`; for every old URL that changes (e.g.
 `/2024/05/hello/` → `/blog/hello`, `/category/news/` → `/blog/category/news`) a 301 redirect is added
@@ -45,6 +56,8 @@ back. You can run it again right before switching the domain to pick up the late
 |---|---|
 | `--dry-run` | fetch and count, change nothing, download nothing |
 | `--skip-category=slug` | do not import posts in this category (repeatable); the category itself is skipped too |
+| `--gone` | the old URLs of skipped posts and categories answer **410 Gone** (search engines drop them) instead of 404; change one to a 301 in Content → Redirects and re-runs keep it |
+| `--keep-empty-pages` | also import pages without content; by default theme parts kept as pages (slider, header, an empty "Blog" page) are skipped and their old address goes to the home page |
 | `--locale=tr` | language of the imported content (default: the site's default language) |
 | `--author=email` | one existing user becomes the author of everything |
 | `--no-images` | keep image URLs instead of downloading |

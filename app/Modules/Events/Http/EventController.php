@@ -2,6 +2,7 @@
 
 namespace App\Modules\Events\Http;
 
+use App\Modules\Events\Events;
 use App\Modules\Events\Ics;
 use App\Modules\Events\Mail\RegistrationConfirmation;
 use App\Modules\Events\Models\Event;
@@ -28,7 +29,7 @@ class EventController
             ->paginate((int) config('larawebkit-events.per_page', 12));
         $past = Event::listed()->where('locale', $locale)->where('starts_at', '<', now())->whereNotIn('id', $upcoming->pluck('id'))
             ->latest('starts_at')->limit(6)->get();
-        $seo = SeoData::forListing(__('larawebkit-events.plural'), localized_path('/events'), $upcoming);
+        $seo = SeoData::forListing(__('larawebkit-events.plural'), Events::indexPath(), $upcoming);
         $seo->schema[] = ['@type' => 'ItemList', 'itemListElement' => $upcoming->values()->map(fn (Event $e, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'url' => url($e->publicPath())])->all()];
 
         return response()->view($this->theme->view('events.index'), ['upcoming' => $upcoming, 'past' => $past, 'seo' => $seo]);
@@ -39,7 +40,7 @@ class EventController
         $event = Event::listed()->where('locale', app()->getLocale())->where('slug', $slug)->with('featuredMedia')->firstOrFail();
         $seo = SeoData::make($event->title, $event->publicPath(), $event->summary ?: Str::limit(strip_tags((string) $event->description), 160));
         $seo->image = $event->featuredMedia;
-        $seo->breadcrumbs[] = ['name' => __('larawebkit-events.plural'), 'url' => url(localized_path('/events'))];
+        $seo->breadcrumbs[] = ['name' => __('larawebkit-events.plural'), 'url' => url(Events::indexPath())];
         $seo->breadcrumbs[] = ['name' => $event->title, 'url' => $seo->canonical];
         $seo->schema[] = $event->schema();
 

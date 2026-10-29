@@ -5,6 +5,7 @@ use App\Modules\Settings\SettingsRepository;
 use App\Modules\Themes\Design\Color;
 use App\Modules\Themes\Design\DesignTokens;
 use App\Modules\Themes\Design\Favicons;
+use App\Modules\Themes\Design\Fonts;
 use App\Modules\Themes\Filament\Pages\ManageAppearance;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -104,4 +105,17 @@ it('rejects an invalid brand colour', function () {
         ->fillForm(['appearance__primary_color' => 'red; } body { display:none'])
         ->call('save')
         ->assertHasFormErrors(['appearance__primary_color']);
+});
+
+it('offers a classic pair with system serif headings and no font download', function () {
+    app(SettingsRepository::class)->set('appearance.font_pair', 'classic');
+    $light = app(DesignTokens::class)->variables()['light'];
+
+    expect($light['--font-heading'])->toStartWith('"Iowan Old Style"')
+        ->and($light['--font-body'])->toBe(Fonts::SANS)
+        ->and($light['--font-ui'])->toBe(Fonts::SANS)
+        ->and(Fonts::faceCss('classic'))->toBe('')
+        ->and((string) Fonts::preloads('classic'))->toBe('')
+        ->and(Fonts::options())->toHaveKey('classic');
+    $this->get('/')->assertOk()->assertDontSee('fonts/lwk/', false);
 });

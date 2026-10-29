@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'export' => 'CSV olarak indir',
+    'consent' => ['version' => 'Onay sürümü', 'at' => 'Onay tarihi', 'text' => 'Onay metni'],
+    'csv' => ['email' => 'E-posta', 'locale' => 'Dil', 'confirmed' => 'Onaylandı', 'unsubscribed' => 'Ayrıldı', 'subscribed' => 'Kayıt tarihi'],
     'campaign' => 'Bülten',
     'campaigns' => 'Bültenler',
     'all_languages' => 'Tüm aboneler',

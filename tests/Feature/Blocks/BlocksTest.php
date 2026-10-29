@@ -42,10 +42,10 @@ function everyBlock(int $imageId = 0): array
     ];
 }
 
-it('registers sixteen block types with translated labels', function () {
+it('registers sixteen core block types plus module blocks, with translated labels', function () {
     $types = app(BlockRegistry::class)->all();
 
-    expect($types)->toHaveCount(16);
+    expect($types)->toHaveCount(16 + (int) array_key_exists('upcoming_events', $types))->and($types)->toHaveKey('upcoming_events');
     foreach ($types as $key => $class) {
         expect(__("larawebkit-blocks.types.$key"))->not->toBe("larawebkit-blocks.types.$key");
         foreach ($class::variants() as $variant) {

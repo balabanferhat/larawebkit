@@ -34,7 +34,7 @@ class LlmsTxt
                 $out[] = '> '.preg_replace('/\s+/', ' ', $intro);
                 $out[] = '';
             }
-            $out[] = __('larawebkit-geo.llms.markdown_note', ['example' => CanonicalUrl::for('/blog/example.md')]);
+            $out[] = __('larawebkit-geo.llms.markdown_note', ['example' => CanonicalUrl::for(post_path('example.md', (string) setting('general.default_locale', 'en')))]);
             $out[] = '';
 
             $pages = Page::indexable()->where('template', '!=', 'legal')->orderBy('sort_order')->orderBy('path')->get();

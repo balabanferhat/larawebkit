@@ -91,6 +91,8 @@ return [
         'text' => 'Get new articles by e-mail. No spam, unsubscribe anytime.',
         'email' => 'E-mail address',
         'subscribe' => 'Subscribe',
+        'consent' => 'I agree to receive the newsletter by e-mail and that my address is stored for this purpose.',
+        'privacy' => 'Privacy policy',
         'check_inbox' => 'Almost done: please confirm via the link we sent you.',
         'confirmed' => 'Thanks, your subscription is confirmed.',
         'unsubscribed' => 'You have been unsubscribed.',

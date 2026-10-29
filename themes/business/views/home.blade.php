@@ -6,7 +6,7 @@
             <h1>{{ setting('general.site_name') }}</h1>
             @if (setting('general.tagline'))<p class="lwk-lead">{{ setting('general.tagline') }}</p>@endif
             <p class="lwk-cta">
-                <a href="{{ localized_path('/blog') }}" class="lwk-button">{{ __('larawebkit-front.hero.cta_blog') }}</a>
+                <a href="{{ blog_path() }}" class="lwk-button">{{ __('larawebkit-front.hero.cta_blog') }}</a>
                 @if (setting('general.contact_email'))<a href="mailto:{{ setting('general.contact_email') }}" class="lwk-button lwk-button-ghost">{{ __('larawebkit-front.hero.cta_contact') }}</a>@endif
             </p>
         </div>

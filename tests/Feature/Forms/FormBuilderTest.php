@@ -11,6 +11,7 @@ use App\Modules\Forms\Models\Form;
 use App\Modules\Forms\Models\FormSubmission;
 use App\Modules\Forms\SubmissionExport;
 use App\Modules\Settings\SettingsRepository;
+use Database\Seeders\LarawebkitSeeder;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Crypt;
@@ -202,4 +203,24 @@ it('renames the v0.1 contact permission and adds the v0.2 ones on upgrade', func
 
     expect($custom->fresh()->hasPermissionTo('manage forms'))->toBeTrue()
         ->and(Role::findByName('editor', 'web')->hasPermissionTo('manage events'))->toBeTrue();
+});
+
+it('creates the policy stubs in every active language, linked as translations', function () {
+    app(SettingsRepository::class)->setMany(['general.default_locale' => 'tr', 'general.active_locales' => ['tr', 'en']]);
+
+    app(DefaultContent::class)->seed();
+    app(DefaultContent::class)->seed(); // idempotent
+
+    $privacy = Page::where('slug', 'privacy-policy')->get()->keyBy('locale');
+    expect($privacy->keys()->sort()->values()->all())->toBe(['en', 'tr'])
+        ->and($privacy['tr']->title)->toBe(__('larawebkit-privacy.pages.privacy_title', [], 'tr'))
+        ->and($privacy['en']->translation_group)->toBe($privacy['tr']->translation_group)
+        ->and(Page::where('slug', 'cookie-policy')->count())->toBe(2);
+});
+
+it('warns when seeding before a site language was chosen', function () {
+    $this->artisan('db:seed', ['--class' => LarawebkitSeeder::class])->expectsOutputToContain('No site language chosen yet');
+
+    app(SettingsRepository::class)->set('general.default_locale', 'en');
+    $this->artisan('db:seed', ['--class' => LarawebkitSeeder::class])->doesntExpectOutputToContain('No site language chosen yet');
 });
