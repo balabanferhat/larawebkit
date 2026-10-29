@@ -17,7 +17,7 @@ beforeEach(function () {
             'id' => 42, 'alt' => 'Coffee cup', 'url' => 'https://www.pexels.com/photo/42/', 'photographer' => 'Jane Doe',
             'photographer_url' => 'https://www.pexels.com/@jane', 'src' => ['original' => 'https://images.pexels.com/photos/42/original.jpeg'],
         ]),
-        'images.pexels.com/*' => Http::response(fakeJpeg(2000, 1200), 200, ['Content-Type' => 'image/jpeg']),
+        'images.pexels.com/*' => Http::response(fakeJpeg(1700, 1000), 200, ['Content-Type' => 'image/jpeg']),
     ]);
 });
 

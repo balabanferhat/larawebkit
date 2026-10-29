@@ -17,4 +17,13 @@ abstract class TestCase extends BaseTestCase
         Storage::fake('local');
         app(SettingsRepository::class)->flush();
     }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Release the previous application (and any image bitmaps it referenced) before the next
+        // test boots a new one, so memory does not pile up across the suite.
+        gc_collect_cycles();
+    }
 }

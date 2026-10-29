@@ -26,7 +26,7 @@ function publishedPost(array $attributes = []): Post
 }
 
 it('renders a post with full SEO tags and JSON-LD', function () {
-    $media = app(ImagePipeline::class)->store(fakeJpeg(1600, 900), 'hero.jpg', ['alt' => 'Hero alt']);
+    $media = app(ImagePipeline::class)->store(fakeJpeg(1300, 700), 'hero.jpg', ['alt' => 'Hero alt']);
     $post = publishedPost(['featured_media_id' => $media->id]);
     $post->categories()->attach(Category::create(['name' => 'Guides']));
 
