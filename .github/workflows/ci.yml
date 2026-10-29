@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests (PHP ${{ matrix.php }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        php: ['8.3', '8.4']
+        include:
+          # Windows PHP bundles GD, so image bitmaps count towards memory_limit there
+          # (Linux distributions link the system libgd, whose memory PHP does not see).
+          - os: windows-latest
+            php: '8.3'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: gd, intl, pdo_sqlite, zip, fileinfo, exif, mbstring
+          # Shared-hosting budget: the suite must pass at 256M (phpunit.xml sets it as well).
+          ini-values: memory_limit=256M
+          coverage: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
+        shell: bash
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php -r "echo 'memory_limit=' . ini_get('memory_limit') . PHP_EOL;"
+
+      - name: PHP tests (Pest)
+        run: php artisan test
+
+      - name: JS scorer parity tests
+        if: runner.os == 'Linux'
+        run: npm test
+
+      - name: Build front-end assets
+        if: runner.os == 'Linux'
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+
+  style:
+    name: Code style (Pint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: vendor/bin/pint --test

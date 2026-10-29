@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "./base.css";
+
+@source "../../views/themes";
+@source "../../views/components/lwk";
+
+:root { --accent: #2563eb; --measure: 50rem; }
+[data-theme="dark"] { --accent: #93c5fd; }
+body.lwk-body { font-size: 1rem; }
+.lwk-prose code { background: var(--bg-soft); padding: 0.1em 0.35em; border-radius: 0.3rem; font-size: 0.9em; }
+.lwk-prose pre { background: var(--bg-soft); padding: 1rem; border-radius: 0.5rem; overflow: auto; }

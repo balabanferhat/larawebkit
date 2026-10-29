@@ -1,0 +1,96 @@
+[
+  {
+    "name": "long structured article",
+    "input": {
+      "title": "Page speed: a practical guide",
+      "html": "<p>Do you want faster pages? Here is the short answer: compress images, cache pages and ship less JavaScript to your visitors today.</p><h2>Why are pages slow?</h2><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><p>Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. Page speed matters for page speed fans.</p><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><h2>How does caching help?</h2><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><p>Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. Page speed matters for page speed fans.</p><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><h2>Which images should you compress?</h2><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><p>Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. Page speed matters for page speed fans.</p><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><h2>What about JavaScript?</h2><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><p>Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. Page speed matters for page speed fans.</p><p>Images are often the heaviest part of a page. Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Page speed matters for page speed fans.</p><p>Short. A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Page speed matters for page speed fans.</p><p>A cache stores the finished page so the server does not rebuild it for every single visitor who arrives. You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Page speed matters for page speed fans.</p><p>You will notice it. Lazy loading delays offscreen images until they are needed. Images are often the heaviest part of a page. Short. Page speed matters for page speed fans.</p><ul><li>Compress images</li><li>Cache pages</li></ul><p>Read the <a href=\"/blog/caching\">caching guide</a> and <strong>measure</strong> often.</p><img src=\"/x.webp\" alt=\"Speed chart\" data-id=\"1\">",
+      "metaDescription": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "keywords": [
+        "page speed",
+        "caching"
+      ],
+      "locale": "en",
+      "featuredImageHasAlt": false,
+      "summary": "Compress, cache, ship less JS.",
+      "faq": [
+        {
+          "question": "Is caching safe?",
+          "answer": "Yes."
+        }
+      ],
+      "sources": "Web.dev https://web.dev",
+      "hasAuthor": true,
+      "siteHost": "example.com"
+    }
+  },
+  {
+    "name": "empty",
+    "input": {
+      "title": "",
+      "html": "",
+      "metaDescription": "",
+      "keywords": [],
+      "locale": "en",
+      "featuredImageHasAlt": false,
+      "summary": "",
+      "faq": [],
+      "sources": "",
+      "hasAuthor": false,
+      "siteHost": ""
+    }
+  },
+  {
+    "name": "cliches and uniform sentences",
+    "input": {
+      "title": "Unlock the power",
+      "html": "<p>In today's fast-paced world it is important to note that we delve into the game changer. In today's fast-paced world it is important to note that we delve into the game changer. In today's fast-paced world it is important to note that we delve into the game changer. We like it. We use it. We love it. We need it.</p><h2>One</h2><h2>Two</h2>",
+      "metaDescription": "Too short",
+      "keywords": [
+        "power"
+      ],
+      "locale": "en",
+      "featuredImageHasAlt": true,
+      "summary": "",
+      "faq": [],
+      "sources": "",
+      "hasAuthor": false,
+      "siteHost": "example.com"
+    }
+  },
+  {
+    "name": "turkish with entities",
+    "input": {
+      "title": "Site hızı rehberi",
+      "html": "<p>Sizin için hazırladığımız bu rehberde sonuç olarak her şeyi anlatıyoruz. Peki neden önemli? Çünkü hız, ziyaretçinin sitede kalmasını sağlar ve satışları artırır. Kısa.</p><h2>Hız neden önemli?</h2><p>Önbellek kullanın.</p><ol><li>Bir</li></ol><p>A&amp;B &quot;test&quot; &nbsp; İstanbul’da.</p>",
+      "metaDescription": "Türkçe açıklama Türkçe açıklama Türkçe açıklama Türkçe açıklama Türkçe açıklama Türkçe açıklama Türkçe açıklama Türkçe açıklama Türkçe açıklama ",
+      "keywords": [
+        "site hızı"
+      ],
+      "locale": "tr",
+      "featuredImageHasAlt": false,
+      "summary": "",
+      "faq": [],
+      "sources": "<p></p>",
+      "hasAuthor": true,
+      "siteHost": "example.com"
+    }
+  },
+  {
+    "name": "keyword stuffing",
+    "input": {
+      "title": "Coffee coffee",
+      "html": "<p>coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good coffee beans are good</p><p><a href=\"https://www.example.com/x\">x</a> <b>b</b></p><h2>A</h2><h2>B</h2><h2>C</h2>",
+      "metaDescription": "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "keywords": [
+        "coffee beans"
+      ],
+      "locale": "en",
+      "featuredImageHasAlt": false,
+      "summary": "s",
+      "faq": [],
+      "sources": "",
+      "hasAuthor": false,
+      "siteHost": "example.com"
+    }
+  }
+]

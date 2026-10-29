@@ -1,0 +1,36 @@
+<?php
+
+// Kalıplaşmış, yapay görünen ifadeler (Turkish cliché list). Matched case-insensitively on whole words.
+
+return [
+    'günümüzün hızla değişen dünyasında',
+    'günümüz dijital çağında',
+    'hızla gelişen',
+    'önemle belirtmek gerekir ki',
+    'şunu belirtmek gerekir ki',
+    'belirtmekte fayda var',
+    'unutulmamalıdır ki',
+    'derinlemesine inceleyelim',
+    'derinlemesine bir bakış',
+    'gücünü keşfedin',
+    'oyunun kurallarını değiştiren',
+    'çığır açan',
+    'son teknoloji',
+    'bir sonraki seviyeye taşıyın',
+    'sorunsuz bir şekilde',
+    'söz konusu olduğunda',
+    'günün sonunda',
+    'sonuç olarak',
+    'özetle',
+    'son olarak ama önemli',
+    'söylemeye gerek yok',
+    'lafı fazla uzatmadan',
+    'bir yolculuğa çıkın',
+    'kritik bir rol oynar',
+    'hayati bir rol oynar',
+    'sayısız',
+    'vazgeçilmez bir parçası',
+    'göz ardı edilmemelidir',
+    'hiç şüphesiz',
+    'kapsamlı bir rehber',
+];

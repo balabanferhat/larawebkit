@@ -1,0 +1,187 @@
+<?php
+
+return [
+    'fields' => [
+        'title' => 'Başlık',
+        'slug' => 'URL kısa adı',
+        'excerpt' => 'Özet',
+        'content' => 'İçerik',
+        'summary' => 'Kısaca / ana çıkarımlar',
+        'faq' => 'Sık sorulan sorular',
+        'faq_add' => 'Soru ekle',
+        'question' => 'Soru',
+        'answer' => 'Cevap',
+        'sources' => 'Kaynaklar',
+        'keywords' => 'Odak anahtar kelimeler',
+        'meta_title' => 'SEO başlığı',
+        'meta_description' => 'Meta açıklama',
+        'canonical_url' => 'Kanonik adres (isteğe bağlı)',
+        'noindex' => 'Arama motorlarından gizle (noindex)',
+        'status' => 'Durum',
+        'published_at' => 'Yayın tarihi',
+        'gate_override_reason' => 'Yine de yayınla: gerekçe',
+        'author' => 'Yazar',
+        'locale' => 'Dil',
+        'translation_of' => 'Çevirisi olduğu içerik',
+        'members_only' => 'Yalnızca üyeler',
+        'parent' => 'Üst sayfa',
+        'template' => 'Şablon',
+        'sort_order' => 'Sıra',
+        'featured_media_id' => 'Öne çıkan görsel',
+    ],
+    'help' => [
+        'slug' => 'Yayındaki bir içeriğin adresini değiştirmek otomatik olarak 301 yönlendirmesi oluşturur.',
+        'summary' => 'Makalenin üstünde gösterilir ve yapay zekâ asistanlarınca alıntılanır. 1-3 cümle.',
+        'sources' => 'Her satıra bir kaynak (başlık ve adres). Güveni ve alıntılanabilirliği artırır.',
+        'keywords' => 'Her anahtar kelimeden sonra Enter\'a basın. İlki birincil anahtar kelimedir.',
+        'published_at' => 'İleri bir tarih yayını zamanlar.',
+        'gate_override_reason' => 'Yalnızca yayın kapısı bu içeriği engellerse gerekir. Denetim kaydına yazılır.',
+        'translation_of' => 'Bu içeriği başka bir dildeki aynı içerikle eşleştirin (hreflang).',
+        'members_only' => 'Ziyaretçiler yalnızca özeti görür. Üye hesapları v0.2\'de geliyor.',
+        'citability' => 'Yapay zekâ aramalarının sizi alıntılamasına yardım eder: kısa cevap, SSS ve kaynaklar.',
+    ],
+    'sections' => [
+        'citability' => 'Alıntılanabilirlik (GEO)',
+        'seo' => 'Arama görünümü',
+        'publish' => 'Yayın',
+        'featured' => 'Öne çıkan görsel',
+    ],
+    'featured' => [
+        'choose' => 'Görsel seç',
+        'replace' => 'Görseli değiştir',
+        'remove' => 'Kaldır',
+    ],
+    'panel' => [
+        'human' => 'İnsansı',
+        'words' => 'kelime',
+        'minutes' => 'dk okuma',
+        'gate' => 'Yayın kapısı',
+        'gate_ok' => 'yayına hazır',
+        'saved_scores' => 'Son kaydedilen puanlar',
+        'snippet' => 'Arama sonucu önizlemesi',
+        'meta_range' => '(:min-:max karakter hedefleyin)',
+        'autosaved' => 'Taslak :time itibarıyla otomatik kaydedildi',
+        'autosave_failed' => 'Otomatik kayıt başarısız',
+    ],
+    'autosave' => [
+        'restore' => 'Otomatik kaydedilen taslağı yükle',
+        'restore_help' => ':time tarihli otomatik taslak son kayıttan daha yeni. Forma yüklensin mi?',
+        'restored' => 'Otomatik taslak yüklendi. Korumak için kaydedin.',
+        'after_first_save' => 'Otomatik kayıt ilk kayıttan sonra başlar.',
+    ],
+    'gate' => [
+        'blocked' => 'Yayınlanmadı: yayın kapısı engelledi',
+        'seo' => 'SEO puanı :score, en az :min gerekiyor.',
+        'words' => 'Metin :count kelime, en az :min gerekiyor.',
+        'human' => 'İnsansılık puanı :score, en az :min gerekiyor.',
+        'override_hint' => 'Yine de yayınlayabilirsiniz: "Yine de yayınla: gerekçe" alanını doldurun.',
+    ],
+    'seo' => [
+        'no_keywords' => 'En az bir odak anahtar kelime ekleyin.',
+        'word_count' => [
+            'pass' => ':count kelime: sıralama için yeterince uzun.',
+            'partial' => ':count kelime: iyi, rekabetçi konularda :target+ daha iyi.',
+            'fail' => 'Yalnızca :count kelime: en az 500 hedefleyin.',
+        ],
+        'keyword_in_title' => [
+            'pass' => 'Başlıkta bir odak anahtar kelime var.',
+            'fail' => 'Başlığa bir odak anahtar kelime ekleyin.',
+        ],
+        'meta_description' => [
+            'pass' => 'Meta açıklama :length karakter.',
+            'partial' => 'Meta açıklama :length karakter; en uygunu :min-:max.',
+            'fail' => 'Bir meta açıklama yazın (:min-:max karakter).',
+        ],
+        'h2_count' => [
+            'pass' => ':count H2 ara başlık metni iyi yapılandırıyor.',
+            'partial' => ':count H2 ara başlık: uzun metinler için daha fazla ekleyin (:target+).',
+            'fail' => 'Metni yapılandırmak için H2 ara başlıklar ekleyin.',
+        ],
+        'keyword_density' => [
+            'pass' => 'Birincil anahtar kelime yoğunluğu %:density.',
+            'partial' => 'Birincil anahtar kelime yoğunluğu %:density; doğal olanı %:min-:max.',
+            'fail' => 'Birincil anahtar kelime metinde geçmiyor.',
+        ],
+        'has_list' => [
+            'pass' => 'Liste kullanılmış.',
+            'fail' => 'Faydalı olduğu yerde madde veya numaralı liste kullanın.',
+        ],
+        'has_bold' => [
+            'pass' => 'Önemli ifadeler kalın yazılmış.',
+            'fail' => 'Bir iki önemli ifadeyi kalın yazın.',
+        ],
+        'image_alt' => [
+            'pass' => 'Alternatif metinli bir görsel var.',
+            'fail' => 'Açıklayıcı alternatif metinli bir görsel ekleyin.',
+        ],
+        'internal_link' => [
+            'pass' => 'Sitenin başka bir sayfasına bağlantı var.',
+            'fail' => 'Sitenin başka bir sayfasına en az bir bağlantı ekleyin.',
+        ],
+    ],
+    'human' => [
+        'variation' => [
+            'pass' => 'Cümle uzunlukları doğal biçimde değişiyor (çeşitlilik :cv).',
+            'fail' => 'Cümleler fazla tekdüze (çeşitlilik :cv). Kısa ve uzun cümleleri karıştırın.',
+        ],
+        'long_sentences' => [
+            'pass' => 'Ortalama cümle uzunluğu :average kelime.',
+            'fail' => 'Ortalama cümle :average kelime. Uzun cümleleri bölün.',
+        ],
+        'cliches' => [
+            'pass' => 'Kalıp ifade bulunamadı.',
+            'fail' => 'Kalıp ifadeler: :list',
+        ],
+        'repeated_starts' => [
+            'pass' => 'Cümle başlangıçları çeşitli.',
+            'fail' => ':count yerde 3+ cümle aynı kelimeyle başlıyor.',
+        ],
+        'question' => [
+            'pass' => 'Okura soru soruluyor.',
+            'fail' => 'Okura bir soru sormayı düşünün.',
+        ],
+        'reader' => [
+            'pass' => 'Okura doğrudan hitap ediliyor.',
+            'fail' => 'Okura doğrudan hitap edin ("siz").',
+        ],
+    ],
+    'geo' => [
+        'has_summary' => [
+            'pass' => 'Kısa özet (TL;DR) var.',
+            'fail' => 'Yapay zekâ asistanlarının alıntılayabileceği 1-3 cümlelik bir özet ekleyin.',
+        ],
+        'question_h2' => [
+            'pass' => 'En az bir H2 soru biçiminde.',
+            'fail' => 'Bir H2\'yi insanların gerçekten sorduğu bir soru olarak yazın.',
+        ],
+        'faq_or_lists' => [
+            'pass' => 'Kolay çıkarılabilen SSS, liste veya tablo var.',
+            'fail' => 'Bir SSS, liste veya tablo ekleyin.',
+        ],
+        'has_sources' => [
+            'pass' => 'Kaynak gösterilmiş.',
+            'fail' => 'Kaynaklar ekleyin.',
+        ],
+        'has_author' => [
+            'pass' => 'Adı belli bir yazarı var (E-E-A-T).',
+            'fail' => 'Profili olan bir yazar seçin.',
+        ],
+        'answer_first' => [
+            'pass' => 'İlk paragraf doğrudan cevap veriyor (:min-:max kelime).',
+            'fail' => ':min-:max kelimelik doğrudan bir cevapla başlayın.',
+        ],
+    ],
+    'pexels' => [
+        'query' => 'Ücretsiz fotoğraf ara…',
+        'any' => 'Tüm yönler',
+        'landscape' => 'Yatay',
+        'portrait' => 'Dikey',
+        'suggest' => 'Başlıktan öner',
+        'import' => 'Medya kütüphanesine ekle',
+        'powered' => 'Fotoğraflar Pexels tarafından sağlanır',
+        'attribution' => 'Fotoğraf: :photographer, :source',
+        'already_used' => 'Bu fotoğraf bu içerikte zaten kullanılıyor.',
+        'disabled' => 'Pexels yapılandırılmamış (PEXELS_API_KEY).',
+        'error' => 'Pexels isteği başarısız (:status).',
+    ],
+];

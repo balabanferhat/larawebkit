@@ -1,0 +1,187 @@
+<?php
+
+return [
+    'fields' => [
+        'title' => 'Title',
+        'slug' => 'URL slug',
+        'excerpt' => 'Excerpt',
+        'content' => 'Content',
+        'summary' => 'TL;DR / key takeaways',
+        'faq' => 'FAQ',
+        'faq_add' => 'Add question',
+        'question' => 'Question',
+        'answer' => 'Answer',
+        'sources' => 'Sources and references',
+        'keywords' => 'Focus keywords',
+        'meta_title' => 'SEO title',
+        'meta_description' => 'Meta description',
+        'canonical_url' => 'Canonical URL (optional)',
+        'noindex' => 'Hide from search engines (noindex)',
+        'status' => 'Status',
+        'published_at' => 'Publish date',
+        'gate_override_reason' => 'Publish anyway: reason',
+        'author' => 'Author',
+        'locale' => 'Language',
+        'translation_of' => 'Translation of',
+        'members_only' => 'Members only',
+        'parent' => 'Parent page',
+        'template' => 'Template',
+        'sort_order' => 'Order',
+        'featured_media_id' => 'Featured image',
+    ],
+    'help' => [
+        'slug' => 'Changing the slug of a published item creates a 301 redirect automatically.',
+        'summary' => 'Shown above the article and quoted by AI assistants. 1-3 sentences.',
+        'sources' => 'One source per line (title and URL). Builds trust and citability.',
+        'keywords' => 'Press Enter after each keyword. The first one is the primary keyword.',
+        'published_at' => 'A future date schedules the publication.',
+        'gate_override_reason' => 'Only needed when the publish gate blocks this item. Stored in the audit log.',
+        'translation_of' => 'Link this item to the same content in another language (hreflang).',
+        'members_only' => 'Visitors see the excerpt only. Member accounts arrive in v0.2.',
+        'citability' => 'Helps AI search engines quote you: a short answer, a FAQ and sources.',
+    ],
+    'sections' => [
+        'citability' => 'Citability (GEO)',
+        'seo' => 'Search appearance',
+        'publish' => 'Publish',
+        'featured' => 'Featured image',
+    ],
+    'featured' => [
+        'choose' => 'Choose image',
+        'replace' => 'Replace image',
+        'remove' => 'Remove',
+    ],
+    'panel' => [
+        'human' => 'Human',
+        'words' => 'words',
+        'minutes' => 'min read',
+        'gate' => 'Publish gate',
+        'gate_ok' => 'ready to publish',
+        'saved_scores' => 'Last saved scores',
+        'snippet' => 'Search result preview',
+        'meta_range' => '(aim for :min-:max characters)',
+        'autosaved' => 'Draft autosaved at :time',
+        'autosave_failed' => 'Autosave failed',
+    ],
+    'autosave' => [
+        'restore' => 'Restore autosaved draft',
+        'restore_help' => 'An autosaved draft from :time is newer than the last save. Load it into the form?',
+        'restored' => 'Autosaved draft loaded. Save to keep it.',
+        'after_first_save' => 'Autosave starts after the first save.',
+    ],
+    'gate' => [
+        'blocked' => 'Not published: the publish gate blocked it',
+        'seo' => 'SEO score is :score, at least :min is needed.',
+        'words' => 'The text has :count words, at least :min are needed.',
+        'human' => 'Human score is :score, at least :min is needed.',
+        'override_hint' => 'You may publish anyway: enter a reason in "Publish anyway: reason".',
+    ],
+    'seo' => [
+        'no_keywords' => 'Add at least one focus keyword.',
+        'word_count' => [
+            'pass' => ':count words: long enough to rank.',
+            'partial' => ':count words: good, :target+ is better for competitive topics.',
+            'fail' => 'Only :count words: aim for at least 500.',
+        ],
+        'keyword_in_title' => [
+            'pass' => 'A focus keyword appears in the title.',
+            'fail' => 'Put a focus keyword in the title.',
+        ],
+        'meta_description' => [
+            'pass' => 'Meta description length is :length characters.',
+            'partial' => 'Meta description is :length characters; :min-:max fits best.',
+            'fail' => 'Write a meta description (:min-:max characters).',
+        ],
+        'h2_count' => [
+            'pass' => ':count H2 subheadings structure the text well.',
+            'partial' => ':count H2 subheadings: add more for long texts (:target+).',
+            'fail' => 'Add H2 subheadings to structure the text.',
+        ],
+        'keyword_density' => [
+            'pass' => 'Primary keyword density is :density%.',
+            'partial' => 'Primary keyword density is :density%; :min-:max% is natural.',
+            'fail' => 'The primary keyword does not appear in the text.',
+        ],
+        'has_list' => [
+            'pass' => 'Uses a list.',
+            'fail' => 'Use a bulleted or numbered list where it helps.',
+        ],
+        'has_bold' => [
+            'pass' => 'Highlights key phrases in bold.',
+            'fail' => 'Bold one or two key phrases.',
+        ],
+        'image_alt' => [
+            'pass' => 'An image with alt text is present.',
+            'fail' => 'Add an image with descriptive alt text.',
+        ],
+        'internal_link' => [
+            'pass' => 'Links to another page of this site.',
+            'fail' => 'Add at least one link to another page of this site.',
+        ],
+    ],
+    'human' => [
+        'variation' => [
+            'pass' => 'Sentence lengths vary naturally (variation :cv).',
+            'fail' => 'Sentences are too uniform (variation :cv). Mix short and long sentences.',
+        ],
+        'long_sentences' => [
+            'pass' => 'Average sentence length is :average words.',
+            'fail' => 'Average sentence is :average words long. Split long sentences.',
+        ],
+        'cliches' => [
+            'pass' => 'No stock phrases found.',
+            'fail' => 'Stock phrases found: :list',
+        ],
+        'repeated_starts' => [
+            'pass' => 'Sentence openings vary.',
+            'fail' => ':count run(s) of 3+ sentences start with the same word.',
+        ],
+        'question' => [
+            'pass' => 'Asks the reader a question.',
+            'fail' => 'Consider asking the reader a question.',
+        ],
+        'reader' => [
+            'pass' => 'Addresses the reader directly.',
+            'fail' => 'Address the reader directly ("you").',
+        ],
+    ],
+    'geo' => [
+        'has_summary' => [
+            'pass' => 'Has a TL;DR summary.',
+            'fail' => 'Add a 1-3 sentence TL;DR that AI assistants can quote.',
+        ],
+        'question_h2' => [
+            'pass' => 'At least one H2 is phrased as a question.',
+            'fail' => 'Phrase an H2 as a question people actually ask.',
+        ],
+        'faq_or_lists' => [
+            'pass' => 'Has a FAQ, list or table that is easy to extract.',
+            'fail' => 'Add a FAQ, a list or a table.',
+        ],
+        'has_sources' => [
+            'pass' => 'Cites sources.',
+            'fail' => 'Add sources and references.',
+        ],
+        'has_author' => [
+            'pass' => 'Has a named author (E-E-A-T).',
+            'fail' => 'Set an author with a profile.',
+        ],
+        'answer_first' => [
+            'pass' => 'The first paragraph answers directly (:min-:max words).',
+            'fail' => 'Open with a direct answer of :min-:max words.',
+        ],
+    ],
+    'pexels' => [
+        'query' => 'Search free photos…',
+        'any' => 'Any orientation',
+        'landscape' => 'Landscape',
+        'portrait' => 'Portrait',
+        'suggest' => 'Suggest from title',
+        'import' => 'Add to media library',
+        'powered' => 'Photos provided by Pexels',
+        'attribution' => 'Photo by :photographer on :source',
+        'already_used' => 'This photo is already used in this item.',
+        'disabled' => 'Pexels is not configured (PEXELS_API_KEY).',
+        'error' => 'Pexels request failed (:status).',
+    ],
+];
