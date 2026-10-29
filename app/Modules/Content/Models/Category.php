@@ -23,9 +23,9 @@ class Category extends Model
         return $this->belongsToMany(Post::class);
     }
 
-    public function publicPath(): string
+    public function publicPath(?string $locale = null): string
     {
-        return blog_path('category/'.$this->slug);
+        return blog_path('category/'.$this->slug, $locale);
     }
 
     public function auditLabel(): string

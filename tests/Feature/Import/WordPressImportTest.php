@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Modules\Content\Filament\Resources\Redirects\Pages\ManageRedirects;
 use App\Modules\Content\Models\Category;
 use App\Modules\Content\Models\Page;
 use App\Modules\Content\Models\Post;
@@ -264,4 +265,54 @@ it('gives featured images without alt text the post title and lists them in the 
         ->assertSuccessful();
 
     expect(Post::where('slug', 'hello-tomatoes')->sole()->featuredMedia->alt)->toBe('Hello “tomatoes”');
+});
+
+it('skips an empty page that sits on a system route without redirecting it, and removes such an old redirect', function () {
+    app(SettingsRepository::class)->set('features.events', true);
+    $pages = wpFixture('pages');
+    foreach ([50 => 'blog', 51 => 'events'] as $id => $slug) {
+        $pages[] = ['id' => $id, 'slug' => $slug, 'status' => 'publish', 'link' => "https://example.com/$slug/", 'title' => ['rendered' => ucfirst($slug)], 'content' => ['rendered' => ''], 'parent' => 0, 'featured_media' => 0, 'modified_gmt' => '2024-01-01T00:00:00'];
+    }
+    fakeWordPress(['pages' => $pages]);
+    // Left behind by an earlier import; a hand-made redirect elsewhere stays.
+    Redirect::create(['from_path' => '/blog', 'to_url' => '/', 'status_code' => 301, 'is_automatic' => true]);
+    Redirect::create(['from_path' => '/old-offer', 'to_url' => '/', 'status_code' => 301, 'is_automatic' => false]);
+
+    $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--no-images' => true])->assertSuccessful();
+
+    expect(Redirect::where('from_path', '/blog')->exists())->toBeFalse()
+        ->and(Redirect::where('from_path', '/events')->exists())->toBeFalse()
+        ->and(Redirect::where('from_path', '/old-offer')->exists())->toBeTrue()
+        ->and(Page::whereIn('slug', ['blog', 'events'])->exists())->toBeFalse();
+    $this->get('/blog')->assertOk()->assertSee('Hello “tomatoes”');
+});
+
+it('keeps its own redirects in step when POST_PREFIX changes, and leaves hand-made ones alone', function () {
+    $posts = wpFixture('posts-1');
+    $posts[0]['link'] = 'https://example.com/hello-tomatoes/'; // post-name permalinks
+    fakeWordPress(['posts-1' => $posts]);
+    $run = fn () => $this->artisan('larawebkit:import:wordpress', ['source' => 'https://example.com', '--no-images' => true])->assertSuccessful();
+
+    $run();
+    expect(Redirect::where('from_path', '/hello-tomatoes')->sole()->to_url)->toBe('/blog/hello-tomatoes')
+        ->and(Redirect::where('from_path', '/2024/06/my-diary')->sole()->to_url)->toBe('/blog/my-diary');
+    Redirect::create(['from_path' => '/promo', 'to_url' => '/blog/hello-tomatoes', 'status_code' => 301]);
+
+    config(['larawebkit-content.post_prefix' => '']);
+    $run();
+
+    expect(Redirect::where('from_path', '/hello-tomatoes')->exists())->toBeFalse() // the post itself lives there now
+        ->and(Redirect::where('from_path', '/2024/06/my-diary')->sole()->to_url)->toBe('/my-diary')
+        ->and(Redirect::where('from_path', '/promo')->sole()->to_url)->toBe('/blog/hello-tomatoes');
+});
+
+it('treats a redirect edited in the admin as hand-made', function () {
+    $this->actingAs(superAdmin());
+    $redirect = Redirect::create(['from_path' => '/old', 'to_url' => '/blog/x', 'status_code' => 301, 'is_automatic' => true]);
+
+    Livewire\Livewire::test(ManageRedirects::class)
+        ->callTableAction('edit', $redirect, ['from_path' => '/old', 'to_url' => '/blog/y', 'status_code' => 301])
+        ->assertHasNoTableActionErrors();
+
+    expect($redirect->fresh())->to_url->toBe('/blog/y')->is_automatic->toBeFalse();
 });

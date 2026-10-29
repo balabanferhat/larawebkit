@@ -23,9 +23,9 @@ class Tag extends Model
         return $this->belongsToMany(Post::class);
     }
 
-    public function publicPath(): string
+    public function publicPath(?string $locale = null): string
     {
-        return blog_path('tag/'.$this->slug);
+        return blog_path('tag/'.$this->slug, $locale);
     }
 
     public function auditLabel(): string

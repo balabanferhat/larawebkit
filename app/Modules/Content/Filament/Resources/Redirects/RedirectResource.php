@@ -82,7 +82,8 @@ class RedirectResource extends Resource
             ])
             ->filters([SelectFilter::make('status_code')->options([301 => '301', 302 => '302', 410 => '410'])])
             ->headerActions([CreateAction::make()])
-            ->recordActions([EditAction::make(), DeleteAction::make()]);
+            // A redirect saved in the admin is a hand-made one: importers and slug changes leave it alone.
+            ->recordActions([EditAction::make()->mutateDataUsing(fn (array $data) => ['is_automatic' => false] + $data), DeleteAction::make()]);
     }
 
     public static function getPages(): array

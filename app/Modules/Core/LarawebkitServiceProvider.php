@@ -32,8 +32,23 @@ class LarawebkitServiceProvider extends ServiceProvider
         }
     }
 
+    /** Switch the app to the site's default language (console runs; requests get theirs from the URL). */
+    public static function useSiteLocale(): void
+    {
+        $locale = rescue(fn () => (string) setting('general.default_locale', ''), '', report: false);
+        if ($locale !== '' && array_key_exists($locale, (array) config('larawebkit.locales'))) {
+            app()->setLocale($locale);
+        }
+    }
+
     public function boot(): void
     {
+        // Console commands build URLs (redirects, sitemaps, e-mails) in the site language, not config('app.locale'):
+        // blog_path() is /blog on a Turkish site, not /en/blog. A command may still switch (import --locale).
+        if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
+            $this->app->booted(fn () => self::useSiteLocale());
+        }
+
         // Short, stable type names in audit logs, media usages and revisions.
         Relation::morphMap([
             'user' => User::class,
