@@ -92,3 +92,5 @@ body.lwk-body { font-family: var(--font-ui); }
 @media (min-width: 48em) { .lwk-archive-lead .lwk-card.is-featured { grid-template-columns: 1.4fr 1fr; align-items: center; } }
 .lwk-archive-lead .lwk-card-title { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.4rem); line-height: 1.15; }
 .lwk-archive .lwk-listing-head { display: block; }
+/* The big 404 / 410 number: decorative, but still at least 3:1 (axe) */
+.lwk-system-code { color: var(--brand-strong); opacity: 1; }

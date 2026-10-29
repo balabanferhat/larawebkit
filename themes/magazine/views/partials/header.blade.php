@@ -1,6 +1,6 @@
 {{-- Magazine: a slim top bar (date, social), a centred masthead and the section navigation below it. --}}
 <x-lwk.announcement />
-<div class="lwk-topbar">
+<div class="lwk-topbar" role="complementary" aria-label="{{ __('theme-magazine::theme.topbar') }}">
     <div class="lwk-container lwk-topbar-inner">
         <p><time datetime="{{ now()->toDateString() }}">{{ now()->isoFormat('dddd, LL') }}</time></p>
         <x-lwk.social />

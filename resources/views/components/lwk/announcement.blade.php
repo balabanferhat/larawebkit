@@ -2,7 +2,7 @@
 @php($text = trim((string) setting('header.announcement')))
 @if ($text !== '')
     @php($key = substr(md5($text), 0, 8))
-    <div class="lwk-announcement" data-announcement="{{ $key }}">
+    <aside class="lwk-announcement" data-announcement="{{ $key }}" aria-label="{{ __('larawebkit-front.announcement') }}">
         <div class="lwk-container lwk-announcement-inner">
             <p>
                 @if ($url = setting('header.announcement_url'))
@@ -13,6 +13,6 @@
             </p>
             <button type="button" class="lwk-announcement-close" data-dismiss-announcement aria-label="{{ __('larawebkit-front.nav.dismiss') }}">{{ \App\Modules\Themes\Support\Icons::ui('x-mark') }}</button>
         </div>
-    </div>
+    </aside>
     <script>try{if(localStorage.getItem('lwk-ann')==='{{ $key }}')document.querySelector('[data-announcement="{{ $key }}"]').hidden=true}catch(e){}</script>
 @endif

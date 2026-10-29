@@ -86,6 +86,7 @@ return [
         'sent' => 'Teşekkürler, mesajınızı aldık.',
         'disabled' => 'İletişim formu kapalı.',
     ],
+    'announcement' => 'Duyuru',
     'newsletter' => [
         'title' => 'Bülten',
         'text' => 'Yeni yazıları e-postayla alın. Spam yok, istediğiniz zaman ayrılın.',
