@@ -22,14 +22,15 @@ class OgImage
 
         if (! $disk->exists($path)) {
             try {
-                $source = $media->original_path && Storage::disk($media->original_disk)->exists($media->original_path)
-                    ? Storage::disk($media->original_disk)->get($media->original_path)
-                    : $disk->get($media->variant('max')['path'] ?? '');
+                // The largest variant (≤ 1920 px, already upright) is plenty for 1200×630 and,
+                // unlike the original, always fits in memory.
+                $source = $disk->get($media->variant('max')['path'] ?? '');
                 $pipeline = app(ImagePipeline::class);
                 $image = $pipeline->manager()->read((string) $source)->cover(self::WIDTH, self::HEIGHT);
                 $quality = (int) config('larawebkit-media.quality', 80);
                 $encoded = $format === 'webp' && $pipeline->supportsWebp() ? $image->toWebp(quality: $quality, strip: true) : $image->toJpeg(quality: $quality, strip: true);
                 $disk->put($path, (string) $encoded, 'public');
+                unset($image, $encoded);
             } catch (Throwable $e) {
                 report($e);
 

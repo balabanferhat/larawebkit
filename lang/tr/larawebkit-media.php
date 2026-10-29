@@ -34,6 +34,8 @@ return [
         'type' => ':type dosya türüne izin verilmiyor.',
         'size' => 'Dosya :max MB\'tan büyük.',
         'processing' => 'Görsel işlenemedi.',
+        'megapixels' => 'Görsel :width × :height piksel (:mp MP); en fazla :max MP olabilir. Lütfen daha küçük bir görsel yükleyin.',
+        'memory' => 'Görsel :width × :height piksel (:mp MP); bu sunucunun belleği için çok büyük (memory_limit :limit, yaklaşık :max MP sığar). Lütfen daha küçük bir görsel yükleyin veya barındırma firmanızdan memory_limit değerini artırmasını isteyin.',
         'original_missing' => '#:id medyasının orijinal dosyası bulunamadı.',
     ],
     'modal' => [

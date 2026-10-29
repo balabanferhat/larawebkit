@@ -1,16 +1,19 @@
 <?php
 
 use App\Modules\Media\ImagePipeline;
+use App\Modules\Media\MemoryBudget;
+use App\Modules\Media\Models\Media;
 use App\Modules\Media\Support\ContentImages;
 use App\Modules\Media\Support\ResponsiveImage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 it('converts uploads to WebP width variants without upscaling and keeps the original privately', function () {
-    $media = app(ImagePipeline::class)->store(fakeJpeg(1500, 1000), 'Holiday Photo.jpg', ['alt' => 'Beach']);
+    $media = app(ImagePipeline::class)->store(fakeJpeg(1400, 800), 'Holiday Photo.jpg', ['alt' => 'Beach']);
 
     expect($media->format)->toBe('webp')
-        ->and($media->width)->toBe(1500)
-        ->and(array_keys($media->variants))->toBe([320, 640, 960, 1280, 1500, 'thumb']);
+        ->and($media->width)->toBe(1400)
+        ->and(array_keys($media->variants))->toBe([320, 640, 960, 1280, 1400, 'thumb']);
 
     foreach ($media->variants as $key => $variant) {
         Storage::disk('public')->assertExists($variant['path']);
@@ -18,11 +21,11 @@ it('converts uploads to WebP width variants without upscaling and keeps the orig
         $info = getimagesizefromstring(Storage::disk('public')->get($variant['path']));
         expect($info['mime'])->toBe('image/webp');
         if ($key !== 'thumb') {
-            expect($info[0])->toBe((int) $key)->and($info[0])->toBeLessThanOrEqual(1500);
+            expect($info[0])->toBe((int) $key)->and($info[0])->toBeLessThanOrEqual(1400);
         }
     }
     expect($media->variants['thumb']['width'])->toBe(300)->and($media->variants['thumb']['height'])->toBe(300)
-        ->and($media->variants['640']['height'])->toBe(427);
+        ->and($media->variants['640']['height'])->toBe(365);
 
     Storage::disk('local')->assertExists($media->original_path);
     expect($media->original_path)->not->toStartWith('media/');
@@ -116,4 +119,62 @@ it('stores and shows Pexels attribution', function () {
 
     $credit = (string) ResponsiveImage::attribution($media);
     expect($credit)->toContain('Jane Doe')->toContain('https://www.pexels.com/@jane')->toContain('Pexels');
+});
+
+it('turns EXIF-rotated photos upright and sizes variants by their upright width', function () {
+    // Stored landscape 800×600 with orientation 6 (rotate 90° clockwise) = upright portrait 600×800.
+    $media = app(ImagePipeline::class)->store(jpegWithOrientation(800, 600, 6), 'phone.jpg');
+
+    expect([$media->width, $media->height])->toBe([600, 800])
+        ->and(array_keys($media->variants))->toBe([320, 600, 'thumb'])
+        ->and([$media->variants['600']['width'], $media->variants['600']['height']])->toBe([600, 800])
+        ->and([$media->variants['320']['width'], $media->variants['320']['height']])->toBe([320, 427]);
+
+    $info = getimagesizefromstring(Storage::disk('public')->get($media->variants['600']['path']));
+    expect([$info[0], $info[1]])->toBe([600, 800]);
+});
+
+it('refuses images above the megapixel cap before decoding them', function () {
+    config(['larawebkit-media.max_input_megapixels' => 24]);
+    $bomb = jpegClaimingSize(8000, 6000); // 48 MP header, a few hundred bytes of data
+
+    expect(fn () => app(ImagePipeline::class)->store($bomb, 'huge.jpg'))
+        ->toThrow(InvalidArgumentException::class, '8000 × 6000 px (48 MP); the maximum is 24 MP');
+    expect(Media::count())->toBe(0)
+        ->and(Storage::disk('local')->allFiles())->toBe([]);
+});
+
+it('refuses images that would not fit into memory_limit, with a clear message', function () {
+    config(['larawebkit-media.max_input_megapixels' => 0]);
+    $previous = ini_set('memory_limit', (string) (memory_get_usage(true) + 80 * 1024 * 1024));
+
+    try {
+        expect(fn () => app(ImagePipeline::class)->store(jpegClaimingSize(6000, 4000), 'phone-24mp.jpg'))
+            ->toThrow(InvalidArgumentException::class, 'too large for this server');
+        // A normal web image still goes through under the same limit.
+        expect(app(ImagePipeline::class)->store(fakeJpeg(800, 500), 'ok.jpg')->format)->toBe('webp');
+    } finally {
+        ini_set('memory_limit', $previous);
+    }
+});
+
+it('returns a 422 with the reason when an upload is too large', function () {
+    config(['larawebkit-media.max_input_megapixels' => 10]);
+    $file = UploadedFile::fake()->createWithContent('big.jpg', jpegClaimingSize(5000, 4000));
+
+    $this->actingAs(editor())->postJson(route('larawebkit.media.store'), ['file' => $file])
+        ->assertUnprocessable()
+        ->assertJsonPath('errors.file.0', fn ($m) => str_contains($m, '20 MP') && str_contains($m, 'maximum is 10 MP'));
+});
+
+it('budgets a 24 MP phone photo within 256M but not within 128M', function () {
+    $budget = app(MemoryBudget::class);
+    $phone = $budget->estimate(6000, 4000, 1, 8 * 1024 * 1024);
+    $base = 64 * 1024 * 1024; // framework + request
+
+    expect($phone)->toBeLessThan(256 * 1024 * 1024 - $base - MemoryBudget::SAFETY_MARGIN)
+        ->and($phone)->toBeGreaterThan(128 * 1024 * 1024 - $base - MemoryBudget::SAFETY_MARGIN)
+        ->and(MemoryBudget::memoryLimitBytes('256M'))->toBe(268435456)
+        ->and(MemoryBudget::memoryLimitBytes('-1'))->toBeNull()
+        ->and(MemoryBudget::maxMegapixelsFor(192 * 1024 * 1024))->toBeGreaterThan(24.0);
 });

@@ -19,12 +19,14 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ViewField;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 /**
@@ -60,7 +62,15 @@ class EditorSchema
             ->fileAttachmentsAcceptedFileTypes((array) config('larawebkit-media.accepted_mime_types'))
             ->fileAttachmentsMaxSize((int) config('larawebkit-media.max_upload_kb'))
             // Pasted / dropped images also go through the WebP pipeline into the media library.
-            ->saveUploadedFileAttachmentUsing(fn (TemporaryUploadedFile $file) => (string) app(ImagePipeline::class)->storeUpload($file, ['uploaded_by' => auth()->id()])->id)
+            ->saveUploadedFileAttachmentUsing(function (TemporaryUploadedFile $file) {
+                try {
+                    return (string) app(ImagePipeline::class)->storeUpload($file, ['uploaded_by' => auth()->id()])->id;
+                } catch (InvalidArgumentException $e) {
+                    Notification::make()->danger()->title($file->getClientOriginalName())->body($e->getMessage())->persistent()->send();
+
+                    return null;
+                }
+            })
             ->getFileAttachmentUrlUsing(fn ($id) => is_numeric($id) ? Media::find($id)?->url(1280) : null)
             ->extraInputAttributes(['style' => 'min-height: 28rem', 'data-lwk-editor' => '1'])
             ->stickyToolbar();

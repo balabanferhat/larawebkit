@@ -38,6 +38,11 @@ return [
         'full' => 'max',
     ],
 
+    // Inputs above this size are refused before decoding (0 = no cap). Independently, an image
+    // is also refused when its decoded bitmap would not fit into PHP's memory_limit
+    // (~4.6 bytes per pixel: a 24 MP photo needs ~110 MB). See docs/deploy-shared-hosting.md.
+    'max_input_megapixels' => (float) env('MEDIA_MAX_MEGAPIXELS', 40),
+
     'max_upload_kb' => (int) env('MEDIA_MAX_UPLOAD_KB', 10240),
 
     'accepted_mime_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],

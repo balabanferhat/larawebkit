@@ -65,6 +65,10 @@ with `srcset`/`sizes`/`width`/`height`/`loading="lazy"` tags from the current va
 `larawebkit:media:regenerate` never leaves stale markup behind. The hero image is rendered with
 `fetchpriority="high"` and preloaded in `<head>`.
 
+Before decoding, `Media\MemoryBudget` reads the header and refuses images above `max_input_megapixels` or larger
+than the free memory under `memory_limit` (~4.6 bytes/pixel). The pipeline keeps a single full-size bitmap:
+downscale in place to the largest variant, derive the smaller ones from it, rotate after the first downscale.
+
 ## Data that is never stored
 
 - Raw IP addresses in the access log (daily-rotating keyed hash instead).

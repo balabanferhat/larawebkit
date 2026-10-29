@@ -36,7 +36,9 @@ class ImagePipeline
             default => $imagickOk ? ImagickDriver::class : GdDriver::class,
         };
 
-        return $this->manager = new ImageManager(new $use, autoOrientation: true, strip: true);
+        // Orientation is applied after the first downscale (see writeVariants), so a rotated
+        // phone photo never needs a second full-size copy in memory.
+        return $this->manager = new ImageManager(new $use, autoOrientation: false, strip: true);
     }
 
     public static function available(): bool
@@ -60,6 +62,7 @@ class ImagePipeline
             throw new InvalidArgumentException(__('larawebkit-media.errors.type', ['type' => $mime]));
         }
 
+        $info = app(MemoryBudget::class)->assertCanProcess($binary, $mime);
         $image = $this->manager()->read($binary);
         $uuid = (string) Str::uuid();
         $base = Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) ?: 'image';
@@ -76,14 +79,15 @@ class ImagePipeline
             'original_path' => $originalPath,
             'file_name' => mb_substr($base.'.'.$extension, 0, 255),
             'mime_type' => $mime,
-            'width' => $image->width(),
-            'height' => $image->height(),
+            'width' => $info['width'],
+            'height' => $info['height'],
             'title' => $attributes['title'] ?? Str::headline($base),
             ...array_intersect_key($attributes, array_flip(['alt', 'caption', 'source', 'source_id', 'source_url', 'photographer', 'photographer_url', 'uploaded_by'])),
         ]);
         $media->format = $this->outputFormat($mime);
 
-        $this->writeVariants($media, $image, $widths);
+        $this->writeVariants($media, $image, $info, $widths);
+        unset($image);
         $media->save();
 
         return $media;
@@ -108,10 +112,15 @@ class ImagePipeline
             throw new InvalidArgumentException(__('larawebkit-media.errors.original_missing', ['id' => $media->id]));
         }
 
+        $binary = $originals->get($media->original_path);
+        $info = app(MemoryBudget::class)->assertCanProcess($binary, $media->mime_type);
         $this->deleteVariants($media);
-        $image = $this->manager()->read($originals->get($media->original_path));
+        $image = $this->manager()->read($binary);
+        unset($binary);
         $media->format = $this->outputFormat($media->mime_type);
-        $this->writeVariants($media, $image, $widths ?? ($media->isStock() ? config('larawebkit-media.stock_widths') : null));
+        [$media->width, $media->height] = [$info['width'], $info['height']];
+        $this->writeVariants($media, $image, $info, $widths ?? ($media->isStock() ? config('larawebkit-media.stock_widths') : null));
+        unset($image);
         $media->save();
 
         return $media;
@@ -142,41 +151,69 @@ class ImagePipeline
         return $sourceMime === 'image/png' || $sourceMime === 'image/gif' ? 'png' : 'jpeg';
     }
 
-    /** @param  list<int>|null  $widths */
-    private function writeVariants(Media $media, ImageInterface $source, ?array $widths): void
+    /**
+     * Largest variant first, downscaling the decoded image in place, then every smaller
+     * variant from the previous one. Only one full-size bitmap ever exists, and the
+     * thumbnail is cut from a copy of at most 640 px.
+     *
+     * @param  array{width: int, height: int, orientation: int}  $info  logical (upright) size and EXIF orientation
+     * @param  list<int>|null  $widths
+     */
+    private function writeVariants(Media $media, ImageInterface $image, array $info, ?array $widths): void
     {
         $widths = array_values(array_unique(array_map('intval', $widths ?? (array) config('larawebkit-media.widths'))));
         sort($widths);
-        $originalWidth = $source->width();
+        $originalWidth = $info['width'];
 
         // Never upscale: keep widths below the original, plus the original width itself as the largest.
         $targets = array_values(array_filter($widths, fn (int $w) => $w < $originalWidth));
         $targets[] = min($originalWidth, max($widths) ?: $originalWidth);
         $targets = array_values(array_unique($targets));
+        rsort($targets);
 
         $disk = Storage::disk($media->disk);
         $base = pathinfo($media->file_name, PATHINFO_FILENAME);
+        $thumbSize = (int) config('larawebkit-media.thumbnail', 300);
         $variants = [];
-        $largestSize = 0;
+        $square = null;
 
-        foreach ($targets as $width) {
-            $resized = (clone $source)->scaleDown(width: $width);
-            $encoded = $this->encode($resized, $media->format);
+        foreach ($targets as $i => $width) {
+            if ($i === 0) {
+                // Quarter-turned photos (EXIF 5-8) are stored sideways: their upright width is the stored height.
+                $info['orientation'] >= 5 ? $image->scaleDown(height: $width) : $image->scaleDown(width: $width);
+                if ($info['orientation'] > 1) {
+                    $image->orient();
+                }
+            } else {
+                $image->scaleDown(width: $width);
+            }
+
+            $encoded = $this->encode($image, $media->format);
             $path = "{$media->directory}/{$base}-{$width}.".$this->extension($media->format);
             $disk->put($path, $encoded, 'public');
-            $variants[(string) $width] = ['path' => $path, 'width' => $resized->width(), 'height' => $resized->height(), 'size' => strlen($encoded)];
-            $largestSize = strlen($encoded);
-        }
+            $variants[(string) $width] = ['path' => $path, 'width' => $image->width(), 'height' => $image->height(), 'size' => strlen($encoded)];
+            unset($encoded);
 
-        $thumbSize = (int) config('larawebkit-media.thumbnail', 300);
-        $square = (clone $source)->coverDown($thumbSize, $thumbSize);
-        $thumb = $this->encode($square, $media->format);
-        $thumbPath = "{$media->directory}/{$base}-thumb.".$this->extension($media->format);
-        $disk->put($thumbPath, $thumb, 'public');
-        $variants['thumb'] = ['path' => $thumbPath, 'width' => $square->width(), 'height' => $square->height(), 'size' => strlen($thumb)];
+            // Cut the square thumbnail from the first copy that is small enough (or the last one).
+            if ($square === null && ($width <= max(640, $thumbSize) || $i === count($targets) - 1)) {
+                $square = (clone $image)->coverDown($thumbSize, $thumbSize);
+                $thumb = $this->encode($square, $media->format);
+                $thumbPath = "{$media->directory}/{$base}-thumb.".$this->extension($media->format);
+                $disk->put($thumbPath, $thumb, 'public');
+                $variants['thumb'] = ['path' => $thumbPath, 'width' => $square->width(), 'height' => $square->height(), 'size' => strlen($thumb)];
+                unset($thumb);
+            }
+        }
+        unset($square);
+        gc_collect_cycles();
+
+        ksort($variants, SORT_NATURAL);
+        $thumbVariant = $variants['thumb'];
+        unset($variants['thumb']);
+        $variants['thumb'] = $thumbVariant;
 
         $media->variants = $variants;
-        $media->size = $largestSize;
+        $media->size = $variants[(string) $targets[0]]['size'];
     }
 
     private function encode(ImageInterface $image, string $format): string

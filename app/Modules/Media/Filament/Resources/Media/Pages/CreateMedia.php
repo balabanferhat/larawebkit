@@ -9,6 +9,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 /**
@@ -36,13 +37,25 @@ class CreateMedia extends CreateRecord
     {
         $pipeline = app(ImagePipeline::class);
         $created = null;
+        $stored = 0;
         foreach ((array) $data['files'] as $file) {
-            if ($file instanceof TemporaryUploadedFile) {
+            if (! $file instanceof TemporaryUploadedFile) {
+                continue;
+            }
+            try {
                 $created = $pipeline->storeUpload($file, ['uploaded_by' => auth()->id()]);
+                $stored++;
+            } catch (InvalidArgumentException $e) {
+                // Too large / wrong type: tell the user, keep processing the other files.
+                Notification::make()->danger()->title($file->getClientOriginalName())->body($e->getMessage())->persistent()->send();
             }
         }
 
-        Notification::make()->success()->title(trans_choice('larawebkit-media.upload.done', count((array) $data['files'])))->send();
+        if ($created === null) {
+            $this->halt();
+        }
+
+        Notification::make()->success()->title(trans_choice('larawebkit-media.upload.done', $stored))->send();
 
         return $created;
     }

@@ -34,6 +34,8 @@ return [
         'type' => 'File type :type is not allowed.',
         'size' => 'The file is larger than :max MB.',
         'processing' => 'The image could not be processed.',
+        'megapixels' => 'The image is :width × :height px (:mp MP); the maximum is :max MP. Please upload a smaller image.',
+        'memory' => 'The image is :width × :height px (:mp MP), too large for this server\'s memory (memory_limit :limit, about :max MP fit). Please upload a smaller image or ask your host to raise memory_limit.',
         'original_missing' => 'Original file for media #:id is missing.',
     ],
     'modal' => [

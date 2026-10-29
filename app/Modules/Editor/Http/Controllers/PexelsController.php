@@ -46,6 +46,8 @@ class PexelsController extends Controller
 
         try {
             $media = $this->pexels->import($request->input('id'), $request->user()->getKey());
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
         } catch (Throwable $e) {
             report($e);
 
