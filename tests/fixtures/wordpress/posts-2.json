@@ -1,0 +1,3 @@
+[
+  {"id": 103, "date": "2024-07-01T09:30:00", "date_gmt": "2024-07-01T06:30:00", "modified_gmt": "2024-07-01T06:30:00", "slug": "%c5%9fekerli-domates", "status": "publish", "type": "post", "link": "https://example.com/2024/07/%c5%9fekerli-domates/", "title": {"rendered": "Şekerli domates"}, "content": {"rendered": "<p>Second page of results.</p>"}, "excerpt": {"rendered": "<p>Second page.</p>"}, "author": 99, "featured_media": 0, "categories": [5, 1], "tags": []}
+]
