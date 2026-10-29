@@ -5,6 +5,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-29
+
 ### Added
 - **Theme system** (WordPress-style): every folder in `themes/` with a `theme.json` (name, description, version,
   author, parent, supported blocks, design defaults) is discovered automatically; views, assets, translations and
@@ -111,5 +113,6 @@ All notable changes to this project are documented here. The format follows
   largest variant. Test suite passes at `memory_limit=256M` (enforced in `phpunit.xml` and CI, including Windows).
 - `larawebkit:deploy-check` warns when `memory_limit` is below 256M; its test no longer depends on `public/storage`.
 
-[Unreleased]: https://github.com/balabanferhat/larawebkit/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/balabanferhat/larawebkit/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/balabanferhat/larawebkit/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/balabanferhat/larawebkit/releases/tag/v0.1.0
