@@ -100,6 +100,11 @@ return [
     'features.publish_gate' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
 
     // Newsletter lead magnet: sent as a signed, expiring link after the subscription is confirmed
+    'newsletter.require_consent' => ['type' => 'bool', 'default' => false, 'group' => 'newsletter'],
+    'newsletter.consent_text' => ['type' => 'text', 'default' => '', 'group' => 'newsletter', 'rules' => ['max:600']],
+    'newsletter.consent_version' => ['type' => 'int', 'default' => 1, 'group' => 'newsletter', 'rules' => ['integer', 'min:1', 'max:1000']],
+    'newsletter.band_title' => ['type' => 'string', 'default' => '', 'group' => 'newsletter', 'rules' => ['max:120']],
+    'newsletter.band_text' => ['type' => 'text', 'default' => '', 'group' => 'newsletter', 'rules' => ['max:300']],
     'newsletter.download' => ['type' => 'file', 'default' => '', 'group' => 'newsletter'],
     'newsletter.download_name' => ['type' => 'string', 'default' => '', 'group' => 'newsletter', 'rules' => ['max:120']],
 

@@ -450,3 +450,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .lwk-adjacent a { display: grid; gap: 0.35rem; padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); text-decoration: none; }
 .lwk-adjacent a:hover { border-color: var(--brand); }
 .lwk-adjacent a:hover strong { color: var(--link); }
+
+/* Newsletter consent checkbox */
+.lwk-newsletter-consent { margin-top: 0.75rem; font-size: 0.875rem; }

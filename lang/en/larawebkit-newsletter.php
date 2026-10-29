@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'export' => 'Export CSV',
+    'consent' => ['version' => 'Consent version', 'at' => 'Consent given', 'text' => 'Consent text'],
+    'csv' => ['email' => 'E-mail', 'locale' => 'Language', 'confirmed' => 'Confirmed', 'unsubscribed' => 'Unsubscribed', 'subscribed' => 'Signed up'],
     'campaign' => 'Newsletter',
     'campaigns' => 'Newsletters',
     'all_languages' => 'All subscribers',

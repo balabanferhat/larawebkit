@@ -90,6 +90,8 @@ return [
         'title' => 'Bülten',
         'text' => 'Yeni yazıları e-postayla alın. Spam yok, istediğiniz zaman ayrılın.',
         'email' => 'E-posta adresi',
+        'consent' => 'Bülteni e-postayla almayı ve adresimin bu amaçla saklanmasını kabul ediyorum.',
+        'privacy' => 'Gizlilik politikası',
         'subscribe' => 'Abone ol',
         'check_inbox' => 'Neredeyse tamam: lütfen gönderdiğimiz bağlantıyla onaylayın.',
         'confirmed' => 'Teşekkürler, aboneliğiniz onaylandı.',

@@ -2,7 +2,7 @@
 @if (\App\Modules\Core\ModuleRegistry::enabled('newsletter') && setting('features.newsletter', false) && ! request()->routeIs('front.home', 'front.localized.home'))
     <section class="lwk-newsletter-band" aria-label="{{ __('larawebkit-front.newsletter.title') }}">
         <div class="lwk-container">
-            <x-lwk.newsletter :title="__('theme-personal::theme.newsletter_title')" :text="__('theme-personal::theme.newsletter_text')" />
+            <x-lwk.newsletter :fallback-title="__('theme-personal::theme.newsletter_title')" :fallback-text="__('theme-personal::theme.newsletter_text')" />
         </div>
     </section>
 @endif
