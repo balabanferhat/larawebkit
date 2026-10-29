@@ -4,6 +4,7 @@ return [
     'title' => 'Settings',
     'saved' => 'Settings saved.',
     'groups' => [
+        'members' => 'Members',
         'theme' => 'Theme',
         'brand' => 'Logo & icon',
         'style' => 'Colours & type',
@@ -20,6 +21,10 @@ return [
         'ai' => 'AI',
     ],
     'keys' => [
+        'members' => [
+            'registration' => 'Visitors can create an account',
+            'header_link' => 'Show "Log in / My account" in the header',
+        ],
         'appearance' => [
             'logo' => 'Logo',
             'logo_dark' => 'Logo for dark mode',
@@ -90,6 +95,7 @@ return [
             'access_log_retention_days' => 'Keep access log for (days)',
         ],
         'features' => [
+            'members' => 'Front-end members (accounts, members-only posts)',
             'access_log' => 'Access log and built-in page counter',
             'page_cache' => 'Full-page cache for visitors',
             'newsletter' => 'Newsletter sign-up (double opt-in)',

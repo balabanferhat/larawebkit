@@ -8,7 +8,23 @@
 
 @if ($locked)
     <p class="lwk-lead">{{ $content->excerpt }}</p>
-    <div class="lwk-notice" role="note"><strong>{{ __('larawebkit-front.members_only') }}</strong> {{ __('larawebkit-front.members_only_hint') }}</div>
+    <div class="lwk-notice lwk-members-only" role="note">
+        <strong>{{ __('larawebkit-front.members_only') }}</strong>
+        @if (class_exists(\App\Modules\Members\Members::class) && \App\Modules\Members\Members::enabled())
+            @if ($member = \App\Modules\Members\Members::current())
+                {{ __('larawebkit-members.gate.verify') }}
+                <p class="lwk-members-cta"><a href="{{ route('members.verification.notice') }}" class="lwk-button">{{ __('larawebkit-members.verify.resend') }}</a></p>
+            @else
+                {{ __('larawebkit-members.gate.text') }}
+                <p class="lwk-members-cta">
+                    <a href="{{ route('members.login') }}" class="lwk-button">{{ __('larawebkit-members.login.title') }}</a>
+                    @if (setting('members.registration', true))<a href="{{ route('members.register') }}" class="lwk-button lwk-button-secondary">{{ __('larawebkit-members.register.title') }}</a>@endif
+                </p>
+            @endif
+        @else
+            {{ __('larawebkit-front.members_only_hint') }}
+        @endif
+    </div>
 @else
     <div class="lwk-prose">{!! $body !!}</div>
 

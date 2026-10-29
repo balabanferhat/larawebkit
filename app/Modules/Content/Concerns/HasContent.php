@@ -124,7 +124,9 @@ trait HasContent
 
     public function seoDescription(): string
     {
-        $text = $this->meta_description ?: ($this->excerpt ?? null) ?: $this->summary ?: TextAnalyzer::htmlToText((string) $this->content);
+        // Members-only text never becomes a public description (meta, cards, feeds, search results).
+        $body = ! empty($this->members_only) ? '' : TextAnalyzer::htmlToText((string) $this->content);
+        $text = $this->meta_description ?: ($this->excerpt ?? null) ?: $this->summary ?: $body;
 
         return Str::limit(trim(preg_replace('/\s+/', ' ', (string) $text)), 160, '…');
     }

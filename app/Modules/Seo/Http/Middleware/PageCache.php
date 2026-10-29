@@ -59,7 +59,7 @@ class PageCache
         if (! setting('features.page_cache', true) || ! $request->isMethod('GET') || $request->query->count() > 0 && ! $request->query->has('page')) {
             return false;
         }
-        if ($request->user() || $request->hasSession() && $request->session()->has('_flash.new') && $request->session()->get('_flash.new') !== []) {
+        if ($request->user() || (config('auth.guards.member') && $request->user('member')) || $request->hasSession() && $request->session()->has('_flash.new') && $request->session()->get('_flash.new') !== []) {
             return false;
         }
         // Visitors with a session cookie from a form submission get a fresh page (CSRF tokens, flash messages).

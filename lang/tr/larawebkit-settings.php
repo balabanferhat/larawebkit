@@ -4,6 +4,7 @@ return [
     'title' => 'Ayarlar',
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
+        'members' => 'Üyeler',
         'theme' => 'Tema',
         'brand' => 'Logo ve simge',
         'style' => 'Renkler ve yazı tipi',
@@ -20,6 +21,10 @@ return [
         'ai' => 'Yapay zekâ',
     ],
     'keys' => [
+        'members' => [
+            'registration' => 'Ziyaretçiler hesap oluşturabilir',
+            'header_link' => 'Üst bölümde "Giriş yap / Hesabım" göster',
+        ],
         'appearance' => [
             'logo' => 'Logo',
             'logo_dark' => 'Koyu mod logosu',
@@ -90,6 +95,7 @@ return [
             'access_log_retention_days' => 'Erişim kaydı saklama süresi (gün)',
         ],
         'features' => [
+            'members' => 'Site üyeleri (hesaplar, üyelere özel yazılar)',
             'access_log' => 'Erişim kaydı ve dahili sayfa sayacı',
             'page_cache' => 'Ziyaretçiler için tam sayfa önbellek',
             'newsletter' => 'Bülten kaydı (çift onaylı)',

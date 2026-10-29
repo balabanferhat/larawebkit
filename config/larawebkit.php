@@ -28,6 +28,7 @@ return [
         'seo' => ['provider' => Modules\Seo\SeoServiceProvider::class, 'plugin' => Modules\Seo\SeoPlugin::class],
         'geo' => ['provider' => Modules\Geo\GeoServiceProvider::class, 'plugin' => null],
         'privacy' => ['provider' => Modules\Privacy\PrivacyServiceProvider::class, 'plugin' => null],
+        'members' => ['provider' => Modules\Members\MembersServiceProvider::class, 'plugin' => Modules\Members\MembersPlugin::class],
         'forms' => ['provider' => Modules\Forms\FormsServiceProvider::class, 'plugin' => Modules\Forms\FormsPlugin::class],
         'newsletter' => ['provider' => Modules\Newsletter\NewsletterServiceProvider::class, 'plugin' => Modules\Newsletter\NewsletterPlugin::class],
         'dashboard' => ['provider' => null, 'plugin' => Modules\Dashboard\DashboardPlugin::class],

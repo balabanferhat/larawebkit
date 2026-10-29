@@ -89,6 +89,9 @@ return [
     // Feature toggles
     'features.access_log' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.page_cache' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
+    'features.members' => ['type' => 'bool', 'default' => false, 'group' => 'features'],
+    'members.registration' => ['type' => 'bool', 'default' => true, 'group' => 'members'],
+    'members.header_link' => ['type' => 'bool', 'default' => true, 'group' => 'members'],
     'features.newsletter' => ['type' => 'bool', 'default' => false, 'group' => 'features'],
     'features.ai_assistant' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.pexels' => ['type' => 'bool', 'default' => true, 'group' => 'features'],

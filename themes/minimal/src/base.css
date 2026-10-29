@@ -407,3 +407,21 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .lwk-help { font-size: 0.85rem; color: var(--muted); }
 .lwk-notice-success { border-left-color: var(--t-success); }
 .lwk-form-anchor { scroll-margin-top: calc(var(--t-header-h) + 2rem); }
+
+/* Member account pages */
+.lwk-auth { display: grid; justify-items: center; gap: 1rem; padding-block: clamp(2.5rem, 7vw, 5rem); }
+.lwk-auth-card { width: 100%; max-width: 28rem; padding: clamp(1.5rem, 5vw, 2.5rem); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--t-shadow-lg); }
+.lwk-auth-card h1 { font-size: 1.75rem; margin-bottom: 1.25rem; }
+.lwk-auth-card .lwk-button { width: 100%; }
+.lwk-auth-links { margin-top: 1rem; }
+.lwk-auth-after { color: var(--muted); font-family: var(--font-ui); }
+.lwk-account { max-width: calc(40rem + 2 * var(--t-gutter)); padding-bottom: var(--t-section); }
+.lwk-account-section { padding: 1.75rem 0; border-top: 1px solid var(--border); }
+.lwk-account-section h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+.lwk-account-danger p { color: var(--muted); margin-bottom: 1rem; }
+.lwk-button-danger { background: var(--t-error); border-color: var(--t-error); color: #fff; }
+.lwk-account-logout { padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.lwk-members-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.lwk-header-account { white-space: nowrap; color: var(--text); font-weight: 600; text-decoration: none; padding: 0.5rem 0.5rem; }
+.lwk-header-account:hover { color: var(--link); }
+:root[data-theme="dark"] .lwk-button-danger { color: #1b1f24; }

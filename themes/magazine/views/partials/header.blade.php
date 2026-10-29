@@ -25,6 +25,10 @@
                     <span class="lwk-when-dark">{{ \App\Modules\Themes\Support\Icons::ui('sun') }}</span>
                 </button>
             @endif
+            @if (class_exists(\App\Modules\Members\Members::class) && \App\Modules\Members\Members::enabled() && setting('members.header_link', true))
+                @php($member = \App\Modules\Members\Members::current())
+                <a href="{{ $member ? route('members.account') : route('members.login') }}" class="lwk-header-account">{{ $member ? __('larawebkit-members.account.title') : __('larawebkit-members.login.title') }}</a>
+            @endif
             @if (filled(setting('header.cta_label')) && filled(setting('header.cta_url')))
                 <a href="{{ setting('header.cta_url') }}" class="lwk-button lwk-header-cta">{{ setting('header.cta_label') }}</a>
             @endif
