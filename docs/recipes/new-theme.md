@@ -95,7 +95,7 @@ Keep themes fast and accessible: one `<h1>`, landmarks (`header`, `nav`, `main`,
 WCAG AA contrast in light **and** dark (`[data-theme="dark"]`), no render-blocking third-party scripts, images only
 through `<x-lwk.image>` (srcset, dimensions, lazy) with `:priority="true"` for the hero. Always include
 `<x-lwk.seo :seo="$seo" />` and `<x-lwk.head />` in the head and `<x-lwk.consent />` before `</body>` (the minimal
-layout does this). Measure with Lighthouse (`docs/lighthouse/`).
+layout does this). Measure with Lighthouse: `node scripts/lighthouse/run.mjs --themes={name}` checks the demo against the budgets the CI job enforces (`docs/lighthouse/README.md`).
 
 ## Page templates
 

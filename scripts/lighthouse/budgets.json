@@ -1,0 +1,17 @@
+{
+    "_comment": "Minimum Lighthouse scores (0-100, mobile defaults) and maximum transfer sizes in KB per resource type, per page. Sizes are measured against `php artisan serve`, which does not compress: production with gzip/brotli is smaller.",
+    "categories": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+    },
+    "resources": {
+        "Document": 100,
+        "Stylesheet": 80,
+        "Script": 20,
+        "Font": 150,
+        "Image": 300,
+        "total": 500
+    }
+}

@@ -117,6 +117,44 @@ jobs:
       - run: php artisan migrate --force
       - run: vendor/bin/pest tests/Feature/Backup
 
+  lighthouse:
+    # Every bundled theme's demo (home, a post, the blog) against scripts/lighthouse/budgets.json.
+    name: Lighthouse budgets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, intl, pdo_sqlite, zip, fileinfo, exif, mbstring
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - name: Production-like site
+        run: |
+          cp .env.example .env
+          sed -i 's/^APP_ENV=.*/APP_ENV=production/; s/^APP_DEBUG=.*/APP_DEBUG=false/; s#^APP_URL=.*#APP_URL=http://127.0.0.1:8000#' .env
+          touch database/database.sqlite
+          php artisan key:generate --force
+          php artisan migrate --force
+          php artisan db:seed --force
+          php artisan storage:link
+          php artisan larawebkit:themes:publish
+      - name: Serve
+        run: |
+          PHP_CLI_SERVER_WORKERS=4 nohup php artisan serve --host=127.0.0.1 --port=8000 > storage/logs/serve.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8000/up > /dev/null && break; sleep 1; done
+      - name: Lighthouse
+        run: CHROME_PATH=$(which google-chrome || which chromium) node scripts/lighthouse/run.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: storage/lighthouse
+          retention-days: 14
+
   style:
     name: Code style (Pint)
     runs-on: ubuntu-latest

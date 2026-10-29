@@ -94,6 +94,10 @@ that never leak into meta, feeds or AI files); **newsletter campaigns** with pre
 small queued batches (shared-hosting friendly) with one-click unsubscribe and stats; optional **events** with
 free registration, capacity, calendar file, a private online link only registrants see, and Event schema.
 
+**Operations** — nightly backups of the database and uploads (zip, retention, optional AES password, copy to
+FTP / SFTP / S3) with a restore guide; "send test e-mail"; shareable signed preview links for drafts;
+duplicate and bulk actions; a scheduled-posts tab; Lighthouse budgets enforced in CI.
+
 **Moving from WordPress** — `php artisan larawebkit:import:wordpress https://old-site.com --dry-run` imports
 posts, pages, categories, tags, authors and images (as WebP), cleans the block markup, keeps page URLs and adds
 301s for the rest; re-runs only update what changed ([guide](docs/import-wordpress.md)).

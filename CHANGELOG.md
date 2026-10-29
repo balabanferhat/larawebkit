@@ -63,6 +63,18 @@ All notable changes to this project are documented here. The format follows
 - **Article extras** in every theme: share links (plain URLs, no third-party scripts; "copy link" with
   JavaScript), previous / next article, related posts filled up with the latest ones.
 - Modules can add their own sitemap with `SitemapController::extend()`.
+- **Backups** (new `backup` module): `php artisan larawebkit:backup` puts the database (a SQLite copy, or a
+  SQL dump written in PHP for MySQL / MariaDB, no `mysqldump` needed) and the uploaded files into one zip,
+  optionally AES-encrypted (`BACKUP_PASSWORD`); daily or weekly through the cron (Settings → Backups), keeps
+  the newest N here and on an optional FTP / SFTP / S3-compatible disk (`BACKUP_REMOTE_DISK`); System →
+  Backups lists, downloads, deletes and starts backups (super-admins only); `deploy-check` warns about stale
+  backups. Restore guide: `docs/backups.md`. CI tests the SQL dump on MariaDB.
+- **Admin conveniences**: "Send test e-mail" on the settings page (shows the SMTP error right away), "Share
+  preview link" for drafts (signed, expires after `PREVIEW_LINK_HOURS`, noindex), duplicate a page or post as
+  a draft, bulk publish (respecting the publish gate), move to drafts and set category, and All / Published /
+  Scheduled / Drafts / Pending tabs on the page and post lists.
+- **Lighthouse budgets in CI**: `scripts/lighthouse/run.mjs` measures every theme's demo against
+  `scripts/lighthouse/budgets.json` (scores and transfer sizes); the CI job uploads the reports.
 
 ### Changed
 - Themes moved from `resources/views/themes` and `resources/css/themes` to `themes/{name}`; Vite now only builds
