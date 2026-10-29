@@ -4,6 +4,7 @@ return [
     'title' => 'Settings',
     'saved' => 'Settings saved.',
     'groups' => [
+        'newsletter' => 'Newsletter',
         'members' => 'Members',
         'theme' => 'Theme',
         'brand' => 'Logo & icon',
@@ -21,6 +22,10 @@ return [
         'ai' => 'AI',
     ],
     'keys' => [
+        'newsletter' => [
+            'download' => 'Download after confirming (lead magnet)',
+            'download_name' => 'File name shown to the subscriber',
+        ],
         'members' => [
             'registration' => 'Visitors can create an account',
             'header_link' => 'Show "Log in / My account" in the header',
@@ -108,6 +113,9 @@ return [
         ],
     ],
     'help' => [
+        'newsletter' => [
+            'download' => 'Optional. After confirming their subscription, people get a signed link to this file (on the page and by e-mail). The file stays private.',
+        ],
         'general' => [
             'theme' => 'Layout and components of the public site. Every theme uses the colours, fonts and logo below.',
         ],

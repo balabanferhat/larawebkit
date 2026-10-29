@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'campaign' => 'Bülten',
+    'campaigns' => 'Bültenler',
+    'all_languages' => 'Tüm aboneler',
+    'preview' => 'Önizleme',
+    'test_send' => 'Test gönder',
+    'test_sent' => 'Test e-postası :email adresine gönderildi.',
+    'schedule' => 'Zamanla',
+    'scheduled' => ':date için zamanlandı.',
+    'send_now' => 'Şimdi gönder',
+    'confirm_send' => 'Bu bülten :count onaylı aboneye gönderilsin mi? Dakikada :rate e-postalık gruplar halinde gider ve geri alınamaz.',
+    'sending' => ':count alıcı için gönderim başladı.',
+    'cancel' => 'Gönderimi iptal et',
+    'send_log' => 'Gönderim kaydı',
+    'fields' => [
+        'subject' => 'Konu',
+        'preheader' => 'Önizleme metni',
+        'audience' => 'Alıcılar',
+        'body' => 'İçerik',
+        'status' => 'Durum',
+        'scheduled_at' => 'Gönderim zamanı',
+        'finished_at' => 'Bitti',
+        'sent_at' => 'Gönderildi',
+        'error' => 'Hata',
+        'test_email' => 'Testin gönderileceği adres',
+    ],
+    'help' => [
+        'preheader' => 'Çoğu e-posta kutusunda konunun yanında görünür.',
+        'audience' => 'Yalnızca bu dilde abone olanlar ya da herkes.',
+    ],
+    'status' => ['draft' => 'Taslak', 'scheduled' => 'Zamanlandı', 'sending' => 'Gönderiliyor', 'sent' => 'Gönderildi', 'cancelled' => 'İptal edildi'],
+    'send_status' => ['pending' => 'Bekliyor', 'sent' => 'Gönderildi', 'failed' => 'Başarısız', 'skipped' => 'Atlandı (abonelikten çıktı)'],
+    'stats' => ['sent' => 'Gönderilen', 'failed' => 'Başarısız', 'unsubscribed' => 'Abonelikten çıkan'],
+    'mail' => [
+        'footer' => 'Bu e-postayı :site bültenine abone olduğunuz için alıyorsunuz.',
+        'unsubscribe' => 'Tek tıkla abonelikten çıkın',
+        'welcome_subject' => ':site bültenine hoş geldiniz – dosyanız',
+        'welcome_heading' => 'Abone olduğunuz için teşekkürler',
+        'welcome_body' => ':site aboneliğiniz onaylandı. Söz verdiğimiz dosya burada:',
+    ],
+];

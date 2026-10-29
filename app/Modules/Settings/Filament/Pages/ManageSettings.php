@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -162,6 +163,11 @@ class ManageSettings extends Page
             'multiselect' => CheckboxList::make($name)->options($this->options($definition['options'] ?? []))->columns(3),
             'color' => ColorPicker::make($name)->hex(),
             'media' => MediaPicker::make($name),
+            // Private file (lead magnets): never under public/, only reachable through signed links.
+            'file' => FileUpload::make($name)->disk((string) config('larawebkit.download_disk', 'local'))
+                ->directory((string) config('larawebkit-forms.downloads_directory', 'downloads'))->visibility('private')
+                ->acceptedFileTypes(['application/pdf', 'application/zip', 'application/epub+zip', 'image/png', 'image/jpeg', 'image/webp', 'text/plain'])
+                ->maxSize(51200),
             'map' => KeyValue::make($name)->keyLabel(__('larawebkit-settings.map.key'))->valueLabel(__('larawebkit-settings.map.value')),
             'bots' => CheckboxList::make($name)
                 ->options(collect(AiCrawlerPolicy::bots())->mapWithKeys(fn ($bot, $name) => [$name => $name.' ('.__('larawebkit-geo.purpose.'.$bot['purpose']).')'])->all())

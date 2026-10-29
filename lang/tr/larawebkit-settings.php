@@ -4,6 +4,7 @@ return [
     'title' => 'Ayarlar',
     'saved' => 'Ayarlar kaydedildi.',
     'groups' => [
+        'newsletter' => 'Bülten',
         'members' => 'Üyeler',
         'theme' => 'Tema',
         'brand' => 'Logo ve simge',
@@ -21,6 +22,10 @@ return [
         'ai' => 'Yapay zekâ',
     ],
     'keys' => [
+        'newsletter' => [
+            'download' => 'Onaydan sonra indirilecek dosya (ücretsiz içerik)',
+            'download_name' => 'Aboneye gösterilecek dosya adı',
+        ],
         'members' => [
             'registration' => 'Ziyaretçiler hesap oluşturabilir',
             'header_link' => 'Üst bölümde "Giriş yap / Hesabım" göster',
@@ -108,6 +113,9 @@ return [
         ],
     ],
     'help' => [
+        'newsletter' => [
+            'download' => 'İsteğe bağlı. Aboneliğini onaylayan kişi bu dosya için imzalı bir bağlantı alır (sayfada ve e-postayla). Dosya gizli kalır.',
+        ],
         'general' => [
             'theme' => 'Sitenin yerleşimi ve bileşenleri. Her tema aşağıdaki renkleri, yazı tiplerini ve logoyu kullanır.',
         ],

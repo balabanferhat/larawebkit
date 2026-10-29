@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 |
 | key => [type, default, group, (options), (rules)]
-| Types: string, text, bool, int, email, url, color, select, multiselect, media, map, bots.
+| Types: string, text, bool, int, email, url, color, select, multiselect, media, file (private), map, bots.
 | Definitions with a 'page' key are edited on their own admin page (e.g. Appearance)
 | instead of the Settings page.
 | Labels come from lang/{locale}/larawebkit-settings.php ("keys.<key>").
@@ -96,6 +96,10 @@ return [
     'features.ai_assistant' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.pexels' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
     'features.publish_gate' => ['type' => 'bool', 'default' => true, 'group' => 'features'],
+
+    // Newsletter lead magnet: sent as a signed, expiring link after the subscription is confirmed
+    'newsletter.download' => ['type' => 'file', 'default' => '', 'group' => 'newsletter'],
+    'newsletter.download_name' => ['type' => 'string', 'default' => '', 'group' => 'newsletter', 'rules' => ['max:120']],
 
     // AI
     'ai.monthly_budget_usd' => ['type' => 'int', 'default' => 20, 'group' => 'ai', 'rules' => ['integer', 'min:0']],

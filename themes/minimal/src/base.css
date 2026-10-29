@@ -425,3 +425,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .lwk-header-account { white-space: nowrap; color: var(--text); font-weight: 600; text-decoration: none; padding: 0.5rem 0.5rem; }
 .lwk-header-account:hover { color: var(--link); }
 :root[data-theme="dark"] .lwk-button-danger { color: #1b1f24; }
+.lwk-flash { background: var(--brand-soft); border-bottom: 1px solid var(--border); font-family: var(--font-ui); }
+.lwk-flash-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem 1.25rem; padding-block: 0.85rem; text-align: center; }
+.lwk-flash .lwk-button { min-height: 2.25rem; padding-block: 0.4rem; }

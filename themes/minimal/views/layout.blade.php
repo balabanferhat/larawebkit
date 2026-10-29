@@ -13,6 +13,8 @@
         @include('theme::partials.header')
     @show
 
+    @include('theme::partials.flash')
+
     @if (! empty($preview))
         <div class="lwk-preview-bar" role="status">{{ __('larawebkit-front.preview') }}</div>
     @endif

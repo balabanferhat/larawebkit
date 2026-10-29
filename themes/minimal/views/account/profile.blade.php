@@ -1,5 +1,7 @@
 @extends(app(\App\Modules\Themes\ThemeManager::class)->view('layout'))
 
+@section('no_flash', '1')
+
 @section('content')
     <div class="lwk-container lwk-account">
         <header class="lwk-listing-head">
